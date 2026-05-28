@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Gout &amp; Crystal Arthropathies · Boards Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f7f4;--sf:#fff;--sf2:#f0ede8;--bd:#ddd9d2;--bd2:#b8b3aa;
+  --tx:#1c1a17;--t2:#4a4540;--t3:#857f77;
+  --blu:#1e4db7;--blu-l:#eef2fd;--blu-d:#163a8c;
+  --red:#b91c1c;--red-l:#fef2f2;
+  --amb:#b45309;--amb-l:#fffbeb;
+  --grn:#15803d;--grn-l:#f0fdf4;
+  --pur:#6d28d9;--pur-l:#f5f3ff;
+  --tel:#0e7490;--tel-l:#ecfeff;
+  --hy:rgba(253,224,71,.5);--hg:rgba(134,239,172,.5);
+  --hb:rgba(147,197,253,.5);--hpk:rgba(249,168,212,.5);--ho:rgba(253,186,116,.5);
+  --nav:54px;--snw:300px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.7}
+#toolbar{position:fixed;top:10px;left:12px;z-index:999;background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:5px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+.albl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-right:2px}
+.hbtn{width:23px;height:23px;border-radius:5px;border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:transform .15s,outline .15s;flex-shrink:0}
+.hbtn:hover{transform:scale(1.2)}
+.hbtn.active{outline:2.5px solid var(--blu);outline-offset:1px}
+#h-y{background:#fde047}#h-g{background:#86efac}#h-b{background:#93c5fd}#h-p{background:#f9a8d4}#h-o{background:#fdba74}
+.tsep{width:1px;height:22px;background:var(--bd);margin:0 3px}
+.tbtn{width:30px;height:30px;border:1.5px solid var(--bd);border-radius:6px;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);transition:background .15s}
+.tbtn:hover{background:var(--blu-l);color:var(--blu)}
+.tbtn.wide{width:auto;padding:0 8px;font-family:'JetBrains Mono',monospace;font-size:8.5px}
+.hl{border-radius:2px;padding:0 1px}
+.hl-y{background:var(--hy)}.hl-g{background:var(--hg)}.hl-b{background:var(--hb)}.hl-p{background:var(--hpk)}.hl-o{background:var(--ho)}
+#sn-sidebar{position:fixed;right:0;top:var(--nav);width:var(--snw);height:calc(100vh - var(--nav));background:var(--sf2);border-left:1.5px solid var(--bd2);display:flex;flex-direction:column;z-index:800;transition:transform .25s}
+#sn-sidebar.hidden{transform:translateX(100%)}
+#sn-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-hd span{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+#sn-toggle-btn{cursor:pointer;border:none;background:none;font-size:16px;color:var(--t3);padding:0 2px}
+#sn-toggle-btn:hover{color:var(--pur)}
+#sn-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+#sn-empty{text-align:center;color:var(--t3);font-size:11px;padding:28px 10px;font-style:italic;line-height:1.6}
+.sn-note{background:#fffde7;border:1.5px solid #f0d060;border-radius:8px;box-shadow:2px 3px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;min-height:100px;position:relative;overflow:hidden}
+.sn-note-hd{background:#fef08a;border-bottom:1px solid #f0d060;padding:6px 10px;display:flex;align-items:center;gap:6px;cursor:grab;user-select:none;flex-shrink:0}
+.sn-note-hd:active{cursor:grabbing}
+.sn-drag-icon{color:#a89a30;font-size:12px;flex-shrink:0}
+.sn-note-ref{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;color:#78610a;text-transform:uppercase;letter-spacing:.08em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sn-del{cursor:pointer;border:none;background:none;font-size:15px;color:#a89a30;line-height:1;padding:0 2px;flex-shrink:0}
+.sn-del:hover{color:var(--red)}
+.sn-note-body{padding:8px 10px;flex:1;font-size:12px;line-height:1.55;color:var(--t2);overflow-y:auto;min-height:60px}
+.sn-resize{position:absolute;bottom:0;right:0;width:16px;height:16px;cursor:se-resize;display:flex;align-items:flex-end;justify-content:flex-end;padding:2px}
+.sn-resize::after{content:'';display:block;width:8px;height:8px;border-right:2px solid #c8a800;border-bottom:2px solid #c8a800;border-radius:1px}
+#sn-tab{position:fixed;right:var(--snw);top:50%;transform:translateY(-50%);z-index:801;background:var(--pur);color:#fff;border:none;border-radius:6px 0 0 6px;padding:12px 6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9px;writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:.1em;text-transform:uppercase;box-shadow:-2px 0 8px rgba(0,0,0,.12);transition:right .25s,background .15s}
+#sn-tab:hover{background:var(--blu)}
+#sn-sidebar.hidden~#sn-tab{right:0}
+.note-anchor{cursor:pointer;border-bottom:2px dotted var(--pur);padding-bottom:1px;position:relative;transition:border-color .15s}
+.note-anchor:hover{border-bottom-color:var(--blu);background:rgba(109,40,217,.06);border-radius:2px}
+#note-popover{position:fixed;z-index:2000;background:#fff;border:1.5px solid var(--pur);border-radius:9px;box-shadow:0 6px 28px rgba(109,40,217,.18);padding:12px 14px;max-width:280px;min-width:160px;display:none;font-size:12.5px;line-height:1.55;color:var(--tx)}
+#note-popover.show{display:block}
+#note-popover::before{content:'';position:absolute;width:10px;height:10px;background:#fff;border-left:1.5px solid var(--pur);border-top:1.5px solid var(--pur);transform:rotate(45deg);top:-6px;left:18px}
+#note-popover::after{content:'';position:absolute;background:#fff;width:14px;height:6px;top:0;left:14px}
+#np-pop-ref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--pur);margin-bottom:5px;font-weight:500}
+#np-pop-text{color:var(--t2);line-height:1.5}
+#np-pop-actions{display:flex;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid var(--bd)}
+.pop-btn{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.pop-btn:hover{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.pop-close{margin-left:auto;background:none;border:none;cursor:pointer;font-size:17px;color:var(--t3);line-height:1}
+.pop-close:hover{color:var(--red)}
+#sn-input{padding:10px;border-top:1.5px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-selref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+#sn-selref em{color:var(--pur);font-style:normal}
+#sn-ta{width:100%;padding:8px;border:1px solid var(--bd2);border-radius:5px;font-family:'Source Sans 3',sans-serif;font-size:12px;resize:none;height:56px;background:var(--bg);color:var(--tx)}
+#sn-ta:focus{outline:2px solid var(--pur);border-color:transparent}
+#sn-add{margin-top:6px;width:100%;padding:7px;background:var(--pur);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer}
+#sn-add:hover{background:#5b21b6}
+.sbar{display:flex;gap:7px;margin-top:10px}
+.lbtn,.fbtn{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.lbtn.on{background:var(--grn-l);border-color:#86efac;color:var(--grn)}
+.fbtn.on{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.hero{background:linear-gradient(135deg,#1a2f5c 0%,#1e3a6e 60%,#1a2f5c 100%);color:#fff;padding:44px 52px 36px;border-bottom:4px solid #b91c1c;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px}
+.hero h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1.05;margin-bottom:8px;position:relative}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.45);margin-bottom:12px;letter-spacing:.05em}
+.hero-authors{font-size:13px;color:rgba(255,255,255,.65);font-style:italic;margin-bottom:22px}
+.hero-stats{display:flex;gap:14px;flex-wrap:wrap;position:relative}
+.stat-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 18px;text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fde68a}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:1px}
+.toc{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1.5px solid var(--bd);height:var(--nav);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc-inner{display:flex;height:100%;padding:0 52px;min-width:max-content;gap:1px}
+.toc-a{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-decoration:none;padding:0 12px;display:flex;align-items:center;white-space:nowrap;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s}
+.toc-a:hover,.toc-a.on{color:var(--blu);border-bottom-color:var(--blu)}
+.main{max-width:900px;margin:0 auto;padding:44px 52px 88px;transition:padding-right .25s}
+.sec{margin-bottom:60px;scroll-margin-top:calc(var(--nav)+18px)}
+.sec-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;padding-bottom:14px;border-bottom:2.5px solid var(--tx)}
+.sec-n{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--t3)}
+.sec h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--tx);line-height:1.15}
+.sub{margin:20px 0}
+.sub h3{font-family:'Source Sans 3',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--blu);margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--blu-l)}
+.sub h4{font-size:13.5px;font-weight:600;color:var(--tx);margin:14px 0 6px}
+p{margin-bottom:8px;color:var(--t2);font-size:13.5px;line-height:1.65}
+.co{border-radius:7px;padding:13px 16px;margin:12px 0;font-size:13px;line-height:1.65;border-left:3.5px solid}
+.co-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.key{background:var(--blu-l);border-color:var(--blu)}.key .co-t{color:var(--blu)}
+.dan{background:var(--red-l);border-color:var(--red)}.dan .co-t{color:var(--red)}
+.wrn{background:var(--amb-l);border-color:var(--amb)}.wrn .co-t{color:var(--amb)}
+.suc{background:var(--grn-l);border-color:var(--grn)}.suc .co-t{color:var(--grn)}
+.prl{background:var(--pur-l);border-color:var(--pur)}.prl .co-t{color:var(--pur)}
+.tel{background:var(--tel-l);border-color:var(--tel)}.tel .co-t{color:var(--tel)}
+.bl{list-style:none;padding:0;margin:6px 0 12px}
+.bl li{position:relative;padding:3px 0 3px 18px;font-size:13.5px;color:var(--t2);line-height:1.6}
+.bl li::before{content:'▸';position:absolute;left:0;top:4px;color:var(--blu);font-size:10px}
+.bl.red li::before{color:var(--red)}
+.bl.grn li::before{color:var(--grn)}
+.bl.pur li::before{color:var(--pur)}
+.bl.amb li::before{color:var(--amb)}
+.nl{padding-left:20px;margin:6px 0 12px}
+.nl li{font-size:13.5px;color:var(--t2);line-height:1.6;margin-bottom:2px}
+ol.nl{list-style:decimal}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.g4{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
+.card{background:var(--sf);border:1.5px solid var(--bd);border-radius:8px;padding:14px 16px}
+.card-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.card.blu{border-color:var(--blu-l)}.card.blu .card-t{color:var(--blu)}
+.card.red{border-color:#fca5a5}.card.red .card-t{color:var(--red)}
+.card.grn{border-color:#86efac}.card.grn .card-t{color:var(--grn)}
+.card.amb{border-color:#fcd34d}.card.amb .card-t{color:var(--amb)}
+.card.pur{border-color:#c4b5fd}.card.pur .card-t{color:var(--pur)}
+.card.tel{border-color:#a5f3fc}.card.tel .card-t{color:var(--tel)}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin:12px 0;align-items:stretch}
+.vs-l,.vs-r{background:var(--sf);border:1.5px solid var(--bd);padding:14px 16px;font-size:13px}
+.vs-l{border-radius:8px 0 0 8px;border-right:none}
+.vs-r{border-radius:0 8px 8px 0;border-left:none}
+.vs-mid{background:var(--bd2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--sf);width:36px;flex-shrink:0}
+.vs-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.vs-l .vs-t{color:var(--blu)}
+.vs-r .vs-t{color:var(--red)}
+table.rt{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+table.rt th{background:var(--sf2);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);padding:9px 12px;border:1px solid var(--bd);text-align:left}
+table.rt td{padding:8px 12px;border:1px solid var(--bd);color:var(--t2);vertical-align:top}
+table.rt tr:nth-child(even) td{background:rgba(0,0,0,.018)}
+.drug-box{background:var(--sf);border:2px solid var(--bd);border-radius:10px;padding:18px 20px;margin:14px 0}
+.drug-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.drug-class{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.drug-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drug-row{font-size:13px;line-height:1.55}
+.drug-row strong{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);display:block;margin-bottom:2px}
+.trap-card{background:var(--sf);border:2px solid var(--bd);border-radius:10px;padding:18px 20px;margin:16px 0;position:relative}
+.trap-n{position:absolute;top:-12px;left:16px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:2px 10px;border-radius:20px}
+.trap-q{font-size:13.5px;color:var(--t2);line-height:1.65;margin-bottom:10px;font-style:italic}
+.trap-row{margin-bottom:7px;font-size:13px;line-height:1.55;color:var(--t2)}
+.trap-row strong{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-right:6px}
+.trap-ans{color:var(--grn);font-weight:600}
+.trap-kw{display:inline-block;background:var(--amb-l);border:1px solid #fcd34d;color:var(--amb);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;padding:1px 8px;border-radius:4px;margin-top:4px}
+.flow{background:var(--sf);border:1.5px solid var(--bd);border-radius:10px;padding:20px;margin:14px 0}
+.flow-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.flow-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
+.flow-dot.blu{background:var(--blu-l);color:var(--blu)}
+.flow-dot.grn{background:var(--grn-l);color:var(--grn)}
+.flow-dot.red{background:var(--red-l);color:var(--red)}
+.flow-dot.amb{background:var(--amb-l);color:var(--amb)}
+.flow-dot.pur{background:var(--pur-l);color:var(--pur)}
+.flow-line{width:2px;background:var(--bd);margin:0 13px;flex-shrink:0;align-self:stretch;margin-top:-6px;margin-bottom:-6px}
+.flow-body{flex:1;padding-bottom:6px}
+.flow-t{font-weight:600;font-size:13.5px;color:var(--tx);margin-bottom:2px}
+.flow-d{font-size:12.5px;color:var(--t2);line-height:1.5}
+hr.sep{border:none;border-top:1.5px solid var(--bd);margin:50px 0}
+.footer{text-align:center;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);padding:24px;border-top:1px solid var(--bd);margin-top:40px}
+@media print{#toolbar,#sn-sidebar,#sn-tab,.toc,.sbar{display:none!important}.main{padding:24px!important}}
+</style>
+</head>
+<body>
+
+<!-- ANNOTATION TOOLBAR -->
+<div id="toolbar">
+  <span class="albl">Highlight</span>
+  <div class="hbtn" id="h-y" title="Yellow" onclick="setColor('y',this)"></div>
+  <div class="hbtn" id="h-g" title="Green" onclick="setColor('g',this)"></div>
+  <div class="hbtn" id="h-b" title="Blue" onclick="setColor('b',this)"></div>
+  <div class="hbtn" id="h-p" title="Pink" onclick="setColor('p',this)"></div>
+  <div class="hbtn" id="h-o" title="Orange" onclick="setColor('o',this)"></div>
+  <div class="tsep"></div>
+  <button class="tbtn" id="erase-btn" title="Erase mode" onclick="toggleErase()">✏️</button>
+  <button class="tbtn wide" onclick="clearAll()">CLEAR</button>
+</div>
+
+<!-- STICKY NOTE SIDEBAR -->
+<div id="sn-sidebar">
+  <div id="sn-hd">
+    <span>📝 Study Notes</span>
+    <button id="sn-toggle-btn" onclick="toggleSidebar()">◀</button>
+  </div>
+  <div id="sn-body">
+    <div id="sn-empty">Select text, then type a note below to pin it here.</div>
+  </div>
+  <div id="sn-input">
+    <div id="sn-selref">Selected: <em id="sn-ref-txt">—</em></div>
+    <textarea id="sn-ta" placeholder="Type your note…"></textarea>
+    <button id="sn-add" onclick="addNote()">+ Add Note</button>
+  </div>
+</div>
+<button id="sn-tab" onclick="toggleSidebar()">◀ Notes</button>
+
+<!-- NOTE POPOVER -->
+<div id="note-popover">
+  <div id="np-pop-ref"></div>
+  <div id="np-pop-text"></div>
+  <div id="np-pop-actions">
+    <button class="pop-btn" id="pop-del-btn">Delete</button>
+    <button class="pop-close" onclick="closePopover()">×</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Chapter 384 · Rheumatology · Boards Review</div>
+  <h1>Gout &amp; Crystal-Associated Arthropathies</h1>
+  <div class="hero-sub">Monosodium Urate · Calcium Pyrophosphate · Apatite · Calcium Oxalate</div>
+  <div class="hero-authors">Source: Hyon K. Choi, Harrison's Principles of Internal Medicine</div>
+  <div class="hero-stats">
+    <div class="stat-box"><div class="stat-n">~6.85</div><div class="stat-l">mg/dL MSU Saturation Point</div></div>
+    <div class="stat-box"><div class="stat-n">90%</div><div class="stat-l">Gout from Impaired Excretion</div></div>
+    <div class="stat-box"><div class="stat-n">70–90%</div><div class="stat-l">Cases Involve First MTP (Podagra)</div></div>
+    <div class="stat-box"><div class="stat-n">~50%</div><div class="stat-l">CPPD Prevalence >85 yrs</div></div>
+    <div class="stat-box"><div class="stat-n">&lt;5–6</div><div class="stat-l">mg/dL ULT Target Serum Urate</div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a class="toc-a" href="#overview">Overview</a>
+    <a class="toc-a" href="#pathogenesis">Pathogenesis</a>
+    <a class="toc-a" href="#clinical">Clinical</a>
+    <a class="toc-a" href="#diagnosis">Diagnosis</a>
+    <a class="toc-a" href="#treatment">Treatment</a>
+    <a class="toc-a" href="#ult">Urate-Lowering</a>
+    <a class="toc-a" href="#cppd">CPPD</a>
+    <a class="toc-a" href="#apatite">Apatite</a>
+    <a class="toc-a" href="#caox">CaOx</a>
+    <a class="toc-a" href="#hiyield">High-Yield</a>
+    <a class="toc-a" href="#traps">Exam Traps</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- SECTION 1: OVERVIEW -->
+<section class="sec" id="overview">
+  <div class="sec-hd">
+    <span class="sec-n">01</span>
+    <h2>Overview &amp; Crystal Types</h2>
+  </div>
+
+  <p>Crystal-induced arthropathies arise when microcrystals deposit in joints and connective tissue, triggering acute or chronic inflammatory responses. Four major crystal types are responsible for the majority of crystal arthropathies:</p>
+
+  <div class="g4">
+    <div class="card blu">
+      <div class="card-t">Monosodium Urate (MSU)</div>
+      Needle-shaped. Strongly <strong>negatively birefringent</strong> under compensated polarized light. Responsible for gout. Seen intracellularly + extracellularly.
+    </div>
+    <div class="card red">
+      <div class="card-t">Calcium Pyrophosphate (CPP)</div>
+      Rectangular, rod-shaped, rhomboid. <strong>Weakly positively birefringent</strong> or nonbirefringent. Causes pseudogout (CPPD).
+    </div>
+    <div class="card grn">
+      <div class="card-t">Calcium Apatite</div>
+      Tiny (1–20 µm). Only seen by electron microscopy. Nonbirefringent globules. Stain red with alizarin red S. Causes Milwaukee shoulder and calcific tendinitis.
+    </div>
+    <div class="card amb">
+      <div class="card-t">Calcium Oxalate (CaOx)</div>
+      Bipyramidal shape. Strongly birefringent. Seen in chronic renal failure / dialysis patients. Stains with alizarin red S.
+    </div>
+  </div>
+
+  <div class="co key">
+    <div class="co-t">🔑 Board Pearl — Polarized Light Rule</div>
+    Polarized light microscopy identifies <strong>MSU</strong> (negative birefringence) and <strong>CPP</strong> (weak positive birefringence). Apatite crystals are <strong>NOT visible</strong> by polarized light — they require electron microscopy. Aspiration is always indicated to rule out concurrent septic arthritis.
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 2: PATHOGENESIS -->
+<section class="sec" id="pathogenesis">
+  <div class="sec-hd">
+    <span class="sec-n">02</span>
+    <h2>Pathogenesis of Gout</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Why Humans Get Gout — Evolutionary Context</h3>
+    <p>Humans are the <strong>only mammals known to develop gout spontaneously</strong>. This occurs because of a species-wide evolutionary loss of <strong>uricase</strong>, the enzyme that converts urate into the highly water-soluble allantoin. Without uricase, uric acid accumulates at physiologic pH (pKa 5.8) as urate (the ionized form), predisposing to crystal formation when serum concentrations exceed the saturation threshold of ~6.85 mg/dL.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Urate Balance: Production vs. Excretion</h3>
+    <p>Serum urate reflects the balance between dietary intake, endogenous synthesis, and excretion:</p>
+    <div class="vs">
+      <div class="vs-l">
+        <div class="vs-t">Overproduction (10%)</div>
+        <ul class="bl">
+          <li>Hematologic malignancies, psoriasis (↑ cell turnover → ↑ purine salvage)</li>
+          <li>Chemotherapy (↑ urate synthesis)</li>
+          <li>Tissue hypoxia (net ATP degradation → ADP → AMP → uric acid)</li>
+          <li>Glycogen storage diseases (types I, III, V, VIII)</li>
+          <li>Fructose intolerance/infusion</li>
+          <li>Ethanol</li>
+          <li>PRPP synthetase superactivity (X-linked) → ↑ PRPP → ↑ purines → ↑ urate</li>
+          <li>HPRT deficiency (Lesch-Nyhan) → hypoxanthine cannot be salvaged → converted to urate</li>
+        </ul>
+      </div>
+      <div class="vs-mid">VS</div>
+      <div class="vs-r">
+        <div class="vs-t">Impaired Excretion (90%)</div>
+        <ul class="bl red">
+          <li><strong>Most common cause of hyperuricemia</strong></li>
+          <li>Renal proximal tubule: URAT1 + OAT10 (apical urate reabsorption — sodium-driven)</li>
+          <li>GLUT9 transporter (basolateral excretion)</li>
+          <li>ABCG2 gene — high-capacity intestinal urate efflux transporter (also in renal proximal tubule)</li>
+          <li>Gut bacteria responsible for intestinal uricolysis</li>
+          <li>~1/3 of daily uric acid elimination via GI tract; ~2/3 via renal</li>
+          <li>Drugs: diuretics (thiazide/loop), low-dose aspirin, pyrazinoate (PZA), nicotinate → anti-uricosuric</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>MSU Crystallization Cascade</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot blu">1</div>
+        <div class="flow-body">
+          <div class="flow-t">Chronic Hyperuricemia (SU &gt;~6.85 mg/dL)</div>
+          <div class="flow-d">Caused by obesity, Western diet, alcohol, diuretics, renal disease, genetics. Prerequisite for gout — but <em>not sufficient alone</em>; only a minority of hyperuricemic individuals develop gout.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot amb">2</div>
+        <div class="flow-body">
+          <div class="flow-t">Pathophysiologic Factors Favor Crystallization</div>
+          <div class="flow-d">Temperature (cooler peripheral joints), ↓ pH, intra-articular dehydration, ↑ cation concentration, collagen/chondroitin sulfate, nonaggregating proteoglycans.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot pur">3</div>
+        <div class="flow-body">
+          <div class="flow-t">MSU Crystal Deposition → Tophi Formation</div>
+          <div class="flow-d">Crystals deposit in joints and connective tissue. Synovial tophi typically walled off. Tophi found in proteoglycan-rich tissues (joints, tendons). Engage both innate and adaptive immunity.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot red">4</div>
+        <div class="flow-body">
+          <div class="flow-t">Triggers → Crystal Shedding → Acute Flare</div>
+          <div class="flow-d">Triggers (purine-rich food, alcohol, diuresis, rapid urate changes with ULT initiation, local trauma, medical illness) loosen crystals from organic matrix → crystal shedding → interact with synovial cell lining and residential inflammatory cells.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot grn">5</div>
+        <div class="flow-body">
+          <div class="flow-t">NLRP3 Inflammasome Activation</div>
+          <div class="flow-d">Resident synovial phagocytes (monocytes/macrophages, mast cells) activated → NLRP3 inflammasome → pro-IL-1 and <strong>IL-1β</strong>, plus IL-6, IL-8, TNF-α. Neutrophils recruited → phagocytose MSU → respiratory burst → lysosomal enzymes, superoxide, leukotriene B4, more cytokines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Genetic Causes of Hyperuricemia (High-Yield)</h3>
+    <div class="g2">
+      <div class="card pur">
+        <div class="card-t">PRPP Synthetase Superactivity (X-linked)</div>
+        <ul class="bl pur" style="margin-top:6px">
+          <li>↑ PRPP → ↑ purine nucleotides → ↑ urate</li>
+          <li>Causes gout and urate nephrolithiasis</li>
+          <li>X chromosome-linked inborn error of metabolism</li>
+        </ul>
+      </div>
+      <div class="card red">
+        <div class="card-t">HPRT Deficiency (X-linked)</div>
+        <ul class="bl red" style="margin-top:6px">
+          <li>Spectrum: isolated hyperuricemia → <strong>Lesch-Nyhan syndrome</strong> (severe neurologic + behavioral abnormalities)</li>
+          <li>Without HPRT: hypoxanthine → only converted to urate (cannot be salvaged)</li>
+          <li>↓ IMP and GMP → feedback inhibition lost → ↑ de novo purine synthesis</li>
+          <li>250 different mutations described</li>
+          <li>Males homozygous → disease phenotype; Carrier females (esp. postmenopausal) → gout + urinary tract stones</li>
+          <li><strong>Hyperuricemia in prepubertal boys</strong> → always consider HPRT/PRPP defects</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Comorbidities of Gout (Cardiometabolic-Kidney Cluster)</h3>
+    <div class="co wrn">
+      <div class="co-t">⚠ Insulin Resistance Syndrome Link</div>
+      Gout is often considered part of the insulin resistance syndrome. Associated comorbidities include: <strong>obesity, hypertension, type 2 diabetes, myocardial infarction, stroke, chronic kidney disease (CKD), and urate nephrolithiasis</strong>. Modifiable risk factors: obesity, Western diet, alcohol, sedentary lifestyle, diuretics.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 3: CLINICAL -->
+<section class="sec" id="clinical">
+  <div class="sec-hd">
+    <span class="sec-n">03</span>
+    <h2>Clinical Manifestations of Gout</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Classic Presentation — Acute Gout Flare</h3>
+    <div class="g4">
+      <div class="card blu">
+        <div class="card-t">Who Gets It</div>
+        Middle-aged to elderly men; postmenopausal women. Women = only 5–20% of all gout patients, typically postmenopausal with OA, hypertension, or mild renal insufficiency, often on diuretics.
+      </div>
+      <div class="card red">
+        <div class="card-t">Timing</div>
+        Onset at <strong>night to early morning</strong>. One of the most painful conditions humans experience. Subsides spontaneously in <strong>1–2 weeks</strong>.
+      </div>
+      <div class="card grn">
+        <div class="card-t">Joint Involvement Pattern</div>
+        <strong>First MTP (podagra): 70–90%</strong> of cases. Then tarsal joints, ankles, knees. Fingers, wrists, elbows more common in elderly/advanced disease. Oligo- and polyarticular patterns develop over time.
+      </div>
+      <div class="card amb">
+        <div class="card-t">Physical Exam Appearance</div>
+        Warm, red, tender, substantially swollen joint and periarticular area. <strong>Mimics cellulitis (pseudocellulitis)</strong> — classic board trap.
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Disease Stages</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot blu">1</div>
+        <div class="flow-body">
+          <div class="flow-t">Asymptomatic Hyperuricemia</div>
+          <div class="flow-d">Elevated serum urate without clinical manifestations. Only a minority progress to gout.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot amb">2</div>
+        <div class="flow-body">
+          <div class="flow-t">Acute Recurrent Gout Flares</div>
+          <div class="flow-d">Episodic inflammatory attacks. Between attacks: <strong>intercritical gout</strong> — asymptomatic intervals of varying length, no residual symptoms.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot red">3</div>
+        <div class="flow-body">
+          <div class="flow-t">Chronic Gouty Arthritis</div>
+          <div class="flow-d">After years of untreated flares: ongoing synovitis, subcutaneous tophi, deformity, bony destruction. Less commonly, chronic arthritis or tophi only as sole manifestation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Flare Triggers (Critical for Boards)</h3>
+    <ul class="bl">
+      <li>Purine-rich food</li>
+      <li>Alcohol (especially beer)</li>
+      <li>Diuretic use (thiazide and loop)</li>
+      <li><strong>Initiation of urate-lowering therapy</strong> — paradoxical flare from crystal shedding during rapid SU reduction</li>
+      <li>Local trauma</li>
+      <li>Medical illnesses: congestive heart failure, respiratory hypoxic conditions</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Gout in Women — Special Considerations</h3>
+    <ul class="bl">
+      <li>Only 5–20% of all gout patients</li>
+      <li>Most are postmenopausal and elderly</li>
+      <li>Often have osteoarthritis, hypertension, or mild renal insufficiency</li>
+      <li>Usually receiving diuretics</li>
+      <li>Premenopausal gout is rare — if present, suspect inherited enzymatic deficit (HPRT/PRPP) or decreased renal urate clearance</li>
+    </ul>
+  </div>
+
+  <div class="co prl">
+    <div class="co-t">🔬 Tophi — What Are They?</div>
+    Tophi are deposits of MSU crystals surrounded by granulomatous inflammation, found in proteoglycan-rich tissues (joints, tendons). They represent chronic inflammation and engage both innate and adaptive immunity. Although they occasionally show acute inflammatory signs, tophi predominantly signify a <strong>chronic inflammatory state</strong>.
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 4: DIAGNOSIS -->
+<section class="sec" id="diagnosis">
+  <div class="sec-hd">
+    <span class="sec-n">04</span>
+    <h2>Diagnosis of Gout</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Gold Standard: Synovial Fluid Analysis</h3>
+    <p>Even when clinical features strongly suggest gout, <strong>needle aspiration and synovial fluid analysis is the gold standard</strong> to confirm the diagnosis. This is critical because: acute septic arthritis, other crystal arthropathies, palindromic rheumatism, and psoriatic arthritis can all mimic gout.</p>
+
+    <div class="g2">
+      <div class="card blu">
+        <div class="card-t">MSU Crystals on Polarized Light</div>
+        <ul class="bl">
+          <li>Needle-shaped and rod-shaped</li>
+          <li><strong>Strongly negatively birefringent</strong> under compensated polarized light</li>
+          <li>Seen both intracellularly and extracellularly</li>
+          <li>Leukocytes: 5,000–75,000/µL (cloudy fluid)</li>
+          <li>Large crystal loads → thick, pasty, chalky fluid</li>
+        </ul>
+      </div>
+      <div class="card amb">
+        <div class="card-t">Important Caveats</div>
+        <ul class="bl amb">
+          <li><strong>Always culture the fluid</strong> — bacterial infection can coexist with MSU crystals</li>
+          <li>MSU crystals can be demonstrated between flares in first MTP and asymptomatic knee → useful for diagnosis during intercritical period</li>
+          <li>Aspiration of asymptomatic joints is diagnostically useful</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Serum Urate — Tricky Interpretation</h3>
+    <div class="co dan">
+      <div class="co-t">⚠ Board Trap — Serum Urate During Flare</div>
+      Serum urate can be <strong>normal or even LOW during an acute gout flare</strong>. Inflammatory cytokines (e.g., IL-6) have uricosuric properties that can lower serum urate by ~2 mg/dL. <strong>Do not use serum urate to rule out gout during an acute attack!</strong> Instead, seek historical or post-flare serum urate values.
+    </div>
+    <p>Serum urate is <strong>almost always elevated at some point</strong> in a gout patient's lifetime — use historical values as a diagnostic clue and ULT therapeutic target.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Baseline Labs to Order</h3>
+    <ul class="bl">
+      <li>Serum creatinine (renal function — affects drug dosing)</li>
+      <li>Liver function tests (for allopurinol monitoring)</li>
+      <li>Hemoglobin + WBC count</li>
+      <li>Hemoglobin A1c (diabetes comorbidity)</li>
+      <li>Serum lipids (cardiovascular risk)</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Imaging</h3>
+    <div class="g3">
+      <div class="card blu">
+        <div class="card-t">Musculoskeletal Ultrasound</div>
+        Reveals <strong>double-contour sign</strong> overlying articular cartilage — signifies MSU deposition. Useful for early diagnosis.
+      </div>
+      <div class="card grn">
+        <div class="card-t">Dual-Energy CT (DECT)</div>
+        Uses two different energy beams to identify MSU crystals by chemical composition. Can confirm specific presence of MSU crystals.
+      </div>
+      <div class="card amb">
+        <div class="card-t">Plain Radiography</div>
+        Findings seen in <strong>advanced/chronic</strong> gout only:
+        <ul class="bl" style="margin-top:4px">
+          <li>Cystic changes</li>
+          <li>Well-defined erosions with sclerotic margins + overhanging bony edges</li>
+          <li>Soft tissue masses (tophi)</li>
+        </ul>
+        <em>Typically absent in early gout!</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 5: TREATMENT — ACUTE -->
+<section class="sec" id="treatment">
+  <div class="sec-hd">
+    <span class="sec-n">05</span>
+    <h2>Acute Gout Treatment</h2>
+  </div>
+
+  <div class="co key">
+    <div class="co-t">🔑 Principle of Acute Management</div>
+    The goal is anti-inflammatory therapy targeting the downstream process of crystal-induced inflammation. <strong>Nonpharmacologic</strong> measures (ice packs, rest of involved joints) are helpful adjuncts. Choice of agent depends on comorbidities, concurrent medications, and prior response.
+  </div>
+
+  <div class="sub">
+    <h3>Early Initiation Is Critical</h3>
+    <p>For established gout patients with recurrent flares, patients should be given a <strong>supply of medications ready to start at the first sign of a flare</strong>. Early initiation helps abort or reduce flare severity.</p>
+  </div>
+
+  <!-- COLCHICINE -->
+  <div class="drug-box">
+    <div class="drug-name">Colchicine</div>
+    <div class="drug-class">Anti-inflammatory · Microtubule Inhibitor</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Inhibits microtubule polymerization → disrupts neutrophil chemotaxis and activation; also inhibits NLRP3 inflammasome
+      </div>
+      <div class="drug-row">
+        <strong>Dose — Acute (Low-Dose Regimen)</strong>
+        <strong>1.2 mg at first sign of flare, then 0.6 mg 1 hour later</strong>; subsequent-day dosing per response. As effective as high-dose but better tolerated.
+      </div>
+      <div class="drug-row">
+        <strong>Prophylactic Dose</strong>
+        0.6 mg once to twice daily (during ULT initiation, continue for 3–6 months until normouricemic + attack-free, or until tophi disappear)
+      </div>
+      <div class="drug-row">
+        <strong>Metabolism/Elimination</strong>
+        P-glycoprotein (MDR1) in liver, small intestine, kidneys; also CYP3A4 (hepatic)
+      </div>
+      <div class="drug-row">
+        <strong>Drug Interactions</strong>
+        <strong>Reduce dose</strong> with P-glycoprotein or CYP3A4 inhibitors: clarithromycin, tacrolimus. Extra caution with hepatorenal impairment.
+      </div>
+      <div class="drug-row">
+        <strong>Dose Adjustment</strong>
+        Reduce in renal disease. Lower doses for prolonged use in CKD.
+      </div>
+    </div>
+    <div class="co prl" style="margin-top:10px">
+      <div class="co-t">💊 Pearl</div>
+      Colchicine works best when used <strong>early</strong> in a flare. If delayed, efficacy declines. The low-dose regimen (1.2/0.6 mg) has equivalent efficacy to high-dose with fewer GI side effects.
+    </div>
+  </div>
+
+  <!-- NSAIDs -->
+  <div class="drug-box">
+    <div class="drug-name">NSAIDs</div>
+    <div class="drug-class">Anti-inflammatory · COX Inhibitors</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Best For</strong>
+        Individuals <strong>without complicating comorbidities</strong>. Most commonly used class for acute gout.
+      </div>
+      <div class="drug-row">
+        <strong>Effective Agents &amp; Doses</strong>
+        <ul style="margin-top:4px;padding-left:14px;font-size:12.5px;color:var(--t2)">
+          <li>Indomethacin: 25–50 mg TID</li>
+          <li>Naproxen: 500 mg BID</li>
+          <li>Ibuprofen: 800 mg TID</li>
+          <li>Celecoxib: 800 mg × 1, then 400 mg 12h later, then 400 mg BID</li>
+        </ul>
+      </div>
+      <div class="drug-row">
+        <strong>Key Considerations</strong>
+        Give in full anti-inflammatory doses. Effective in vast majority of patients. Avoid in renal insufficiency, GI disease, active peptic ulcer, heart failure.
+      </div>
+    </div>
+  </div>
+
+  <!-- GLUCOCORTICOIDS -->
+  <div class="drug-box">
+    <div class="drug-name">Glucocorticoids</div>
+    <div class="drug-class">Anti-inflammatory · Steroid</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Oral</strong>
+        Prednisone 30–50 mg/day initial, then gradually tapered with resolution. Effective even in <strong>polyarticular gout</strong>.
+      </div>
+      <div class="drug-row">
+        <strong>Intramuscular</strong>
+        IM injection effective for polyarticular gout when oral route not feasible.
+      </div>
+      <div class="drug-row">
+        <strong>Intraarticular</strong>
+        Effective and well tolerated for <strong>single joint or few involved joints</strong>. Preferred when other routes contraindicated.
+      </div>
+      <div class="drug-row">
+        <strong>Use Case</strong>
+        When NSAIDs and colchicine are contraindicated (renal disease, GI disease, drug interactions).
+      </div>
+    </div>
+  </div>
+
+  <!-- IL-1 Inhibitors -->
+  <div class="drug-box">
+    <div class="drug-name">Anakinra / Canakinumab</div>
+    <div class="drug-class">IL-1β Antagonist · Biologic</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Block IL-1β — the central proinflammatory cytokine activated by the NLRP3 inflammasome in gout
+      </div>
+      <div class="drug-row">
+        <strong>Indication</strong>
+        When other treatments are <strong>contraindicated or have failed</strong>. Useful in patients who cannot tolerate NSAIDs, colchicine, or glucocorticoids.
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 6: URATE-LOWERING THERAPY -->
+<section class="sec" id="ult">
+  <div class="sec-hd">
+    <span class="sec-n">06</span>
+    <h2>Urate-Lowering Therapy (ULT)</h2>
+  </div>
+
+  <div class="co key">
+    <div class="co-t">🎯 Goal of ULT</div>
+    Correct the underlying chronic hyperuricemia. Target serum urate <strong>&lt;5–6 mg/dL (&lt;300–360 µmol/L)</strong> — below the MSU saturation point — to prevent recurrent flares and eliminate tophi. Usually required <strong>for life</strong>.
+  </div>
+
+  <div class="sub">
+    <h3>When to Initiate ULT</h3>
+    <ul class="bl">
+      <li>Consider when hyperuricemia cannot be corrected by lifestyle changes alone</li>
+      <li><strong>Indications:</strong> ≥2 gout flares per year; severe/prolonged flares; subcutaneous tophi; chronic gouty arthritis; <strong>known uric acid nephrolithiasis</strong></li>
+      <li>Patient willingness to commit to long-term therapy</li>
+    </ul>
+    <div class="co wrn">
+      <div class="co-t">⚠ Timing Rule</div>
+      ULT is generally <strong>NOT initiated during active acute gout flares</strong> — acutely lowering SU can worsen the flare (crystal shedding). Start during the resolution phase or after a flare, with <strong>anti-inflammatory prophylaxis</strong> (colchicine 0.6 mg 1–2×/day or naproxen 250 mg BID).
+    </div>
+    <p>Paradoxical flares during ULT initiation = inflammatory reactions to MSU crystals shed from dissolving synovial tophi during rapid SU reduction. Faster urate reduction → higher flare risk.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Lifestyle Modifications (First-Line Non-Drug)</h3>
+    <ul class="bl grn">
+      <li>Control body weight</li>
+      <li>Healthy diet (↓ purine-rich foods)</li>
+      <li>Limit alcohol use</li>
+      <li>Decrease fructose-rich foods and beverages</li>
+      <li>Avoid thiazide and loop diuretics when possible</li>
+    </ul>
+  </div>
+
+  <!-- ALLOPURINOL -->
+  <div class="drug-box">
+    <div class="drug-name">Allopurinol</div>
+    <div class="drug-class">First-Line ULT · Xanthine Oxidase Inhibitor</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Inhibits xanthine oxidase → ↓ urate synthesis (xanthine cannot be converted to urate)
+      </div>
+      <div class="drug-row">
+        <strong>Dosing Strategy</strong>
+        Start <strong>100 mg/day (or less)</strong> once daily; titrate up to <strong>800 mg/day max</strong> to achieve target SU &lt;5–6 mg/dL
+      </div>
+      <div class="drug-row">
+        <strong>CKD Dosing</strong>
+        GFR &lt;30 mL/min → start at <strong>50 mg/day</strong>, titrate up slowly. Start low, go slow → reduces SCAR risk.
+      </div>
+      <div class="drug-row">
+        <strong>Side Effects</strong>
+        Mild cutaneous reactions in ~2% of users. Rarely: <strong>Severe Cutaneous Adverse Reactions (SCARs)</strong> including Stevens-Johnson syndrome and toxic epidermal necrolysis — rare but life-threatening.
+      </div>
+      <div class="drug-row">
+        <strong>SCAR Risk Factors</strong>
+        CKD, higher initial dosing (&gt;100 mg/day in CKD), <strong>HLA-B*5801 carriage</strong>
+      </div>
+      <div class="drug-row">
+        <strong>HLA-B*5801 Screening</strong>
+        Required before starting allopurinol in: <strong>Southeast Asian (except Japanese), Pacific Islander/Native Hawaiian, and Black patients</strong> — due to high carriage rate in these populations → racial disparity in SCAR risk. If positive → use alternative agent.
+      </div>
+    </div>
+    <div class="co dan" style="margin-top:10px">
+      <div class="co-t">🚨 Critical Safety Pearl</div>
+      HLA-B*5801 carriage is the major genetic risk factor for allopurinol-induced SCARs. Screen Southeast Asian, Pacific Islander/Native Hawaiian, and Black patients before prescribing. If carrier → switch to febuxostat.
+    </div>
+  </div>
+
+  <!-- FEBUXOSTAT -->
+  <div class="drug-box">
+    <div class="drug-name">Febuxostat</div>
+    <div class="drug-class">Second Xanthine Oxidase Inhibitor</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Xanthine oxidase inhibitor (different structure from allopurinol)
+      </div>
+      <div class="drug-row">
+        <strong>Metabolism</strong>
+        Predominantly via glucuronide formation and oxidation in liver
+      </div>
+      <div class="drug-row">
+        <strong>Advantage over Allopurinol</strong>
+        Does NOT require dose adjustment in moderate-to-severe CKD. Used when allopurinol not tolerated or in HLA-B*5801 carriers.
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBENECID / URICOSURICS -->
+  <div class="drug-box">
+    <div class="drug-name">Probenecid / Uricosuric Agents</div>
+    <div class="drug-class">Second-Line ULT · Uricosuric</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Inhibits renal tubular reabsorption of urate (URAT1/OAT10) → ↑ urinary urate excretion
+      </div>
+      <div class="drug-row">
+        <strong>Probenecid Dose</strong>
+        Start 250 mg BID → increase gradually up to 3 g/day
+      </div>
+      <div class="drug-row">
+        <strong>Limitations</strong>
+        NOT effective when serum creatinine &gt;177 µmol/L (2 mg/dL). Requires adequate renal function.
+      </div>
+      <div class="drug-row">
+        <strong>Benzbromarone</strong>
+        Another uricosuric (not available in the US) — more effective in CKD patients.
+      </div>
+      <div class="drug-row">
+        <strong>Use</strong>
+        Second-line, alone or in combination with xanthine oxidase inhibitors. For patients with good renal function.
+      </div>
+    </div>
+  </div>
+
+  <!-- PEGLOTICASE -->
+  <div class="drug-box">
+    <div class="drug-name">Pegloticase</div>
+    <div class="drug-class">Pegylated Uricase · Recombinant Enzyme</div>
+    <div class="drug-grid">
+      <div class="drug-row">
+        <strong>Mechanism</strong>
+        Converts urate to allantoin (highly water-soluble, easily excreted) — replaces the uricase activity lost in human evolution
+      </div>
+      <div class="drug-row">
+        <strong>Indication</strong>
+        Patients who do NOT tolerate or FAIL full doses of other ULT agents
+      </div>
+      <div class="drug-row">
+        <strong>Immunogenicity Issue</strong>
+        Often used in combination with <strong>methotrexate</strong> to reduce immunogenicity (antibody formation leads to loss of efficacy and infusion reactions)
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Cardiometabolic Drugs with Urate-Lowering Effects</h3>
+    <p>Therapies for gout comorbidities that also lower serum urate:</p>
+    <div class="g4">
+      <div class="card grn">
+        <div class="card-t">SGLT2 Inhibitors</div>
+        Offer both urate reduction AND comprehensive cardiometabolic-kidney comorbidity care. Highly beneficial in gout patients with multiple comorbidities.
+      </div>
+      <div class="card tel">
+        <div class="card-t">Other Agents</div>
+        Losartan (ARB), amlodipine (CCB), fenofibrate (lipid-lowering) — all have modest urate-lowering effects as a secondary benefit.
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 7: CPPD -->
+<section class="sec" id="cppd">
+  <div class="sec-hd">
+    <span class="sec-n">07</span>
+    <h2>Calcium Pyrophosphate Deposition (CPPD)</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Epidemiology &amp; Pathogenesis</h3>
+    <div class="g2">
+      <div class="card blu">
+        <div class="card-t">Epidemiology</div>
+        <ul class="bl">
+          <li>Predominantly affects the <strong>elderly</strong></li>
+          <li>Prevalence doubles with each decade after 60 years</li>
+          <li>~50% prevalence in those >85 years old</li>
+          <li>Most cases asymptomatic</li>
+        </ul>
+      </div>
+      <div class="card amb">
+        <div class="card-t">Central Pathogenic Mechanism</div>
+        <ul class="bl amb">
+          <li><strong>Increased inorganic pyrophosphate (PPi)</strong> in cartilage matrix — analogous to hyperuricemia in gout</li>
+          <li>PPi combines with calcium → CPP crystals in matrix vesicles or on collagen fibers</li>
+          <li>Most PPi derives from breakdown of extracellular ATP</li>
+          <li>ANKH protein (multipass membrane protein) regulates ATP efflux and PPi transport</li>
+          <li>ANKH gene mutations → ↑ PPi elaboration → familial and sporadic CPPD</li>
+          <li>↑ ATP pyrophosphohydrolase and 5'-nucleotidase activity also ↑ PPi</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Associated Conditions (CPPD in Age &lt;50 → Investigate!)</h3>
+    <p>A minority of CPPD patients have metabolic abnormalities. CPPD in patients <strong>&lt;50 years old</strong> warrants investigation for:</p>
+    <div class="g2">
+      <div class="card red">
+        <div class="card-t">Endocrine-Metabolic Causes</div>
+        <ul class="bl red" style="margin-top:6px">
+          <li>Primary hyperparathyroidism (↑ calcium)</li>
+          <li>Hemochromatosis (↑ iron)</li>
+          <li>Hypophosphatasia (↓ alkaline phosphatase)</li>
+          <li>Hypomagnesemia (↓ magnesium)</li>
+          <li>Gitelman's syndrome</li>
+          <li>X-linked hypophosphatemic rickets</li>
+          <li>Familial hypocalciuric hypercalcemia</li>
+        </ul>
+      </div>
+      <div class="card pur">
+        <div class="card-t">Other Associations</div>
+        <ul class="bl pur" style="margin-top:6px">
+          <li>Aging (strongest association)</li>
+          <li>Osteoarthritis</li>
+          <li>Post-meniscectomy or joint trauma</li>
+          <li>Familial-genetic (ANKH mutations)</li>
+          <li>Certain drugs: thiazide and loop diuretics, possibly proton pump inhibitors</li>
+          <li>Malabsorption</li>
+          <li>Gout (crystals can coexist)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="co key">
+      <div class="co-t">🔑 Workup for Young CPPD Patients</div>
+      Serum: calcium, phosphorus, alkaline phosphatase, magnesium, iron, and transferrin. Plus inquiry for familial aggregation.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Clinical Manifestations</h3>
+    <div class="g2">
+      <div class="card grn">
+        <div class="card-t">Acute CPP Crystal Arthritis ("Pseudogout")</div>
+        <ul class="bl">
+          <li><strong>Knee most commonly affected</strong> (not first MTP like gout)</li>
+          <li>Wrist second most common</li>
+          <li>Other: shoulder, ankle, elbow, hands</li>
+          <li>First MTP (podagra) rarely affected — key distinction from gout</li>
+          <li>Initial episodes last longer than gout: up to <strong>weeks to months</strong> (vs 1–2 weeks for gout)</li>
+          <li>May have systemic signs: <strong>fever, chills, elevated acute-phase reactants</strong></li>
+          <li>Up to 50% of attacks associated with low-grade fever; occasionally 40°C (104°F)</li>
+        </ul>
+      </div>
+      <div class="card amb">
+        <div class="card-t">Triggers for Acute CPPD</div>
+        <ul class="bl amb">
+          <li>Trauma</li>
+          <li>Severe medical illness</li>
+          <li>Surgery — especially <strong>parathyroidectomy</strong> (rapid ↓ calcium and magnesium → crystal dissolution and shedding)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h4>Chronic CPPD Patterns</h4>
+      <ul class="bl">
+        <li><strong>Pseudo-osteoarthritis (most common)</strong> — polyarticular arthritis resembling OA; affects atypical OA joints (metacarpophalangeal, wrist, elbow, shoulder, ankle)</li>
+        <li>Chronic symmetric synovitis resembling <strong>rheumatoid arthritis</strong></li>
+        <li>Severe destructive disease resembling <strong>neuropathic arthritis</strong></li>
+        <li>Intervertebral disk and ligament calcification with restricted spine mobility</li>
+        <li><strong>Crowned dens syndrome</strong></li>
+        <li>Spinal stenosis (commonly elderly)</li>
+        <li>Rarely: tumoral deposits of CPP in soft tissues</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Diagnosis of CPPD</h3>
+    <div class="g3">
+      <div class="card blu">
+        <div class="card-t">Synovial Fluid</div>
+        Rhomboid or rod-like crystals. <strong>Weakly positively birefringent or nonbirefringent</strong> under polarized light. Leukocytes: several thousand to 100,000/µL (mean ~24,000/µL); predominant cell = neutrophil.
+      </div>
+      <div class="card grn">
+        <div class="card-t">Chondrocalcinosis on Imaging</div>
+        <strong>Punctate and/or linear radiodense deposits</strong> within fibrocartilaginous joint menisci or articular hyaline cartilage. Also visible on ultrasound. Presumptive of CPPD in absence of effusion.
+      </div>
+      <div class="card red">
+        <div class="card-t">Must Rule Out</div>
+        Infection (synovial fluid cultures essential when fever present). CPP crystals can coexist with MSU and apatite — examination of fluid must distinguish all types. Exception: chondrocalcinosis due to CaOx in chronic renal failure.
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Treatment of CPPD</h3>
+    <div class="co key">
+      <div class="co-t">🔑 Key Distinction from Gout Treatment</div>
+      Unlike gout, there is <strong>no effective way to remove CPP crystal deposits from cartilage and synovium</strong>. There is no equivalent of urate-lowering therapy for CPPD.
+    </div>
+    <ul class="bl">
+      <li><strong>Acute attacks:</strong> Ice packs + rest; joint fluid aspiration + glucocorticoid injection; oral colchicine; NSAIDs; systemic glucocorticoids</li>
+      <li><strong>Severe polyarticular attacks:</strong> IL-1β antagonist anakinra</li>
+      <li><strong>Prophylaxis (frequent recurrent attacks):</strong> Daily colchicine</li>
+      <li><strong>Chronic synovitis:</strong> NSAIDs + gastric protection; colchicine; low-dose glucocorticoids; hydroxychloroquine; methotrexate</li>
+      <li><strong>Progressive destructive large-joint arthropathy:</strong> May require joint replacement</li>
+    </ul>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 8: APATITE -->
+<section class="sec" id="apatite">
+  <div class="sec-hd">
+    <span class="sec-n">08</span>
+    <h2>Calcium Apatite Deposition Disease</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Pathogenesis</h3>
+    <p>Apatite is the <strong>primary mineral of normal bone and teeth</strong>. Abnormal accumulation of basic calcium phosphates (largely carbonate-substituted apatite) occurs in:</p>
+    <ul class="bl">
+      <li>Areas of tissue damage (dystrophic calcification)</li>
+      <li>Hypercalcemic or hyperparathyroid states (metastatic calcification)</li>
+      <li>Connective tissue diseases (calcinosis — systemic sclerosis, dermatomyositis)</li>
+      <li>Chronic renal failure: hyperphosphatemia → extensive apatite deposition in and around joints (tumoral calcinosis, calciphylaxis)</li>
+    </ul>
+    <p>30–50% of OA patients have apatite microcrystals in synovial fluid. Apatite crystals cause synovial lining cells to undergo mitosis and release PGE2, cytokines, collagenases, and neutral proteases → destructive potential.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Clinical Manifestations</h3>
+    <div class="g2">
+      <div class="card blu">
+        <div class="card-t">Periarticular</div>
+        <ul class="bl">
+          <li>Calcific periarthritis (e.g., supraspinatus tendon rupture)</li>
+          <li>Bursitis and tendinitis</li>
+          <li>Hydroxyapatite pseudopodagra</li>
+          <li>Polyarticular involvement</li>
+          <li>Asymptomatic deposition (most common)</li>
+        </ul>
+      </div>
+      <div class="card red">
+        <div class="card-t">Articular — Milwaukee Shoulder</div>
+        <strong>Hemorrhagic shoulder effusions in elderly</strong> — apatite aggregates in synovial fluid. Also occurs in hips, knees, erosive OA of fingers. Joint destruction from damage to cartilage + supporting structures → instability, deformity. Symptoms: minimal to severe pain → may require joint replacement.
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Diagnosis</h3>
+    <ul class="bl">
+      <li><strong>Synovial fluid leukocyte count usually LOW</strong> (&lt;2,000/µL) despite dramatic symptoms — with predominance of mononuclear cells</li>
+      <li>Individual crystals very small — only visible by <strong>electron microscopy</strong></li>
+      <li>Clumps: 1–20 µm shiny nonbirefringent globules; stain <strong>purplish with Wright's stain</strong>, <strong>bright red with alizarin red S</strong></li>
+      <li>Definitive identification: electron microscopy + energy-dispersive elemental analysis, x-ray diffraction, infrared spectroscopy, or Raman microspectroscopy (usually not required clinically)</li>
+      <li>Imaging: intra/periarticular calcifications; distinguish from linear calcifications of CPPD</li>
+    </ul>
+    <div class="co wrn">
+      <div class="co-t">⚠ Polarized Light Rule for Apatite</div>
+      Apatite crystals are <strong>NONBIREFRINGENT</strong> — they cannot be identified by standard polarized light microscopy. This is a key distinction.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Treatment</h3>
+    <ul class="bl">
+      <li>Treatment is <strong>nonspecific</strong></li>
+      <li>Acute bursitis/synovitis may be self-limiting (days to weeks)</li>
+      <li>NSAIDs or oral colchicine for 2 weeks, OR intra/periarticular depot glucocorticoid injection → shorten duration and intensity</li>
+      <li>Periarticular deposits may resorb with resolution of attacks</li>
+      <li>In renal failure on hemodialysis: agents to lower serum phosphate may lead to deposit resorption</li>
+      <li>Underlying severe destructive changes → poor response to medical therapy</li>
+    </ul>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 9: CaOx -->
+<section class="sec" id="caox">
+  <div class="sec-hd">
+    <span class="sec-n">09</span>
+    <h2>Calcium Oxalate (CaOx) Deposition Disease</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Pathogenesis</h3>
+    <ul class="bl">
+      <li>CaOx deposits recognized in visceral organs, blood vessels, bones, cartilage in <strong>chronic renal disease</strong></li>
+      <li>Reported patients have been on <strong>long-term hemodialysis or peritoneal dialysis</strong></li>
+      <li>Many had received ascorbic acid supplements: <strong>ascorbic acid → metabolized to oxalate → inadequately cleared in uremia and by dialysis</strong></li>
+      <li>CaOx aggregates in bone, articular cartilage, synovium, periarticular tissues → crystal shedding → acute synovitis</li>
+      <li>Like apatite and CPP: persistent CaOx aggregates → stimulate synovial cell proliferation + enzyme release → progressive articular destruction</li>
+      <li><strong>Primary oxalosis</strong>: rare hereditary metabolic disorder → acute or chronic CaOx arthritis, periarthritis, bone disease</li>
+      <li><strong>Avoid ascorbic acid supplements and oxalate-rich foods</strong> in dialysis patients</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Clinical Manifestations &amp; Diagnosis</h3>
+    <ul class="bl">
+      <li>Clinical features may not be distinguishable from MSU, CPP, or apatite arthritis</li>
+      <li>Joints: fingers, wrists, elbows, knees, ankles, feet</li>
+      <li>Radiographs: chondrocalcinosis or soft tissue calcifications</li>
+      <li>Synovial fluid: usually noninflammatory (&lt;2,000 leukocytes/µL) or mildly inflammatory</li>
+      <li><strong>Crystal shape: bipyramidal</strong> (most easily recognized) — strongly birefringent under polarized light</li>
+      <li>Variable shape; variable birefringence; stain with alizarin red S</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Treatment</h3>
+    <ul class="bl">
+      <li>NSAIDs, colchicine, intraarticular glucocorticoids, and/or increased dialysis frequency → only <strong>slight improvement</strong></li>
+      <li>In primary oxalosis: <strong>liver transplantation</strong> → significant reduction in crystal deposits</li>
+    </ul>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 10: HIGH-YIELD SUMMARY -->
+<section class="sec" id="hiyield">
+  <div class="sec-hd">
+    <span class="sec-n">10</span>
+    <h2>High-Yield Summary &amp; Master Table</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Crystal Comparison Master Table</h3>
+    <table class="rt">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>MSU (Gout)</th>
+          <th>CPP (Pseudogout)</th>
+          <th>Apatite</th>
+          <th>CaOx</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Shape</strong></td><td>Needle/rod-shaped</td><td>Rhomboid/rod-shaped</td><td>1–20 µm globules</td><td>Bipyramidal</td></tr>
+        <tr><td><strong>Birefringence</strong></td><td>Strongly NEGATIVE</td><td>Weakly POSITIVE or none</td><td>NONBIREFRINGENT</td><td>Strongly POSITIVE</td></tr>
+        <tr><td><strong>Most common joint</strong></td><td>First MTP (podagra) 70–90%</td><td>Knee</td><td>Shoulder (Milwaukee), tendons</td><td>Fingers, wrists, knees</td></tr>
+        <tr><td><strong>Typical patient</strong></td><td>Middle-aged/elderly male; postmenopausal female</td><td>Elderly; doubles per decade &gt;60 yrs</td><td>Elderly; OA patients</td><td>Chronic dialysis patient</td></tr>
+        <tr><td><strong>Synovial fluid WBC</strong></td><td>5,000–75,000/µL</td><td>Several thousand to 100,000/µL (mean 24,000)</td><td>&lt;2,000/µL (low!)</td><td>&lt;2,000/µL or mildly inflammatory</td></tr>
+        <tr><td><strong>Pathogenic threshold</strong></td><td>SU &gt;~6.85 mg/dL</td><td>↑ Inorganic pyrophosphate</td><td>↑ Calcium phosphate</td><td>↑ Oxalate (renal failure)</td></tr>
+        <tr><td><strong>Key imaging finding</strong></td><td>Overhanging erosions; double-contour sign (US)</td><td>Chondrocalcinosis (linear calcifications)</td><td>Fluffy/irregular calcifications</td><td>Chondrocalcinosis</td></tr>
+        <tr><td><strong>Special stain</strong></td><td>—</td><td>—</td><td>Alizarin red S (red); Wright's (purple)</td><td>Alizarin red S</td></tr>
+        <tr><td><strong>Specific ULT available?</strong></td><td>YES (allopurinol, febuxostat, probenecid, pegloticase)</td><td>NO</td><td>NO (phosphate lowering in renal failure)</td><td>Liver transplant for primary oxalosis</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub">
+    <h3>Key Numbers for Boards</h3>
+    <table class="rt">
+      <thead>
+        <tr><th>Parameter</th><th>Value</th><th>Significance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MSU saturation point</td><td>~6.85 mg/dL</td><td>Threshold for crystal formation</td></tr>
+        <tr><td>ULT target serum urate</td><td>&lt;5–6 mg/dL (300–360 µmol/L)</td><td>Prevents recurrent flares; dissolves tophi</td></tr>
+        <tr><td>First MTP involvement in gout</td><td>70–90%</td><td>Podagra — most classic joint</td></tr>
+        <tr><td>Acute flare spontaneous resolution</td><td>1–2 weeks</td><td>Without treatment</td></tr>
+        <tr><td>IL-6 uricosuric effect during flare</td><td>Can lower SU by ~2 mg/dL</td><td>SU may be normal/low during acute flare!</td></tr>
+        <tr><td>Allopurinol starting dose (CKD with GFR &lt;30)</td><td>50 mg/day</td><td>Start low, titrate slowly to avoid SCARs</td></tr>
+        <tr><td>Allopurinol max dose</td><td>800 mg/day</td><td>Titrate to achieve SU target</td></tr>
+        <tr><td>Colchicine acute dose</td><td>1.2 mg then 0.6 mg 1h later</td><td>Low-dose = high-dose efficacy, better tolerated</td></tr>
+        <tr><td>Colchicine prophylaxis duration</td><td>3–6 months normouricemic + attack-free</td><td>Or until tophi disappear</td></tr>
+        <tr><td>Probenecid max dose</td><td>3 g/day</td><td>Requires creatinine &lt;2 mg/dL</td></tr>
+        <tr><td>Probenecid ineffective when Cr &gt;</td><td>177 µmol/L (2 mg/dL)</td><td>Requires functioning kidneys</td></tr>
+        <tr><td>CPPD prevalence in &gt;85 yr olds</td><td>~50%</td><td>Very common in elderly; mostly asymptomatic</td></tr>
+        <tr><td>Women in gout</td><td>5–20% of all gout patients</td><td>Mostly postmenopausal</td></tr>
+        <tr><td>Urate overproduction vs. excretion</td><td>10% vs. 90%</td><td>Impaired excretion is predominant cause</td></tr>
+        <tr><td>Renal uric acid elimination</td><td>~2/3 of daily uric acid</td><td>1/3 via GI tract</td></tr>
+        <tr><td>Allopurinol mild cutaneous reactions</td><td>~2% of users</td><td>Usually mild; SCARs are rare but life-threatening</td></tr>
+        <tr><td>Apatite in OA patients (synovial fluid)</td><td>30–50%</td><td>Very common in OA, usually asymptomatic</td></tr>
+        <tr><td>CPPD fever occurrence</td><td>Up to 50% of attacks; occasionally 40°C (104°F)</td><td>Must culture fluid to rule out infection</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub">
+    <h3>High-Yield Distinctions</h3>
+    <div class="g2">
+      <div class="card red">
+        <div class="card-t">Gout Pseudocellulitis Trap</div>
+        Acute gout flare produces warm, red, tender, swollen joint that closely <strong>mimics cellulitis</strong>. Distinguishing feature: joint involvement (arthritis), not skin infection. Synovial fluid aspiration confirms.
+      </div>
+      <div class="card pur">
+        <div class="card-t">Urate During Acute Flare</div>
+        Serum urate may be <strong>normal or low</strong> during an acute gout attack (IL-6 uricosuric effect). <strong>Never use a normal SU to exclude gout in an acute setting.</strong>
+      </div>
+      <div class="card grn">
+        <div class="card-t">Gout vs. Pseudogout — Joint Location</div>
+        Gout: first MTP (podagra) most common. Pseudogout: <strong>knee most common</strong>; first MTP rarely affected. Wrist involvement is more characteristic of CPPD.
+      </div>
+      <div class="card blu">
+        <div class="card-t">ULT Timing Rule</div>
+        <strong>Do NOT start ULT during an active flare</strong> (can worsen it via crystal shedding). Start with anti-inflammatory prophylaxis when initiating ULT. Faster SU reduction = higher flare risk.
+      </div>
+      <div class="card amb">
+        <div class="card-t">HLA-B*5801 Alert</div>
+        Screen Southeast Asian (non-Japanese), Pacific Islander/Native Hawaiian, and Black patients for HLA-B*5801 before prescribing allopurinol. Positive → use febuxostat instead.
+      </div>
+      <div class="card tel">
+        <div class="card-t">Parathyroidectomy → CPPD Flare</div>
+        Surgery (especially parathyroidectomy) → rapid ↓ calcium and magnesium → CPP crystal dissolution and shedding → acute pseudogout attack. Classic precipitant.
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- SECTION 11: EXAM TRAPS -->
+<section class="sec" id="traps">
+  <div class="sec-hd">
+    <span class="sec-n">★</span>
+    <h2>Exam Traps — Board Coach Mode</h2>
+  </div>
+
+  <div class="co dan">
+    <div class="co-t">🎯 Expert Board Exam Coach</div>
+    The following traps are based exclusively on material in this chapter. Each trap is designed to present the distractor exactly as it appears on boards — do not be fooled.
+  </div>
+
+  <!-- TRAP 1 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 1 — Look-Alike</span>
+    <div class="trap-q">A 52-year-old man presents with sudden onset of severe pain, redness, warmth, and swelling of his right first metatarsophalangeal joint that began last night. The skin appears erythematous and shiny, and the patient says it "looks infected." Serum uric acid is 5.8 mg/dL. Blood cultures are ordered. What is the most likely diagnosis?</div>
+    <div class="trap-row"><strong>Distractor</strong> Cellulitis or septic arthritis — the joint looks infected, and the serum urate is NORMAL, making gout seem less likely.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Acute gout flare (pseudocellulitis)</span>. The presentation of podagra with nocturnal onset, first MTP involvement, and dramatic local inflammation is classic for gout. A normal serum urate during an acute flare does NOT exclude gout — inflammatory cytokines (especially IL-6) have uricosuric properties that can lower SU by ~2 mg/dL. Diagnosis is confirmed by synovial fluid aspiration showing negatively birefringent needle-shaped crystals.</div>
+    <div class="trap-row"><strong>Mechanism</strong> IL-6 lowers serum urate during acute inflammation. Do not use SU to rule out gout in the acute setting.</div>
+    <span class="trap-kw">🔑 Board Keyword: "SU normal during flare"</span>
+  </div>
+
+  <!-- TRAP 2 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 2 — Number Trap</span>
+    <div class="trap-q">A patient with established gout is started on allopurinol. What serum urate target should you aim for, and what is the saturation threshold for MSU crystal formation?</div>
+    <div class="trap-row"><strong>Distractor</strong> Confusing the two numbers: MSU saturation (~6.85 mg/dL) vs. therapeutic target (&lt;6 mg/dL) vs. more aggressive target (&lt;5 mg/dL in patients with tophi).</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Target SU &lt;5–6 mg/dL (300–360 µmol/L)</span> — a sub-saturation point to dissolve existing crystals and prevent new ones. MSU saturation occurs at ~6.85 mg/dL. The therapeutic target is deliberately set BELOW saturation to drive crystal dissolution.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Keeping SU below the saturation threshold allows existing tophi to gradually dissolve via reverse diffusion of urate from crystal deposits.</div>
+    <span class="trap-kw">🔑 Board Keyword: "sub-saturation target"</span>
+  </div>
+
+  <!-- TRAP 3 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 3 — Timing Trap</span>
+    <div class="trap-q">A patient with gout comes in with an active flare. The attending wants to start allopurinol immediately to address his hyperuricemia. What do you advise?</div>
+    <div class="trap-row"><strong>Distractor</strong> Starting allopurinol right away seems logical — treat the underlying cause while treating the flare simultaneously.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Do NOT initiate ULT during an active gout flare</span>. Rapidly lowering serum urate causes paradoxical crystal shedding from dissolving synovial tophi — worsening the acute flare. Wait until the flare resolves, then start allopurinol with colchicine prophylaxis (0.6 mg 1–2×/day) to cover the paradoxical flare risk.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Rapid SU reduction destabilizes existing MSU crystal deposits → crystal shedding → acute synovitis. Anti-inflammatory prophylaxis mitigates this.</div>
+    <span class="trap-kw">🔑 Board Keyword: "never start ULT during active flare"</span>
+  </div>
+
+  <!-- TRAP 4 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 4 — Population Trap (HLA)</span>
+    <div class="trap-q">A 58-year-old Korean man with gout is being considered for urate-lowering therapy. What must you do before prescribing allopurinol?</div>
+    <div class="trap-row"><strong>Distractor</strong> Just start allopurinol at a low dose — 100 mg/day is the standard starting dose, and allopurinol is first-line.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Screen for HLA-B*5801 before starting allopurinol</span>. Korean patients (and other Southeast Asian populations, except Japanese descendants; Pacific Islander/Native Hawaiian; and Black patients) have a high carriage rate of HLA-B*5801, which dramatically increases risk of life-threatening severe cutaneous adverse reactions (SCARs), including Stevens-Johnson syndrome and toxic epidermal necrolysis. If positive, use febuxostat instead.</div>
+    <div class="trap-row"><strong>Mechanism</strong> HLA-B*5801 creates immunologic susceptibility to allopurinol-induced hypersensitivity. The allele is distributed unevenly among ethnic groups, creating racial disparity in SCAR risk.</div>
+    <span class="trap-kw">🔑 Board Keyword: "Southeast Asian + allopurinol → HLA-B*5801"</span>
+  </div>
+
+  <!-- TRAP 5 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 5 — Look-Alike (Gout vs. Pseudogout)</span>
+    <div class="trap-q">An 80-year-old woman presents with acute, severe knee joint inflammation with fever of 38.9°C and elevated ESR/CRP. Synovial fluid shows 30,000 WBC/µL. Crystals are identified that are rectangular/rhomboid and weakly positively birefringent. What is the diagnosis, and how does it differ from gout?</div>
+    <div class="trap-row"><strong>Distractor</strong> The fever and elevated inflammatory markers suggest septic arthritis. The knee joint involvement looks unusual for gout.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Acute CPP crystal arthritis (pseudogout)</span>. The CPP crystal characteristics (rhomboid shape, weakly positive birefringence) distinguish it from MSU (needle-shaped, strongly negative birefringence). Up to 50% of CPPD attacks feature fever, occasionally up to 40°C. However, because infection can coexist with crystals, <strong>always culture the synovial fluid</strong>.</div>
+    <div class="trap-row"><strong>Mechanism</strong> CPP crystals activate the NLRP3 inflammasome → IL-1β → same acute inflammatory cascade as MSU. Fever is common in CPPD (less common in gout).</div>
+    <span class="trap-kw">🔑 Board Keyword: "rhomboid + weakly positive birefringence = CPP"</span>
+  </div>
+
+  <!-- TRAP 6 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 6 — Drug Interaction Trap</span>
+    <div class="trap-q">A gout patient on colchicine for acute flare is prescribed clarithromycin for a respiratory infection. What is the concern?</div>
+    <div class="trap-row"><strong>Distractor</strong> Colchicine and clarithromycin are commonly used drugs; the interaction is easily overlooked.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Clarithromycin is a CYP3A4 and P-glycoprotein inhibitor → reduces colchicine clearance → colchicine toxicity</span>. Colchicine is eliminated via P-glycoprotein (MDR1) in the liver/intestine/kidneys AND via CYP3A4. Inhibiting either pathway increases colchicine levels. The colchicine dose must be reduced, or the drug combination avoided — especially in patients with renal or hepatic impairment.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Colchicine has a narrow therapeutic index. CYP3A4/P-gp inhibitors (clarithromycin, tacrolimus, cyclosporine) increase colchicine levels → toxicity (myopathy, cytopenias, GI toxicity).</div>
+    <span class="trap-kw">🔑 Board Keyword: "colchicine + clarithromycin = CYP3A4/P-gp interaction"</span>
+  </div>
+
+  <!-- TRAP 7 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 7 — Mechanism Trap (Which ULT Agent?)</span>
+    <div class="trap-q">A gout patient with a serum creatinine of 2.3 mg/dL is being considered for uricosuric therapy with probenecid. Is this appropriate?</div>
+    <div class="trap-row"><strong>Distractor</strong> Probenecid is a valid second-line ULT agent — it seems reasonable to try it.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">No — probenecid is contraindicated/ineffective when serum creatinine &gt;177 µmol/L (2 mg/dL)</span>. Uricosuric agents require adequate renal function to increase urate excretion. This patient's creatinine of 2.3 mg/dL exceeds this threshold. Consider febuxostat (xanthine oxidase inhibitor that does not require dose adjustment in moderate-to-severe CKD) or benzbromarone (if available).</div>
+    <div class="trap-row"><strong>Mechanism</strong> Probenecid works by blocking renal tubular urate reabsorption (URAT1/OAT10). Impaired renal function reduces the tubular substrate for drug action AND increases SCAR risk for allopurinol.</div>
+    <span class="trap-kw">🔑 Board Keyword: "probenecid ineffective when Cr &gt;2 mg/dL"</span>
+  </div>
+
+  <!-- TRAP 8 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 8 — Population Trap (Young CPPD)</span>
+    <div class="trap-q">A 42-year-old man presents with acute inflammatory arthritis of the knee. Synovial fluid reveals rhomboid crystals with weak positive birefringence. What additional workup must be pursued, and why?</div>
+    <div class="trap-row"><strong>Distractor</strong> This is simply CPPD disease — treat symptomatically with colchicine/NSAIDs and move on.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">CPPD in patients under 50 requires evaluation for underlying metabolic disorders</span>. Order: serum calcium, phosphorus, alkaline phosphatase, magnesium, iron, and transferrin. Inquire about familial aggregation. Evaluate for: primary hyperparathyroidism, hemochromatosis, hypophosphatasia, hypomagnesemia, Gitelman's syndrome, and hereditary CPPD (ANKH mutations). CPPD in this age group almost always has an underlying correctable cause.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Metabolic products (↑ calcium, ↑ iron, ↓ alkaline phosphatase/pyrophosphatase) alter cartilage environment to favor CPP crystal nucleation. Treating the underlying condition may prevent progression.</div>
+    <span class="trap-kw">🔑 Board Keyword: "CPPD under age 50 → metabolic workup"</span>
+  </div>
+
+  <!-- TRAP 9 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 9 — Look-Alike (Lesch-Nyhan Trap)</span>
+    <div class="trap-q">A 12-year-old boy is brought in with gout-like symptoms and hyperuricemia. He also displays self-mutilating behavior and developmental delay. What is the underlying etiology?</div>
+    <div class="trap-row"><strong>Distractor</strong> Treat the hyperuricemia with allopurinol and investigate behavioral issues separately.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Lesch-Nyhan syndrome — HPRT deficiency</span>. HPRT deficiency is X-linked and causes a spectrum from isolated hyperuricemia to full Lesch-Nyhan syndrome (severe neurologic + behavioral abnormalities including self-mutilation). Hyperuricemia in prepubertal boys should ALWAYS prompt evaluation for HPRT deficiency and PRPP synthetase superactivity. Males homozygous for the X-linked mutation manifest the disease.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Without HPRT, hypoxanthine cannot be salvaged → exclusively degraded to urate. Also causes ↓ IMP and GMP → loss of feedback inhibition → ↑ de novo purine synthesis → more urate.</div>
+    <span class="trap-kw">🔑 Board Keyword: "prepubertal boy + hyperuricemia + neurologic = HPRT deficiency"</span>
+  </div>
+
+  <!-- TRAP 10 -->
+  <div class="trap-card">
+    <span class="trap-n">★ TRAP 10 — Special Population (Dialysis + CaOx)</span>
+    <div class="trap-q">A 66-year-old patient on long-term hemodialysis presents with acute arthritis of the wrist. She has been taking vitamin C supplements for several months. Synovial fluid shows bipyramidal, strongly birefringent crystals. What is the diagnosis, and what dietary/supplement change is critical?</div>
+    <div class="trap-row"><strong>Distractor</strong> Vitamin C (ascorbic acid) supplements are generally benign and beneficial antioxidants — no action needed beyond joint treatment.</div>
+    <div class="trap-row"><strong>Correct Answer</strong> <span class="trap-ans">Calcium oxalate (CaOx) crystal arthritis</span>. In renal failure/dialysis patients, ascorbic acid is metabolized to oxalate, which is inadequately cleared by uremia and dialysis. Oxalate accumulates → CaOx crystal deposition in joints. <strong>Ascorbic acid supplements and oxalate-rich foods must be AVOIDED in dialysis patients</strong>. Bipyramidal strongly birefringent crystals on synovial fluid analysis are diagnostic.</div>
+    <div class="trap-row"><strong>Mechanism</strong> Ascorbic acid → oxalate → hyperoxalosis in uremic patients. Inadequate dialysis clearance of oxalate → joint/periarticular crystal deposition.</div>
+    <span class="trap-kw">🔑 Board Keyword: "dialysis + vitamin C + bipyramidal crystals = CaOx arthritis"</span>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ All Traps Reviewed</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Need More Review</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">Chapter 384 · Gout &amp; Crystal-Associated Arthropathies · Internal Medicine Boards Review · 2025</footer>
+
+<script>
+/* ── HIGHLIGHT SYSTEM ─── */
+let curColor = null;
+let eraseMode = false;
+let selText = '';
+let savedRange = null;
+
+function setColor(c, btn) {
+  eraseMode = false;
+  document.getElementById('erase-btn').classList.remove('active');
+  if (curColor === c) {
+    curColor = null;
+    btn.classList.remove('active');
+  } else {
+    document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+    curColor = c;
+    btn.classList.add('active');
+  }
+}
+
+function toggleErase() {
+  eraseMode = !eraseMode;
+  curColor = null;
+  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+  document.getElementById('erase-btn').classList.toggle('active', eraseMode);
+}
+
+function clearAll() {
+  document.querySelectorAll('.hl').forEach(el => {
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+  });
+}
+
+document.addEventListener('mouseup', function(e) {
+  if (e.target.closest('#toolbar') || e.target.closest('#sn-sidebar') || e.target.closest('#note-popover')) return;
+  if (eraseMode && e.target.classList.contains('hl')) {
+    const el = e.target;
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+    return;
+  }
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const txt = sel.toString().trim();
+  if (!txt) return;
+  selText = txt;
+  savedRange = sel.getRangeAt(0).cloneRange();
+  document.getElementById('sn-ref-txt').textContent = txt.length > 48 ? txt.substring(0, 48) + '…' : txt;
+  if (curColor) {
+    try {
+      const range = sel.getRangeAt(0);
+      const span = document.createElement('span');
+      span.className = 'hl hl-' + curColor;
+      span.title = 'Click in erase mode to remove';
+      range.surroundContents(span);
+      sel.removeAllRanges();
+    } catch(err) {}
+  }
+});
+
+/* ── STICKY NOTE SYSTEM ─── */
+const STORE_KEY = 'bsa_gout_notes_v1';
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveNotes(n) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(n)); } catch(e) {}
+}
+
+function addNote() {
+  const txt = document.getElementById('sn-ta').value.trim();
+  if (!txt) return;
+  const id = Date.now();
+  const notes = getNotes();
+  notes.unshift({ id, ref: selText.substring(0, 80) || '—', text: txt });
+  saveNotes(notes);
+  if (savedRange) {
+    try {
+      const span = document.createElement('span');
+      span.className = 'note-anchor';
+      span.dataset.noteId = id;
+      span.title = 'Click to see your note';
+      savedRange.surroundContents(span);
+    } catch(e) {}
+    savedRange = null;
+  }
+  document.getElementById('sn-ta').value = '';
+  selText = '';
+  document.getElementById('sn-ref-txt').textContent = '—';
+  renderNotes();
+}
+
+function deleteNote(id) {
+  saveNotes(getNotes().filter(n => n.id !== id));
+  document.querySelectorAll('.note-anchor[data-note-id="' + id + '"]').forEach(el => {
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+  });
+  closePopover();
+  renderNotes();
+}
+
+function renderNotes() {
+  const body = document.getElementById('sn-body');
+  const empty = document.getElementById('sn-empty');
+  const notes = getNotes();
+  body.querySelectorAll('.sn-note').forEach(el => el.remove());
+  if (!notes.length) { if (empty) empty.style.display = ''; return; }
+  if (empty) empty.style.display = 'none';
+  notes.forEach(note => {
+    const card = document.createElement('div');
+    card.className = 'sn-note';
+    card.dataset.noteId = note.id;
+    const savedH = localStorage.getItem('bsa_h_' + note.id);
+    if (savedH) card.style.height = savedH + 'px';
+    card.innerHTML = `<div class="sn-note-hd"><span class="sn-drag-icon">⠿</span><span class="sn-note-ref">${note.ref !== '—' ? '"' + note.ref + '"' : 'General note'}</span><button class="sn-del" onclick="deleteNote(${note.id})">×</button></div><div class="sn-note-body">${note.text.replace(/\n/g,'<br>')}</div><div class="sn-resize" title="Drag to resize"></div>`;
+    body.appendChild(card);
+    makeDraggable(card);
+    makeResizable(card, note.id);
+  });
+}
+
+function makeDraggable(card) {
+  const handle = card.querySelector('.sn-note-hd');
+  let startY = 0;
+  handle.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('sn-del')) return;
+    e.preventDefault();
+    startY = e.clientY;
+    card.style.opacity = '.7';
+    card.style.zIndex = '9999';
+    function onMove(ev) {
+      const dy = ev.clientY - startY;
+      const body = document.getElementById('sn-body');
+      const cards = [...body.querySelectorAll('.sn-note')];
+      const myIdx = cards.indexOf(card);
+      if (dy < -30 && myIdx > 0) { body.insertBefore(card, cards[myIdx - 1]); startY = ev.clientY; }
+      else if (dy > 30 && myIdx < cards.length - 1) { body.insertBefore(cards[myIdx + 1], card); startY = ev.clientY; }
+    }
+    function onUp() {
+      card.style.opacity = '';
+      card.style.zIndex = '';
+      const body = document.getElementById('sn-body');
+      const ids = [...body.querySelectorAll('.sn-note')].map(c => parseInt(c.dataset.noteId));
+      const notes = getNotes();
+      const reordered = ids.map(id => notes.find(n => n.id === id)).filter(Boolean);
+      saveNotes(reordered);
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+}
+
+function makeResizable(card, noteId) {
+  const handle = card.querySelector('.sn-resize');
+  let startY = 0, startH = 0;
+  handle.addEventListener('mousedown', function(e) {
+    e.preventDefault(); e.stopPropagation();
+    startY = e.clientY; startH = card.offsetHeight;
+    function onMove(ev) { card.style.height = Math.max(80, startH + (ev.clientY - startY)) + 'px'; }
+    function onUp() {
+      try { localStorage.setItem('bsa_h_' + noteId, card.offsetHeight); } catch(e) {}
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+}
+
+/* ── STATUS BUTTONS ─── */
+document.querySelectorAll('.lbtn').forEach(btn => {
+  btn.addEventListener('click', () => btn.classList.toggle('on'));
+});
+document.querySelectorAll('.fbtn').forEach(btn => {
+  btn.addEventListener('click', () => btn.classList.toggle('on'));
+});
+
+/* ── SIDEBAR TOGGLE ─── */
+function toggleSidebar() {
+  const sb = document.getElementById('sn-sidebar');
+  const tab = document.getElementById('sn-tab');
+  sb.classList.toggle('hidden');
+  tab.textContent = sb.classList.contains('hidden') ? '📝 Notes' : '◀ Notes';
+}
+
+/* ── NOTE POPOVER ─── */
+let activePopNoteId = null;
+function showPopover(anchorEl, note) {
+  const pop = document.getElementById('note-popover');
+  document.getElementById('np-pop-ref').textContent = note.ref !== '—' ? '"' + note.ref.substring(0, 55) + (note.ref.length > 55 ? '…' : '') + '"' : 'Your note';
+  document.getElementById('np-pop-text').innerHTML = note.text.replace(/\n/g, '<br>');
+  document.getElementById('pop-del-btn').onclick = () => deleteNote(note.id);
+  activePopNoteId = note.id;
+  const rect = anchorEl.getBoundingClientRect();
+  pop.style.left = Math.min(rect.left, window.innerWidth - 300) + 'px';
+  pop.style.top = (rect.bottom + 8) + 'px';
+  pop.classList.add('show');
+}
+function closePopover() {
+  document.getElementById('note-popover').classList.remove('show');
+  activePopNoteId = null;
+}
+document.addEventListener('click', function(e) {
+  const anchor = e.target.closest('.note-anchor');
+  if (anchor) {
+    e.stopPropagation();
+    const nid = parseInt(anchor.dataset.noteId);
+    if (activePopNoteId === nid) { closePopover(); return; }
+    const note = getNotes().find(n => n.id === nid);
+    if (note) showPopover(anchor, note);
+    return;
+  }
+  const pop = document.getElementById('note-popover');
+  if (pop && !pop.contains(e.target)) closePopover();
+});
+
+/* ── ACTIVE NAV ─── */
+const _sections = document.querySelectorAll('.sec[id]');
+const _navLinks = document.querySelectorAll('.toc-a');
+_sections.forEach(s =>
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      _navLinks.forEach(l => l.classList.remove('on'));
+      const lnk = document.querySelector('.toc-a[href="#' + s.id + '"]');
+      if (lnk) { lnk.classList.add('on'); lnk.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); }
+    }
+  }, { rootMargin: '-15% 0px -75% 0px' }).observe(s)
+);
+
+/* ── INIT ─── */
+renderNotes();
+</script>
+</body>
+</html>
