@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boards Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161d;
+      --border: #1e2330;
+      --border-hover: #2e3548;
+      --text-primary: #e8eaf0;
+      --text-secondary: #7c8299;
+      --text-muted: #464d63;
+      --accent-red: #e05c5c;
+      --accent-red-dim: rgba(224, 92, 92, 0.12);
+      --accent-gold: #c9a96e;
+      --accent-gold-dim: rgba(201, 169, 110, 0.1);
+      --accent-blue: #5c8de0;
+      --accent-blue-dim: rgba(92, 141, 224, 0.1);
+      --accent-green: #5cc49e;
+      --accent-green-dim: rgba(92, 196, 158, 0.1);
+      --accent-purple: #a07cde;
+      --accent-purple-dim: rgba(160, 124, 222, 0.1);
+      --accent-orange: #e09a5c;
+      --accent-orange-dim: rgba(224, 154, 92, 0.1);
+      --accent-teal: #5cc8de;
+      --accent-teal-dim: rgba(92, 200, 222, 0.1);
+      --accent-pink: #de7ca0;
+      --accent-pink-dim: rgba(222, 124, 160, 0.1);
+      --accent-olive: #a0c45c;
+      --accent-olive-dim: rgba(160, 196, 92, 0.1);
+      --radius: 10px;
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(180deg, #111420 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 36px;
+      text-align: center;
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(28px, 6vw, 48px);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    h1 .stethoscope {
+      display: inline-block;
+      margin-right: 10px;
+      opacity: 0.9;
+    }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 720px;
+      margin: 40px auto 0;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ── Section ── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+
+    .section:hover { border-color: var(--border-hover); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      user-select: none;
+      gap: 12px;
+    }
+
+    .section-header:hover .section-title { color: var(--text-primary); }
+
+    .section-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .section-emoji {
+      font-size: 20px;
+      flex-shrink: 0;
+      width: 32px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+      transition: color var(--transition);
+    }
+
+    .section-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 9px;
+      border-radius: 12px;
+      border: 1px solid;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .count-active {
+      color: var(--accent-gold);
+      border-color: rgba(201, 169, 110, 0.3);
+      background: var(--accent-gold-dim);
+    }
+
+    .count-empty {
+      color: var(--text-muted);
+      border-color: var(--border);
+      background: transparent;
+    }
+
+    .chevron {
+      color: var(--text-muted);
+      font-size: 11px;
+      transition: transform var(--transition), color var(--transition);
+      flex-shrink: 0;
+    }
+
+    .section.open .chevron {
+      transform: rotate(180deg);
+      color: var(--text-secondary);
+    }
+
+    /* ── Topic list ── */
+    .topic-list {
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .section.open .topic-list { display: block; }
+
+    .topic-empty {
+      padding: 16px 20px 16px 64px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      letter-spacing: 0.04em;
+    }
+
+    .topic-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 20px 13px 64px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition), color var(--transition), padding-left var(--transition);
+      letter-spacing: 0.02em;
+    }
+
+    .topic-link:last-child { border-bottom: none; }
+
+    .topic-link:hover {
+      background: rgba(255,255,255,0.03);
+      color: var(--text-primary);
+      padding-left: 70px;
+    }
+
+    .topic-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: transform var(--transition);
+    }
+
+    .topic-link:hover .topic-dot { transform: scale(1.5); }
+
+    /* Per-section accent colors */
+    .section[data-sys="rheum"] .section-count.count-active { color: var(--accent-purple); border-color: rgba(160,124,222,0.3); background: var(--accent-purple-dim); }
+    .section[data-sys="rheum"] .topic-dot { background: var(--accent-purple); }
+
+    .section[data-sys="cardio"] .section-count.count-active { color: var(--accent-red); border-color: rgba(224,92,92,0.3); background: var(--accent-red-dim); }
+    .section[data-sys="cardio"] .topic-dot { background: var(--accent-red); }
+
+    .section[data-sys="nephro"] .section-count.count-active { color: var(--accent-blue); border-color: rgba(92,141,224,0.3); background: var(--accent-blue-dim); }
+    .section[data-sys="nephro"] .topic-dot { background: var(--accent-blue); }
+
+    .section[data-sys="id"] .section-count.count-active { color: var(--accent-green); border-color: rgba(92,196,158,0.3); background: var(--accent-green-dim); }
+    .section[data-sys="id"] .topic-dot { background: var(--accent-green); }
+
+    .section[data-sys="resp"] .section-count.count-active { color: var(--accent-teal); border-color: rgba(92,200,222,0.3); background: var(--accent-teal-dim); }
+    .section[data-sys="resp"] .topic-dot { background: var(--accent-teal); }
+
+    .section[data-sys="hemato"] .section-count.count-active { color: var(--accent-pink); border-color: rgba(222,124,160,0.3); background: var(--accent-pink-dim); }
+    .section[data-sys="hemato"] .topic-dot { background: var(--accent-pink); }
+
+    .section[data-sys="endo"] .section-count.count-active { color: var(--accent-orange); border-color: rgba(224,154,92,0.3); background: var(--accent-orange-dim); }
+    .section[data-sys="endo"] .topic-dot { background: var(--accent-orange); }
+
+    .section[data-sys="gi"] .section-count.count-active { color: var(--accent-olive); border-color: rgba(160,196,92,0.3); background: var(--accent-olive-dim); }
+    .section[data-sys="gi"] .topic-dot { background: var(--accent-olive); }
+
+    .section[data-sys="hepato"] .section-count.count-active { color: var(--accent-gold); border-color: rgba(201,169,110,0.3); background: var(--accent-gold-dim); }
+    .section[data-sys="hepato"] .topic-dot { background: var(--accent-gold); }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    footer span { margin: 0 8px; }
+
+    /* ── Animations ── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.05s; }
+    .section:nth-child(2) { animation-delay: 0.10s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.20s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .section:nth-child(6) { animation-delay: 0.30s; }
+    .section:nth-child(7) { animation-delay: 0.35s; }
+    .section:nth-child(8) { animation-delay: 0.40s; }
+    .section:nth-child(9) { animation-delay: 0.45s; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-badge">שלב א׳ רפואה פנימית</div>
+    <h1><span class="stethoscope">🩺</span>Boards Study Hub</h1>
+    <p class="subtitle">Internal Medicine Boards — Personal Study Archive</p>
+  </header>
+
+  <main>
+
+    <!-- Rheumatology -->
+    <div class="section" data-sys="rheum">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🦴</span>
+          <span class="section-title">Rheumatology</span>
+        </div>
+        <span class="section-count count-active">2 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <a class="topic-link" href="SLE_Boards_Study_Guide.html">
+          <span class="topic-dot"></span>Systemic Lupus Erythematosus (SLE)
+        </a>
+        <a class="topic-link" href="APS_Boards_Study_Guide.html">
+          <span class="topic-dot"></span>Antiphospholipid Syndrome (APS)
+        </a>
+      </div>
+    </div>
+
+    <!-- Cardiology -->
+    <div class="section open" data-sys="cardio">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">❤️</span>
+          <span class="section-title">Cardiology</span>
+        </div>
+        <span class="section-count count-active">4 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <a class="topic-link" href="Stable_Angina_Boards_Guide.html">
+          <span class="topic-dot"></span>Stable Angina
+        </a>
+        <a class="topic-link" href="NSTEMI_boards_guide.html">
+          <span class="topic-dot"></span>NSTEMI
+        </a>
+        <a class="topic-link" href="STEMI_boards_guide_final.html">
+          <span class="topic-dot"></span>STEMI
+        </a>
+        <a class="topic-link" href="Hypertension_boards_guide.html">
+          <span class="topic-dot"></span>Hypertension
+        </a>
+      </div>
+    </div>
+
+    <!-- Nephrology -->
+    <div class="section" data-sys="nephro">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🫘</span>
+          <span class="section-title">Nephrology</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Infectious Disease -->
+    <div class="section" data-sys="id">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🦠</span>
+          <span class="section-title">Infectious Disease</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Respiratory -->
+    <div class="section" data-sys="resp">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🫁</span>
+          <span class="section-title">Respiratory</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Hematology -->
+    <div class="section" data-sys="hemato">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🩸</span>
+          <span class="section-title">Hematology</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Endocrinology -->
+    <div class="section" data-sys="endo">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">⚗️</span>
+          <span class="section-title">Endocrinology</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Gastroenterology -->
+    <div class="section" data-sys="gi">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🫄</span>
+          <span class="section-title">Gastroenterology</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+    <!-- Hepatology -->
+    <div class="section" data-sys="hepato">
+      <div class="section-header" onclick="toggle(this)">
+        <div class="section-left">
+          <span class="section-emoji">🫀</span>
+          <span class="section-title">Hepatology</span>
+        </div>
+        <span class="section-count count-empty">0 topics</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="topic-list">
+        <p class="topic-empty">Topics coming soon…</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>Tap a subject to expand</span>·<span>Tap a topic to open the guide</span>
+  </footer>
+
+  <script>
+    function toggle(header) {
+      const section = header.closest('.section');
+      section.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>

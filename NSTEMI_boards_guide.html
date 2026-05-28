@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NSTEMI · Boards Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f7f4;--sf:#fff;--sf2:#f0ede8;--bd:#ddd9d2;--bd2:#b8b3aa;
+  --tx:#1c1a17;--t2:#4a4540;--t3:#857f77;
+  --blu:#1e4db7;--blu-l:#eef2fd;--blu-d:#163a8c;
+  --red:#b91c1c;--red-l:#fef2f2;
+  --amb:#b45309;--amb-l:#fffbeb;
+  --grn:#15803d;--grn-l:#f0fdf4;
+  --pur:#6d28d9;--pur-l:#f5f3ff;
+  --tel:#0e7490;--tel-l:#ecfeff;
+  --hy:rgba(253,224,71,.5);--hg:rgba(134,239,172,.5);--hb:rgba(147,197,253,.5);
+  --hpk:rgba(249,168,212,.5);--ho:rgba(253,186,116,.5);
+  --nav:54px;--snw:300px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.7}
+#toolbar{position:fixed;top:10px;left:12px;z-index:999;background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:5px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+.albl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-right:2px}
+.hbtn{width:23px;height:23px;border-radius:5px;border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:transform .15s,outline .15s;flex-shrink:0}
+.hbtn:hover{transform:scale(1.2)}.hbtn.active{outline:2.5px solid var(--blu);outline-offset:1px}
+#h-y{background:#fde047}#h-g{background:#86efac}#h-b{background:#93c5fd}#h-p{background:#f9a8d4}#h-o{background:#fdba74}
+.tsep{width:1px;height:22px;background:var(--bd);margin:0 3px}
+.tbtn{width:30px;height:30px;border:1.5px solid var(--bd);border-radius:6px;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);transition:background .15s}
+.tbtn:hover{background:var(--blu-l);color:var(--blu)}
+.tbtn.wide{width:auto;padding:0 8px;font-family:'JetBrains Mono',monospace;font-size:8.5px}
+#sn-sidebar{position:fixed;right:0;top:var(--nav);width:var(--snw);height:calc(100vh - var(--nav));background:var(--sf2);border-left:1.5px solid var(--bd2);display:flex;flex-direction:column;z-index:800;transition:transform .25s}
+#sn-sidebar.hidden{transform:translateX(100%)}
+#sn-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-hd span{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+#sn-toggle-btn{cursor:pointer;border:none;background:none;font-size:16px;color:var(--t3);padding:0 2px}
+#sn-toggle-btn:hover{color:var(--pur)}
+#sn-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+#sn-empty{text-align:center;color:var(--t3);font-size:11px;padding:28px 10px;font-style:italic;line-height:1.6}
+.sn-note{background:#fffde7;border:1.5px solid #f0d060;border-radius:8px;box-shadow:2px 3px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;min-height:100px;position:relative;overflow:hidden}
+.sn-note-hd{background:#fef08a;border-bottom:1px solid #f0d060;padding:6px 10px;display:flex;align-items:center;gap:6px;cursor:grab;user-select:none;flex-shrink:0}
+.sn-note-hd:active{cursor:grabbing}
+.sn-drag-icon{color:#a89a30;font-size:12px;flex-shrink:0}
+.sn-note-ref{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;color:#78610a;text-transform:uppercase;letter-spacing:.08em;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sn-del{cursor:pointer;border:none;background:none;font-size:15px;color:#a89a30;line-height:1;padding:0 2px;flex-shrink:0}
+.sn-del:hover{color:var(--red)}
+.sn-note-body{padding:8px 10px;flex:1;font-size:12px;line-height:1.55;color:var(--t2);overflow-y:auto;min-height:60px}
+.sn-resize{position:absolute;bottom:0;right:0;width:16px;height:16px;cursor:se-resize;display:flex;align-items:flex-end;justify-content:flex-end;padding:2px}
+.sn-resize::after{content:'';display:block;width:8px;height:8px;border-right:2px solid #c8a800;border-bottom:2px solid #c8a800;border-radius:1px}
+#sn-tab{position:fixed;right:var(--snw);top:50%;transform:translateY(-50%);z-index:801;background:var(--pur);color:#fff;border:none;border-radius:6px 0 0 6px;padding:12px 6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9px;writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:.1em;text-transform:uppercase;box-shadow:-2px 0 8px rgba(0,0,0,.12);transition:right .25s,background .15s}
+#sn-tab:hover{background:var(--blu)}
+#sn-sidebar.hidden~#sn-tab{right:0}
+.note-anchor{cursor:pointer;border-bottom:2px dotted var(--pur);padding-bottom:1px;position:relative;transition:border-color .15s}
+.note-anchor:hover{border-bottom-color:var(--blu);background:rgba(109,40,217,.06);border-radius:2px}
+#note-popover{position:fixed;z-index:2000;background:#fff;border:1.5px solid var(--pur);border-radius:9px;box-shadow:0 6px 28px rgba(109,40,217,.18);padding:12px 14px;max-width:280px;min-width:160px;display:none;font-size:12.5px;line-height:1.55;color:var(--tx)}
+#note-popover.show{display:block}
+#note-popover::before{content:'';position:absolute;width:10px;height:10px;background:#fff;border-left:1.5px solid var(--pur);border-top:1.5px solid var(--pur);transform:rotate(45deg);top:-6px;left:18px}
+#note-popover::after{content:'';position:absolute;background:#fff;width:14px;height:6px;top:0;left:14px}
+#np-pop-ref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--pur);margin-bottom:5px;font-weight:500}
+#np-pop-text{color:var(--t2);line-height:1.5}
+#np-pop-actions{display:flex;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid var(--bd)}
+.pop-btn{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.pop-btn:hover{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.pop-close{margin-left:auto;background:none;border:none;cursor:pointer;font-size:17px;color:var(--t3);line-height:1}
+.pop-close:hover{color:var(--red)}
+#sn-input{padding:10px;border-top:1.5px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-selref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+#sn-selref em{color:var(--pur);font-style:normal}
+#sn-ta{width:100%;padding:8px;border:1px solid var(--bd2);border-radius:5px;font-family:'Source Sans 3',sans-serif;font-size:12px;resize:none;height:56px;background:var(--bg);color:var(--tx)}
+#sn-ta:focus{outline:2px solid var(--pur);border-color:transparent}
+#sn-add{margin-top:6px;width:100%;padding:7px;background:var(--pur);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer}
+#sn-add:hover{background:#5b21b6}
+.sbar{display:flex;gap:7px;margin-top:10px}
+.lbtn,.fbtn{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.lbtn.on{background:var(--grn-l);border-color:#86efac;color:var(--grn)}
+.fbtn.on{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.hero{background:linear-gradient(135deg,#1a2f5c 0%,#1e3a6e 60%,#1a2f5c 100%);color:#fff;padding:44px 52px 36px;border-bottom:4px solid var(--red);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px}
+.hero h1{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1.05;margin-bottom:8px;position:relative}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.45);margin-bottom:12px;letter-spacing:.05em}
+.hero-authors{font-size:13px;color:rgba(255,255,255,.65);font-style:italic;margin-bottom:22px}
+.hero-stats{display:flex;gap:14px;flex-wrap:wrap;position:relative}
+.stat-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 18px;text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fde68a}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:1px}
+.toc{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1.5px solid var(--bd);height:var(--nav);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc-inner{display:flex;height:100%;padding:0 52px;min-width:max-content;gap:1px}
+.toc-a{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-decoration:none;padding:0 12px;display:flex;align-items:center;white-space:nowrap;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s}
+.toc-a:hover,.toc-a.on{color:var(--blu);border-bottom-color:var(--blu)}
+.main{max-width:860px;margin:0 auto;padding:44px 52px 88px;transition:padding-right .25s}
+.sec{margin-bottom:60px;scroll-margin-top:calc(var(--nav)+18px)}
+.sec-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;padding-bottom:14px;border-bottom:2.5px solid var(--tx)}
+.sec-n{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--t3)}
+.sec h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--tx);line-height:1.15}
+.sub{margin:20px 0}
+.sub h3{font-family:'Source Sans 3',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--blu);margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--blu-l)}
+p{margin-bottom:8px}
+ul,ol{padding-left:1.4em;margin-bottom:10px}
+li{margin-bottom:4px}
+li ul{margin-top:4px}
+strong{font-weight:600}
+.card{border-radius:6px;padding:14px 16px;margin-bottom:12px;border:1px solid}
+.card-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px}
+.c-red{background:var(--red-l);border-color:#fca5a5}.c-red .card-lbl{color:var(--red)}
+.c-grn{background:var(--grn-l);border-color:#86efac}.c-grn .card-lbl{color:var(--grn)}
+.c-amb{background:var(--amb-l);border-color:#fcd34d}.c-amb .card-lbl{color:var(--amb)}
+.c-blu{background:var(--blu-l);border-color:#93c5fd}.c-blu .card-lbl{color:var(--blu)}
+.c-pur{background:var(--pur-l);border-color:#c4b5fd}.c-pur .card-lbl{color:var(--pur)}
+.c-tel{background:var(--tel-l);border-color:#67e8f9}.c-tel .card-lbl{color:var(--tel)}
+.c-plain{background:var(--sf);border-color:var(--bd)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.trap-box{background:#1a0a0a;border-left:4px solid var(--red);border-radius:6px;padding:16px 18px;margin-bottom:14px;color:#f0e8e8}
+.trap-box .card-lbl{color:#f87171;margin-bottom:8px}
+.trap-box p{color:#d4c4c4;margin-top:5px;font-size:13.5px}
+.trap-box strong{color:#fff}
+.trap-q{font-family:'JetBrains Mono',monospace;font-size:10px;color:#f87171;opacity:.8;margin-bottom:6px;letter-spacing:.04em}
+.trap-kw{display:inline-block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);padding:2px 8px;border-radius:3px;letter-spacing:.08em;text-transform:uppercase}
+.elim{background:var(--sf);border:1px solid var(--bd);border-top:2px solid var(--red);border-radius:6px;padding:14px 16px;margin-top:18px}
+.elim-ttl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.elim-row{display:flex;gap:10px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.elim-row:last-child{border-bottom:none}
+.elim-x{color:var(--red);font-weight:700;flex-shrink:0;margin-top:1px}
+.elim-r{color:var(--t2);line-height:1.55}
+.elim-r strong{color:var(--grn)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:var(--tx);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;padding:9px 12px;text-align:left}
+td{padding:8px 12px;border-bottom:1px solid var(--bd);vertical-align:top}
+tr:nth-child(even) td{background:var(--sf2)}
+tr:hover td{background:var(--blu-l)}
+.td-r{color:var(--red);font-weight:600}.td-g{color:var(--grn);font-weight:600}.td-a{color:var(--amb);font-weight:600}.td-b{color:var(--blu);font-weight:600}
+.tier{border-radius:6px;overflow:hidden;margin-bottom:10px;border:1px solid var(--bd)}
+.tier-hd{display:flex;align-items:center;gap:16px;padding:11px 16px}
+.tier-hd.red{background:#fef2f2;border-bottom:1px solid #fca5a5}
+.tier-hd.amb{background:var(--amb-l);border-bottom:1px solid #fcd34d}
+.tier-hd.grn{background:var(--grn-l);border-bottom:1px solid #86efac}
+.tier-time{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500}
+.tier-hd.red .tier-time{color:var(--red)}.tier-hd.amb .tier-time{color:var(--amb)}.tier-hd.grn .tier-time{color:var(--grn)}
+.tier-name{font-size:14px;font-weight:600;color:var(--tx)}
+.tier-body{background:var(--sf);padding:11px 16px;font-size:13px}
+.tier-body ul{margin:0}
+.num{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--amb-l);color:var(--amb);border:1px solid #fcd34d;padding:0 5px;border-radius:3px}
+.sep{border:none;border-top:1px solid var(--bd);margin:40px 0}
+.flow{display:flex;flex-direction:column;align-items:center;margin:14px 0}
+.flow-box{padding:9px 20px;border-radius:5px;border:1px solid;text-align:center;min-width:240px;font-size:13px;font-weight:500}
+.flow-box.r{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.flow-box.a{background:var(--amb-l);border-color:#fcd34d;color:var(--amb)}
+.flow-box.g{background:var(--grn-l);border-color:#86efac;color:var(--grn)}
+.flow-arr{color:var(--t3);font-size:18px;line-height:1.2;padding:2px 0}
+.flow-cond{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em}
+.qr{border:2px solid var(--tx);background:var(--sf2);padding:24px 28px;margin-top:40px;border-radius:4px}
+.qr-ttl{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:18px;border-bottom:1px solid var(--bd);padding-bottom:10px}
+@media print{#toolbar,#sn-sidebar,#sn-tab,.toc{display:none!important}.main{padding:20px}}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <span class="albl">Highlight</span>
+  <div id="h-y" class="hbtn" title="Yellow"></div>
+  <div id="h-g" class="hbtn" title="Green"></div>
+  <div id="h-b" class="hbtn" title="Blue"></div>
+  <div id="h-p" class="hbtn" title="Pink"></div>
+  <div id="h-o" class="hbtn" title="Orange"></div>
+  <div class="tsep"></div>
+  <button class="tbtn" id="erase-btn" title="Erase highlight">✕</button>
+  <button class="tbtn wide" id="clear-btn">CLEAR</button>
+  <div class="tsep"></div>
+  <button class="tbtn" id="note-btn" title="Add note">📝</button>
+</div>
+
+<!-- STICKY NOTE SIDEBAR -->
+<div id="sn-sidebar">
+  <div id="sn-hd"><span>📝 Study Notes</span><button id="sn-toggle-btn" onclick="toggleSidebar()">◀</button></div>
+  <div id="sn-body"><div id="sn-empty">Select any text in the guide, write a note below, then click + Add Note.<br><br>Notes appear here as sticky cards you can drag &amp; resize.</div></div>
+  <div id="sn-input">
+    <div id="sn-selref">Selected: <em id="sn-sel-txt">—</em></div>
+    <textarea id="sn-ta" placeholder="Write your note here…"></textarea>
+    <button id="sn-add" onclick="addNote()">+ Add Note</button>
+  </div>
+</div>
+<button id="sn-tab" onclick="toggleSidebar()">📝 Notes</button>
+
+<!-- NOTE POPOVER -->
+<div id="note-popover">
+  <div id="np-pop-ref"></div>
+  <div id="np-pop-text"></div>
+  <div id="np-pop-actions">
+    <button class="pop-btn" id="pop-del-btn">Delete</button>
+    <button class="pop-close" onclick="closePopover()">×</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Harrison's Internal Medicine · Cardiology · Chapter 285</div>
+  <h1>NSTEMI &amp; Non-ST-Elevation ACS</h1>
+  <div class="hero-sub">Diagnosis · Invasive Timing · Anti-Ischemic Therapy · Anticoagulation · DAPT · Vasospastic Angina</div>
+  <div class="hero-authors">Israeli Internal Medicine Boards — Stage A Review</div>
+  <div class="hero-stats">
+    <div class="stat-box"><div class="stat-n">7</div><div class="stat-l">Tested Topics</div></div>
+    <div class="stat-box"><div class="stat-n">7</div><div class="stat-l">Board Traps</div></div>
+    <div class="stat-box"><div class="stat-n">&lt;24h</div><div class="stat-l">Confirmed NSTEMI</div></div>
+    <div class="stat-box"><div class="stat-n">CCB</div><div class="stat-l">Vasospasm Rx</div></div>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a class="toc-a" href="#s1">01 · Diagnosis</a>
+    <a class="toc-a" href="#s2">02 · Invasive Timing</a>
+    <a class="toc-a" href="#s3">03 · Beta Blockers</a>
+    <a class="toc-a" href="#s4">04 · Nitrates</a>
+    <a class="toc-a" href="#s5">05 · Vasospastic Angina</a>
+    <a class="toc-a" href="#s6">06 · Anticoagulants</a>
+    <a class="toc-a" href="#s7">07 · DAPT Post-DES</a>
+    <a class="toc-a" href="#s8">★ Exam Traps</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — DIAGNOSIS
+══════════════════════════════════════ -->
+<section class="sec" id="s1">
+  <div class="sec-hd"><span class="sec-n">01</span><h2>The Diagnosis — ACS Spectrum &amp; NSTEMI Criteria</h2></div>
+
+  <p>ACS is divided by the presenting ECG into two main groups — this determines the urgency and direction of management. Within NSTE-ACS, the troponin result distinguishes NSTEMI from unstable angina.</p>
+
+  <div class="sub"><h3>The ACS Spectrum</h3></div>
+  <div class="g3">
+    <div class="card c-plain">
+      <div class="card-lbl">UA — Unstable Angina</div>
+      <ul>
+        <li>No ST elevation on ECG</li>
+        <li><strong>Troponin negative</strong></li>
+        <li>No myocyte necrosis</li>
+        <li>Proportion falling — hsTn reclassifies many to NSTEMI</li>
+      </ul>
+    </div>
+    <div class="card c-amb">
+      <div class="card-lbl">NSTEMI ← board focus</div>
+      <ul>
+        <li>No ST elevation on ECG</li>
+        <li><strong>Troponin positive</strong> (dynamic rise/fall)</li>
+        <li>Myocyte necrosis confirmed</li>
+        <li>Incidence rising: obesity, DM, CKD, aging + hsTn adoption</li>
+      </ul>
+    </div>
+    <div class="card c-red">
+      <div class="card-lbl">STEMI — different pathway</div>
+      <ul>
+        <li>ST elevation on ECG</li>
+        <li>Complete thrombotic occlusion typical</li>
+        <li>Immediate reperfusion priority</li>
+        <li>Incidence declining</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub"><h3>NSTEMI Diagnostic Criteria — All Three Required</h3></div>
+  <div class="card c-blu">
+    <div class="card-lbl">Establish the Diagnosis</div>
+    <ul>
+      <li>Clinical features of ACS: chest pain at rest, recent onset (&lt;2 weeks), or crescendo pattern</li>
+      <li><strong>No ST elevation</strong> on ECG</li>
+      <li><strong>Elevated cardiac troponin</strong> — dynamic rise and/or fall — no other explanation</li>
+    </ul>
+  </div>
+
+  <div class="sub"><h3>ECG Findings in NSTEMI</h3></div>
+  <div class="g2">
+    <div class="card c-plain">
+      <div class="card-lbl">What You See</div>
+      <ul>
+        <li>ST depression in ~⅓ of patients</li>
+        <li>T-wave changes (less specific)</li>
+        <li>New deep T-wave inversions ≥0.3 mV → highly specific</li>
+        <li>Normal ECG — does <strong>not</strong> rule out NSTEMI</li>
+      </ul>
+    </div>
+    <div class="card c-red">
+      <div class="card-lbl">🚨 Board Alert</div>
+      <p><strong>Normal ECG does not exclude NSTEMI.</strong> The troponin is the diagnostic biomarker. "Normal ECG → safe to discharge" is a classic board trap — do not fall for it.</p>
+    </div>
+  </div>
+
+  <div class="sub"><h3>Cardiac Troponin — The Key Biomarker</h3></div>
+  <div class="card c-grn">
+    <div class="card-lbl">High-Sensitivity Troponin (hsTn)</div>
+    <ul>
+      <li>Preferred biomarker — detects smaller degrees of myocyte injury</li>
+      <li>Dynamic pattern: rise AND/OR fall required for acute MI</li>
+      <li>A single elevated value may reflect chronic myocardial injury (not acute MI) — context matters</li>
+      <li>hsTn adoption has reclassified many previous UA diagnoses to NSTEMI</li>
+    </ul>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Diagnosis Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Normal ECG rules out NSTEMI" → <strong>wrong</strong>; troponin is the biomarker; ECG is supportive only</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"NSTEMI and UA are the same" → <strong>wrong</strong>; NSTEMI = positive troponin = necrosis = different management tier</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Troponin negative → UA → conservative" → check timing; a single early negative troponin needs serial repeat before ruling out MI</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — INVASIVE TIMING
+══════════════════════════════════════ -->
+<section class="sec" id="s2">
+  <div class="sec-hd"><span class="sec-n">02</span><h2>Invasive Strategy &amp; Timing</h2></div>
+
+  <p>Once NSTEMI is confirmed, the critical question is: <strong>how fast to the catheterisation lab?</strong> Haemodynamic stability does not change <em>whether</em> to go invasive — only <em>when</em>. Confirmed NSTEMI always goes to cath.</p>
+
+  <div class="sub"><h3>Three-Tier Urgency System</h3></div>
+
+  <div class="tier">
+    <div class="tier-hd red">
+      <div class="tier-time">&lt; 2 h</div>
+      <div class="tier-name">Immediate Invasive — Very High Risk</div>
+    </div>
+    <div class="tier-body">
+      <ul>
+        <li>Cardiogenic shock / haemodynamic instability</li>
+        <li>Acute HF due to ongoing ischaemia</li>
+        <li>Cardiac arrest post-presentation</li>
+        <li>Life-threatening arrhythmias (VT/VF)</li>
+        <li>Mechanical complications of MI</li>
+        <li>Angina refractory to maximal medical treatment</li>
+        <li>Recurrent dynamic ischaemic ECG changes</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-hd amb">
+      <div class="tier-time">&lt; 24 h</div>
+      <div class="tier-name">Early Invasive — High Risk</div>
+    </div>
+    <div class="tier-body">
+      <ul>
+        <li><strong>Confirmed NSTEMI (positive troponin)</strong> — this alone is sufficient for early invasive; stability does not override this</li>
+        <li>GRACE score &gt;140</li>
+        <li>Transient ST elevation</li>
+        <li>Dynamic ST or T-wave changes on serial ECGs</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-hd grn">
+      <div class="tier-time">Selective</div>
+      <div class="tier-name">Non-High Risk — Conservative First</div>
+    </div>
+    <div class="tier-body">
+      <ul>
+        <li>None of the above criteria present</li>
+        <li>Non-invasive assessment first: stress test or CT coronary angiography</li>
+        <li>May proceed to angiography if non-invasive testing shows high-risk features</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub"><h3>Decision Flowchart</h3></div>
+  <div class="flow">
+    <div class="flow-box r">Shock / Arrest / Refractory Ischaemia / Life-Threatening Arrhythmia?</div>
+    <div class="flow-arr">↓ YES</div>
+    <div class="flow-box r">IMMEDIATE — &lt; 2 hours</div>
+    <div class="flow-arr">↓ NO</div>
+    <div class="flow-box a">Positive Troponin / GRACE &gt;140 / Dynamic ECG / Transient STE?</div>
+    <div class="flow-arr">↓ YES</div>
+    <div class="flow-box a">EARLY INVASIVE — &lt; 24 hours</div>
+    <div class="flow-arr">↓ NO</div>
+    <div class="flow-box g">SELECTIVE — Conservative + Non-Invasive Testing First</div>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 1 — "Stable" NSTEMI</div>
+    <div class="trap-q">Scenario: confirmed NSTEMI, HR 82, SBP 122, no acute HF — what is the next step?</div>
+    <p><strong>Trap answer:</strong> "Repeat serial troponins at 6h and consider discharge if stable."</p>
+    <p><strong>Why wrong:</strong> A positive troponin alone meets the early invasive (&lt;24h) criterion. Haemodynamic stability moves you from &lt;2h to &lt;24h — it does NOT make management conservative. Confirmed NSTEMI = go to cath within 24h.</p>
+    <p><strong>Correct answer: Early invasive strategy ≤24h.</strong></p>
+    <span class="trap-kw">Board keyword: Positive troponin = early invasive</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Timing Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Patient is stable → conservative management" → <strong>wrong</strong>; positive troponin mandates early invasive ≤24h regardless of stability</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Serial troponins → discharge if stable" → <strong>wrong</strong> once troponin is already confirmed positive</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Cardiogenic shock → &lt;24h" → <strong>wrong</strong>; shock = &lt;2h (immediate), not &lt;24h</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — BETA BLOCKERS
+══════════════════════════════════════ -->
+<section class="sec" id="s3">
+  <div class="sec-hd"><span class="sec-n">03</span><h2>Beta Blocker Contraindications in NSTEMI</h2></div>
+
+  <p>Beta blockers are standard early therapy in NSTEMI — they reduce heart rate, myocardial oxygen demand, and risk of arrhythmia. Target HR <strong>50–60 bpm</strong>. The boards test two patterns: (1) identifying real contraindications; (2) not being fooled by things that look like contraindications but aren't.</p>
+
+  <div class="sub"><h3>Real vs Fake Contraindications</h3></div>
+  <div class="g2">
+    <div class="card c-red">
+      <div class="card-lbl">🚫 Real Contraindications — Do NOT Give</div>
+      <ul>
+        <li>HR <span class="num">&lt; 50 bpm</span></li>
+        <li>SBP <span class="num">&lt; 90 mmHg</span></li>
+        <li>PR &gt;0.24 sec</li>
+        <li>2nd or 3rd degree AV block (without pacemaker)</li>
+        <li><strong>Acute decompensated HF / cardiogenic shock (Killip III–IV)</strong> ← most important board trap</li>
+        <li>Severe reactive airways disease: asthma or severe COPD with active bronchospasm</li>
+      </ul>
+    </div>
+    <div class="card c-grn">
+      <div class="card-lbl">✅ These Do NOT Contraindicate — Give the Drug</div>
+      <ul>
+        <li>HR 60 → threshold is &lt;50; <strong>HR 60 = safe to give</strong></li>
+        <li>SBP 110 → threshold is &lt;90; <strong>SBP 110 = safe to give</strong></li>
+        <li><strong>Interstitial lung disease (ILD)</strong> → NOT a contraindication. ILD is restrictive, not obstructive — zero β2-mediated bronchospasm risk. Only bronchospastic airways disease (asthma/COPD) matters</li>
+        <li>COPD in general → only <em>severe bronchospastic</em> COPD is a contraindication; mild COPD with cardioselective BB is acceptable</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub"><h3>Killip Classification — Why It Decides the Beta Blocker Decision</h3></div>
+  <div class="card c-plain">
+    <div class="card-lbl">Killip Class and Beta Blocker Safety</div>
+    <table style="margin:0">
+      <thead><tr><th>Killip</th><th>Clinical Signs</th><th>Beta Blocker</th></tr></thead>
+      <tbody>
+        <tr><td>I</td><td>No signs of HF</td><td class="td-g">✓ Give</td></tr>
+        <tr><td>II</td><td>Rales &lt;50% lung fields, S3 gallop</td><td class="td-g">✓ Give (cautiously, monitor closely)</td></tr>
+        <tr><td>III</td><td>Pulmonary oedema — rales &gt;50% lung fields</td><td class="td-r">✕ Contraindicated</td></tr>
+        <tr><td>IV</td><td>Cardiogenic shock</td><td class="td-r">✕ Contraindicated</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:12.5px;color:var(--t2)">Why: beta blockers ↓ contractility. In an already failing ventricle (Killip III–IV), this precipitates or worsens cardiogenic shock. Once HF/shock resolves, beta blockers can be (re)started before discharge.</p>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 2 — Pulmonary Rales + NSTEMI</div>
+    <div class="trap-q">Scenario: NSTEMI, bilateral basal rales, HR 92, SBP 118 — next step?</div>
+    <p><strong>Trap answer:</strong> "HR and BP are within acceptable range — start beta blockers."</p>
+    <p><strong>Why wrong:</strong> Bilateral rales = acute decompensated HF = Killip III. HR and BP thresholds are not the only contraindications. Beta blockers in Killip III can precipitate cardiogenic shock.</p>
+    <p><strong>Correct answer: Beta blockers contraindicated. Treat the HF first.</strong></p>
+    <span class="trap-kw">Board keyword: Bilateral rales = Killip III = contraindication</span>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 3 — HR 60 or ILD</div>
+    <div class="trap-q">Scenario: NSTEMI, HR 60, known interstitial lung disease — give beta blockers?</div>
+    <p><strong>Trap answer:</strong> "HR is borderline low — withhold" or "ILD — avoid beta blockers."</p>
+    <p><strong>Why wrong:</strong> The HR threshold is &lt;50, not &lt;60. ILD is a restrictive, not obstructive, lung disease — there is no β2-bronchospasm risk. Neither is a contraindication.</p>
+    <p><strong>Correct answer: Give beta blockers.</strong></p>
+    <span class="trap-kw">Board keyword: ILD ≠ bronchospastic; HR threshold = &lt;50</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Beta Blocker Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Withhold because HR 60" → <strong>wrong</strong>; threshold is HR &lt;50</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"ILD contraindicates beta blockers" → <strong>wrong</strong>; only bronchospastic disease (asthma/COPD) matters; ILD is restrictive</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"SBP 110 is too low to give beta blockers" → <strong>wrong</strong>; threshold is SBP &lt;90</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"HR and BP are fine — start beta blockers despite bilateral rales" → <strong>wrong</strong>; rales = Killip III = absolute contraindication regardless of HR/BP</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 4 — NITRATES
+══════════════════════════════════════ -->
+<section class="sec" id="s4">
+  <div class="sec-hd"><span class="sec-n">04</span><h2>Nitrates — Use &amp; Contraindications</h2></div>
+
+  <p>Nitrates reduce myocardial oxygen demand via venodilation (↓ preload) and mild arterial dilation (↓ afterload at higher doses). Effective for symptom relief in most NSTEMI — but in specific conditions, the same mechanism causes catastrophic haemodynamic collapse.</p>
+
+  <div class="sub"><h3>The Mechanism Behind All the Traps</h3></div>
+  <div class="g2">
+    <div class="card c-grn">
+      <div class="card-lbl">Normal Heart — Safe</div>
+      <p>Nitrates → ↓ venous return → ↓ preload → ↓ LVEDP → ↓ myocardial O₂ demand</p>
+      <p>CO compensates via ↑ HR and ↑ contractility. Therapeutic.</p>
+    </div>
+    <div class="card c-red">
+      <div class="card-lbl">Fixed Output States — Catastrophic</div>
+      <p><strong>Severe AS:</strong> fixed valve obstruction → CO cannot increase → ↓ preload → ↓↓ output → severe hypotension</p>
+      <p><strong>RV infarct:</strong> RV output entirely preload-dependent → ↓ venous return → RV failure → shock</p>
+    </div>
+  </div>
+
+  <div class="sub"><h3>Absolute Contraindications</h3></div>
+  <div class="g2">
+    <div class="card c-red">
+      <div class="card-lbl">🚫 Do NOT Give Nitrates</div>
+      <ul>
+        <li>SBP <span class="num">&lt; 90 mmHg</span> — will worsen hypotension</li>
+        <li>PDE-5 inhibitor use:
+          <ul>
+            <li>Sildenafil / Vardenafil → within <span class="num">24h</span></li>
+            <li>Tadalafil → within <span class="num">48h</span> (longer half-life)</li>
+          </ul>
+        </li>
+        <li><strong>Right ventricular infarct</strong> — RV preload-dependent; drop preload → RV failure → shock</li>
+        <li><strong>Severe aortic stenosis</strong> — fixed outflow obstruction; drop preload → catastrophic hypotension</li>
+      </ul>
+    </div>
+    <div class="card c-amb">
+      <div class="card-lbl">💡 Why PDE-5 Inhibitors Are Dangerous With Nitrates</div>
+      <p>Nitrates work via cGMP → vasodilation. PDE-5 inhibitors (sildenafil, tadalafil) block cGMP breakdown. Together: additive, refractory vasodilation → severe, life-threatening hypotension.</p>
+      <p style="margin-top:8px">Tadalafil has a longer half-life than sildenafil/vardenafil → 48h washout required vs 24h.</p>
+    </div>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 4 — Severe Aortic Stenosis + NSTEMI</div>
+    <div class="trap-q">Scenario: 72F, DM, HTN, severe AS on echo, rising troponin — which drug will cause deterioration?</div>
+    <p><strong>Trap answer:</strong> "CCB" — because AS involves obstruction so avoid negative inotropes.</p>
+    <p><strong>Why wrong:</strong> CCBs are not specifically contraindicated in aortic stenosis. The dangerous drug is <strong>nitrates</strong> — they reduce preload and afterload against a fixed obstruction. Even small doses cause catastrophic hypotension in severe AS. Ticagrelor (standard antithrombotic) is fine. Aspirin is fine.</p>
+    <p><strong>Correct answer: Nitrates are the dangerous drug in severe AS + NSTEMI.</strong></p>
+    <span class="trap-kw">Board keyword: Fixed obstruction + nitrates = catastrophic hypotension</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Nitrate Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"CCB is dangerous in severe AS" → <strong>wrong</strong>; nitrates are the dangerous drug in AS</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Ticagrelor is harmful in severe AS" → <strong>wrong</strong>; standard antithrombotic, no contraindication in AS</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Sildenafil was 3 days ago — safe to give nitrates" → <strong>wrong</strong>; tadalafil requires 48h washout; always ask about ALL PDE-5 inhibitors</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"RV infarct — give sublingual NTG for chest pain" → <strong>wrong</strong>; RV entirely preload-dependent; nitrates → venous pooling → RV failure → shock</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 5 — VASOSPASTIC ANGINA
+══════════════════════════════════════ -->
+<section class="sec" id="s5">
+  <div class="sec-hd"><span class="sec-n">05</span><h2>Vasospastic Angina (Prinzmetal / Variant Angina)</h2></div>
+
+  <p>A completely different pathophysiology from atherosclerotic ACS. The coronary arteries transiently spasm — ST elevation appears on ECG during the episode, mimicking STEMI, but resolves spontaneously. The key insight: the treatment is the <em>opposite</em> of what you'd reach for in standard ACS.</p>
+
+  <div class="sub"><h3>The Diagnostic Triad — Memorize All Three</h3></div>
+  <div class="card c-tel">
+    <div class="card-lbl">Vasospastic Angina = All Three Present</div>
+    <ul>
+      <li><strong>Transient ST elevation</strong> at rest during episodes → <strong>resolves spontaneously</strong> (not persistent like STEMI)</li>
+      <li><strong>Negative troponin</strong> — no necrosis unless spasm is prolonged</li>
+      <li><strong>Normal or near-normal coronary arteries</strong> on angiography</li>
+    </ul>
+    <p style="margin-top:10px;color:var(--t2);font-size:12.5px">Typical patient: younger, fewer classical cardiac risk factors. Single risk factor most strongly associated: <strong>cigarette smoking</strong>. More common in Japan.</p>
+  </div>
+
+  <div class="sub"><h3>How to Distinguish from STEMI</h3></div>
+  <div class="g2">
+    <div class="card c-red">
+      <div class="card-lbl">STEMI</div>
+      <ul>
+        <li>ST elevation <strong>persists</strong></li>
+        <li>Troponin <strong>rises</strong></li>
+        <li>Obstructive disease on angiography</li>
+        <li>Requires immediate PCI</li>
+      </ul>
+    </div>
+    <div class="card c-tel">
+      <div class="card-lbl">Vasospastic Angina</div>
+      <ul>
+        <li>ST elevation <strong>resolves spontaneously</strong></li>
+        <li>Troponin <strong>negative</strong></li>
+        <li>Normal coronaries on angiography</li>
+        <li>Treat with CCB — no emergency cath</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub"><h3>Treatment — Use, Avoid, and Why</h3></div>
+  <div class="g3">
+    <div class="card c-grn">
+      <div class="card-lbl">✅ First Line</div>
+      <ul>
+        <li><strong>CCBs</strong> — first line: verapamil, diltiazem, amlodipine</li>
+        <li>Nitrates — effective acutely; long-term use limited by tolerance</li>
+        <li>Smoking cessation</li>
+      </ul>
+    </div>
+    <div class="card c-red">
+      <div class="card-lbl">❌ Avoid</div>
+      <ul>
+        <li><strong>Aspirin</strong> — inhibits prostacyclin → worsens spasm</li>
+        <li><strong>Beta blockers</strong> — unhelpful; may worsen via unopposed α-mediated vasoconstriction</li>
+        <li><strong>NSAIDs</strong> — same mechanism as aspirin → harmful</li>
+      </ul>
+    </div>
+    <div class="card c-amb">
+      <div class="card-lbl">💡 Why Aspirin Worsens Vasospasm</div>
+      <p>COX-1 inhibition blocks both thromboxane A₂ (proconstrictor) AND prostacyclin (potent vasodilator). In vasospasm, the loss of prostacyclin protection dominates → worsened coronary vasoconstriction.</p>
+      <p style="margin-top:6px">NSAIDs share this same mechanism.</p>
+    </div>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 5 — Young Patient, ST Elevation at Rest, Negative Troponin, Normal Coronaries</div>
+    <div class="trap-q">Scenario: 38M, smoker, chest pain at rest 3am, transient ST elevation on ECG, troponin negative, coronaries normal on angiography</div>
+    <p><strong>Trap answers:</strong> "Give NSAIDs for pain" / "Start beta blockers to prevent further episodes" / "Emergency PCI — it's a STEMI."</p>
+    <p><strong>Why wrong:</strong> NSAIDs and aspirin → block prostacyclin → worsen vasospasm. Beta blockers → unopposed α-adrenergic vasoconstriction → may worsen spasm. Emergency PCI: troponin negative + transient STE + normal coronaries = vasospasm, not STEMI. Emergent cath already showed normal arteries.</p>
+    <p><strong>Correct answer: Calcium channel blocker — first line for vasospastic angina.</strong></p>
+    <span class="trap-kw">Board keyword: Transient STE + negative troponin + normal coronaries = CCB</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Vasospastic Angina Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"NSAIDs for the pain" → <strong>wrong</strong>; inhibit prostacyclin → worsen coronary vasospasm</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Beta blockers to prevent spasm" → <strong>wrong</strong>; unhelpful; unopposed α → may worsen spasm</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Emergency PCI — ST elevation" → <strong>wrong</strong>; transient STE + negative troponin + normal coronaries = vasospasm; not STEMI</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Aspirin is the cornerstone of all ACS" → <strong>wrong here</strong>; aspirin worsens coronary vasospasm via prostacyclin inhibition</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 6 — ANTICOAGULANTS
+══════════════════════════════════════ -->
+<section class="sec" id="s6">
+  <div class="sec-hd"><span class="sec-n">06</span><h2>Anticoagulants in NSTE-ACS</h2></div>
+
+  <p>Four parenteral anticoagulants are used in NSTE-ACS. The board tested the fondaparinux vs enoxaparin comparison twice. There is exactly one thing fondaparinux does better — and the board specifically traps you into saying the wrong thing.</p>
+
+  <div class="sub"><h3>The Four Options — Board-Focused Comparison</h3></div>
+  <table>
+    <thead><tr><th>Drug</th><th>Class / Mechanism</th><th>Efficacy vs Enoxaparin</th><th>Bleeding vs Enoxaparin</th><th>Board Point</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>UFH</strong></td>
+        <td>Indirect thrombin + Xa inhibitor</td>
+        <td>Equivalent</td>
+        <td>Similar</td>
+        <td class="td-b">Standard in cath lab; requires aPTT monitoring</td>
+      </tr>
+      <tr>
+        <td><strong>Enoxaparin</strong> (LMWH)</td>
+        <td>Indirect Xa &gt; thrombin inhibitor</td>
+        <td>Reference</td>
+        <td>Reference</td>
+        <td>Preferred conservative strategy; add UFH if last dose &gt;8h before PCI</td>
+      </tr>
+      <tr>
+        <td><strong>Bivalirudin</strong></td>
+        <td>Direct thrombin inhibitor</td>
+        <td>Equivalent</td>
+        <td class="td-g">Less than UFH</td>
+        <td>Used selectively peri-PCI; not clearly superior to heparin in efficacy</td>
+      </tr>
+      <tr>
+        <td><strong>Fondaparinux</strong></td>
+        <td>Indirect factor Xa inhibitor only</td>
+        <td class="td-g">Equivalent</td>
+        <td class="td-g"><strong>Less — safest profile</strong></td>
+        <td class="td-r"><strong>Needs supplemental UFH at PCI — catheter thrombosis risk</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sub"><h3>Why Fondaparinux Needs Supplemental UFH at PCI</h3></div>
+  <div class="card c-amb">
+    <div class="card-lbl">💡 The Catheter Thrombosis Problem</div>
+    <p>Fondaparinux only inhibits factor Xa. During PCI, the catheter surface itself triggers thrombin generation through <strong>contact activation</strong> — a pathway requiring direct thrombin inhibition or a broader-spectrum anticoagulant.</p>
+    <p style="margin-top:6px">Without supplemental UFH at PCI, there is a significant risk of catheter thrombosis. This is a well-established clinical constraint of fondaparinux.</p>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 6 — Fondaparinux vs Enoxaparin Advantage</div>
+    <div class="trap-q">Q: What is the advantage of fondaparinux over enoxaparin in NSTE-ACS?</div>
+    <p><strong>Trap answer:</strong> "Superior efficacy in preventing ischaemic events / thrombosis."</p>
+    <p><strong>Why wrong:</strong> Efficacy is <strong>equivalent</strong>. The one and only advantage of fondaparinux is <strong>less bleeding</strong>. Do not conflate safety with efficacy — the board specifically tests this distinction.</p>
+    <p><strong>Correct answer: Same efficacy as enoxaparin, fewer bleeding complications.</strong></p>
+    <span class="trap-kw">Board keyword: Fondaparinux = same efficacy, less bleeding — not better efficacy</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — Anticoagulant Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Fondaparinux has better efficacy than enoxaparin" → <strong>wrong</strong>; efficacy is equivalent; the advantage is less bleeding only</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Fondaparinux is safe to use alone throughout PCI" → <strong>wrong</strong>; needs supplemental UFH at PCI to prevent catheter thrombosis</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Bivalirudin is clearly superior to heparin" → <strong>wrong</strong>; similar efficacy; used selectively peri-PCI for its bleeding profile advantage</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 7 — DAPT POST-DES
+══════════════════════════════════════ -->
+<section class="sec" id="s7">
+  <div class="sec-hd"><span class="sec-n">07</span><h2>DAPT After Drug-Eluting Stent</h2></div>
+
+  <p>Drug-eluting stents (DES) reduce restenosis compared to bare-metal stents, but the drug coating delays endothelialisation — exposed stent struts remain in contact with blood for longer. Without DAPT, late in-stent thrombosis is a catastrophic risk. The mechanism: platelet-mediated thrombosis on exposed metal → DAPT required, not anticoagulation.</p>
+
+  <div class="sub"><h3>Standard Regimen</h3></div>
+  <div class="card c-blu">
+    <div class="card-lbl">Post-DES DAPT — The Answer</div>
+    <p><strong>Aspirin + Prasugrel</strong> (preferred post-PCI) <em>or</em> Ticagrelor — for <strong>12 months</strong></p>
+    <ul style="margin-top:8px">
+      <li>Aspirin alone = insufficient; no P2Y12 = high in-stent thrombosis risk</li>
+      <li>P2Y12 alone (no aspirin) = incomplete DAPT</li>
+      <li>Both components are required for 12 months post-DES</li>
+    </ul>
+  </div>
+
+  <div class="sub"><h3>Why Prasugrel is Preferred Over Clopidogrel Post-PCI</h3></div>
+  <div class="g2">
+    <div class="card c-grn">
+      <div class="card-lbl">✅ Prasugrel Advantages</div>
+      <ul>
+        <li>Faster onset, stronger, more consistent irreversible P2Y12 inhibition</li>
+        <li><strong>Not CYP2C19-dependent</strong> → no poor-responder problem</li>
+        <li>Loading dose: <span class="num">60 mg</span> → maintenance: <span class="num">10 mg/day</span></li>
+        <li>Reduce to <span class="num">5 mg/day</span> if &lt;60 kg or &gt;75 years (↑ bleeding risk)</li>
+        <li>Give <strong>only after coronary anatomy is known</strong> (post-angiography) — if patient needs CABG, prasugrel must be held ≥7 days</li>
+      </ul>
+    </div>
+    <div class="card c-red">
+      <div class="card-lbl">⚠ Prasugrel Contraindications</div>
+      <ul>
+        <li><strong>Prior stroke or TIA</strong> — markedly increased intracranial bleeding risk</li>
+        <li>High bleeding risk</li>
+      </ul>
+      <p style="margin-top:8px;font-size:12.5px;color:var(--t2)">In these cases: use ticagrelor or clopidogrel instead</p>
+    </div>
+  </div>
+
+  <div class="card c-amb">
+    <div class="card-lbl">💡 Why Not Clopidogrel as Default Post-PCI</div>
+    <p>Up to <strong>1/3 of patients</strong> carry a CYP2C19 loss-of-function variant → inadequate conversion of clopidogrel to its active metabolite → poor platelet inhibition. Post-DES, this means the stent is not adequately covered against platelet-mediated thrombosis.</p>
+    <p style="margin-top:6px">Prasugrel and ticagrelor do not depend on CYP2C19 → predictable, reliable platelet inhibition in all patients.</p>
+  </div>
+
+  <div class="sub"><h3>Triple Therapy — When It's Needed</h3></div>
+  <div class="card c-pur">
+    <div class="card-lbl">Post-DES Patient Who Also Has AF (Needing Anticoagulation)</div>
+    <p>Aspirin + P2Y12 + anticoagulant = <strong>"triple therapy"</strong> = major bleeding risk.</p>
+    <p style="margin-top:6px">Current practice: minimise triple therapy duration. Use <strong>NOAC + single antiplatelet (usually clopidogrel)</strong> for most of the DAPT period. Full triple therapy only for the shortest required period.</p>
+  </div>
+
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Board Trap 7 — Anticoagulant as DAPT Post-DES</div>
+    <div class="trap-q">Scenario: NSTEMI, DES placed, ready for discharge — which medications?</div>
+    <p><strong>Trap answers:</strong> "Aspirin + Dabigatran" / "Aspirin + Warfarin" / "Clopidogrel alone" / "Aspirin alone."</p>
+    <p><strong>Why wrong:</strong> Dabigatran and warfarin are <em>anticoagulants</em> — they prevent fibrin-mediated clot but do NOT prevent platelet-mediated thrombosis. DES thrombosis is driven by platelet activation on exposed metal struts. Only antiplatelet drugs (aspirin + P2Y12 inhibitor) address this mechanism. Anticoagulants are added only if a separate indication exists (e.g. AF, mechanical valve).</p>
+    <p><strong>Correct answer: Aspirin + Prasugrel (or Ticagrelor) for 12 months.</strong></p>
+    <span class="trap-kw">Board keyword: DES thrombosis = platelet-mediated → antiplatelet, not anticoagulant</span>
+  </div>
+
+  <div class="elim">
+    <div class="elim-ttl">❌ What to Eliminate — DAPT Questions</div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Aspirin + Dabigatran" → <strong>wrong</strong>; dabigatran is an anticoagulant, does not prevent platelet-mediated in-stent thrombosis</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Aspirin + Warfarin" → <strong>wrong</strong>; same reason; add anticoagulant only if separate indication (AF, mechanical valve)</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Clopidogrel alone" → <strong>wrong</strong>; no aspirin = incomplete DAPT; also clopidogrel is inferior to prasugrel post-PCI (CYP2C19 resistance)</div></div>
+    <div class="elim-row"><div class="elim-x">✕</div><div class="elim-r">"Aspirin alone" → <strong>wrong</strong>; without P2Y12 inhibition, high in-stent thrombosis risk</div></div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECTION 8 — EXAM TRAPS (MASTER)
+══════════════════════════════════════ -->
+<section class="sec" id="s8">
+  <div class="sec-hd"><span class="sec-n">★</span><h2>Exam Traps — Board Exam Coach</h2></div>
+
+  <p>All 7 tested traps plus additional traps derived from mechanisms tested in the questions. For each: the vignette, the distractor, the correct answer, the mechanism, and the board keyword.</p>
+
+  <!-- TRAP 1 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 1 — Confirmed NSTEMI, Haemodynamically Stable</div>
+    <div class="trap-q">Vignette: 64M, chest pain ×3h, troponin positive, no ST elevation, HR 85, BP 128/80, no rales. What is the next step?</div>
+    <p><strong>Distractor:</strong> "Patient is haemodynamically stable — serial troponins at 6h and consider discharge if stable."</p>
+    <p><strong>Why it's tempting:</strong> The patient looks fine. No shock. No HF. Seems like watchful waiting is safe.</p>
+    <p><strong>Why it's wrong:</strong> A positive troponin alone = confirmed NSTEMI = early invasive ≤24h criterion met. Haemodynamic stability shifts the tier from &lt;2h to &lt;24h — it does not justify conservative management. Once the troponin is positive, the management pathway is set.</p>
+    <p><strong>Correct answer: Early invasive strategy ≤24 hours.</strong></p>
+    <span class="trap-kw">Board keyword: Positive troponin = early invasive — stability only delays, doesn't cancel</span>
+  </div>
+
+  <!-- TRAP 2 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 2 — NSTEMI + Bilateral Rales</div>
+    <div class="trap-q">Vignette: 70F, NSTEMI, bilateral basal crepitations, HR 95, SBP 118. Is it safe to start beta blockers?</div>
+    <p><strong>Distractor:</strong> "HR and BP are within acceptable limits — start beta blockers for rate control and cardioprotection."</p>
+    <p><strong>Why it's tempting:</strong> HR 95 (&lt;100) and SBP 118 (&gt;90) are both within the commonly quoted safe thresholds.</p>
+    <p><strong>Why it's wrong:</strong> Bilateral rales = pulmonary oedema = Killip III = acute decompensated HF. This is an absolute contraindication regardless of HR and BP. Beta blockers ↓ contractility — adding them to a failing ventricle can precipitate cardiogenic shock.</p>
+    <p><strong>Correct answer: Beta blockers are contraindicated. Treat the heart failure first.</strong></p>
+    <span class="trap-kw">Board keyword: Bilateral rales = Killip III = contraindication; HR/BP thresholds are not the only criteria</span>
+  </div>
+
+  <!-- TRAP 3 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 3 — NSTEMI + HR 60 + ILD</div>
+    <div class="trap-q">Vignette: 58M, NSTEMI, HR 60, known interstitial lung disease on CT. Should beta blockers be withheld?</div>
+    <p><strong>Distractor:</strong> "HR 60 is borderline low — hold beta blockers" OR "ILD is a lung disease — beta blockers carry bronchospasm risk."</p>
+    <p><strong>Why it's tempting:</strong> Low-ish HR. A lung disease. Both seem like reasons to be cautious.</p>
+    <p><strong>Why it's wrong:</strong> HR threshold for beta blocker contraindication is &lt;50 bpm. HR 60 is safe. ILD is a <em>restrictive</em> interstitial disease — no airway obstruction, no β2-receptor-mediated bronchospasm risk. Only obstructive airways disease (asthma, severe COPD with active bronchospasm) contraindicates beta blockers.</p>
+    <p><strong>Correct answer: Give beta blockers. Neither HR 60 nor ILD is a contraindication.</strong></p>
+    <span class="trap-kw">Board keyword: ILD = restrictive = no bronchospasm risk; HR threshold = &lt;50, not &lt;60</span>
+  </div>
+
+  <!-- TRAP 4 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 4 — Severe Aortic Stenosis + NSTEMI — Which Drug to Avoid</div>
+    <div class="trap-q">Vignette: 78F, DM, HTN, severe AS (valve area 0.7 cm²), rising troponin, SBP 100. Which drug will cause the most deterioration?</div>
+    <p><strong>Distractor:</strong> "CCB — negatively inotropic, avoid in obstructive valve disease."</p>
+    <p><strong>Why it's tempting:</strong> Severe AS with fixed obstruction — negative inotropes seem dangerous.</p>
+    <p><strong>Why it's wrong:</strong> CCBs are not specifically contraindicated in AS. The truly dangerous drug is <strong>nitrates</strong>. Fixed valve area means CO cannot increase to compensate for ↓ preload. Nitrates → ↓ venous return → ↓ preload → ↓ CO → catastrophic hypotension. Even small doses are dangerous.</p>
+    <p><strong>Correct answer: Nitrates are contraindicated in severe aortic stenosis.</strong></p>
+    <span class="trap-kw">Board keyword: Fixed obstruction + nitrates = no CO compensation = catastrophic hypotension</span>
+  </div>
+
+  <!-- TRAP 5 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 5 — Young Patient, ST Elevation at Rest, Negative Troponin, Normal Coronaries</div>
+    <div class="trap-q">Vignette: 35M, smoker, chest pain waking him at 3am, transient ST elevation in inferior leads on ECG, troponin negative ×2, coronary angiography shows normal arteries.</div>
+    <p><strong>Distractor:</strong> "Start aspirin and beta blocker for secondary prevention" / "NSAIDs for pain" / "Emergency PCI — ST elevation."</p>
+    <p><strong>Why it's tempting:</strong> ST elevation = STEMI reflex. Aspirin = every ACS. Beta blockers = every ACS.</p>
+    <p><strong>Why it's wrong:</strong> This is vasospastic (Prinzmetal's) angina. Transient STE + negative troponin + normal coronaries = spasm, not fixed plaque. Aspirin and NSAIDs inhibit prostacyclin → worsen vasospasm. Beta blockers → unopposed α-vasoconstriction → may worsen spasm. Emergency PCI is wrong — coronaries are normal.</p>
+    <p><strong>Correct answer: Calcium channel blocker (e.g. diltiazem, amlodipine) — first-line treatment.</strong></p>
+    <span class="trap-kw">Board keyword: Transient STE + neg troponin + normal coronaries = CCB, not aspirin/BB/PCI</span>
+  </div>
+
+  <!-- TRAP 6 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 6 — Fondaparinux Advantage Over Enoxaparin</div>
+    <div class="trap-q">Q: A patient with NSTE-ACS is started on fondaparinux instead of enoxaparin. What is the primary reason for this choice?</div>
+    <p><strong>Distractor:</strong> "Fondaparinux has superior anticoagulant efficacy — it prevents more thrombotic events."</p>
+    <p><strong>Why it's tempting:</strong> If you choose a different drug, it must be because it works better, right?</p>
+    <p><strong>Why it's wrong:</strong> Fondaparinux has <em>equivalent</em> efficacy to enoxaparin. The one and only clinical advantage is <strong>less bleeding</strong>. Also important: fondaparinux requires supplemental UFH at the time of PCI to prevent catheter thrombosis (fondaparinux only blocks Xa, not thrombin generated by catheter contact activation).</p>
+    <p><strong>Correct answer: Less bleeding. Efficacy is equivalent to enoxaparin, not superior.</strong></p>
+    <span class="trap-kw">Board keyword: Fondaparinux = same efficacy, LESS bleeding — never "better efficacy"</span>
+  </div>
+
+  <!-- TRAP 7 -->
+  <div class="trap-box">
+    <div class="card-lbl">⚠ Trap 7 — Post-DES: Anticoagulant vs Antiplatelet</div>
+    <div class="trap-q">Vignette: 60M, NSTEMI, DES placed successfully. On discharge, which antiplatelet regimen is correct?</div>
+    <p><strong>Distractor:</strong> "Aspirin + Dabigatran" or "Aspirin + Warfarin" — because the stent is a clotting risk.</p>
+    <p><strong>Why it's tempting:</strong> Stent = clotting risk → use an anticoagulant. Logic seems sound.</p>
+    <p><strong>Why it's wrong:</strong> DES thrombosis is <em>platelet-mediated</em> — platelets activate on exposed metal struts. Anticoagulants (dabigatran, warfarin) prevent fibrin-based clot but do NOT prevent platelet aggregation. Only <strong>antiplatelet therapy</strong> addresses the in-stent thrombosis mechanism. Dabigatran/warfarin are only added if a separate indication exists (AF, mechanical valve).</p>
+    <p><strong>Correct answer: Aspirin + Prasugrel (or Ticagrelor) for 12 months.</strong></p>
+    <span class="trap-kw">Board keyword: DES thrombosis = platelet-driven = antiplatelet not anticoagulant</span>
+  </div>
+
+  <!-- QUICK REFERENCE MASTER TABLE -->
+  <div class="qr">
+    <div class="qr-ttl">★ Quick Reference Master Table</div>
+
+    <div class="sub"><h3>Invasive Timing</h3></div>
+    <table>
+      <thead><tr><th>Risk Level</th><th>Timing</th><th>Trigger Criteria</th></tr></thead>
+      <tbody>
+        <tr><td class="td-r">Very High</td><td class="td-r">&lt; 2 hours</td><td>Shock, arrest, refractory ischaemia, life-threatening arrhythmia, mechanical complication, acute HF</td></tr>
+        <tr><td class="td-a">High</td><td class="td-a">&lt; 24 hours</td><td>Positive troponin (NSTEMI confirmed), GRACE &gt;140, dynamic ECG changes, transient STE</td></tr>
+        <tr><td class="td-g">Non-High</td><td class="td-g">Selective</td><td>None of the above — non-invasive testing first</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub"><h3>Beta Blocker — Exact Thresholds</h3></div>
+    <table>
+      <thead><tr><th>Parameter</th><th>Contraindicated</th><th>Safe — Give the Drug</th></tr></thead>
+      <tbody>
+        <tr><td>Heart rate</td><td class="td-r">&lt; 50 bpm</td><td class="td-g">≥ 50 bpm (HR 60 = safe)</td></tr>
+        <tr><td>Blood pressure</td><td class="td-r">SBP &lt; 90 mmHg</td><td class="td-g">SBP ≥ 90 (SBP 110 = safe)</td></tr>
+        <tr><td>AV conduction</td><td class="td-r">PR &gt;0.24 sec; 2nd/3rd AV block</td><td class="td-g">Normal PR</td></tr>
+        <tr><td>HF status</td><td class="td-r">Killip III–IV (rales, shock)</td><td class="td-g">Killip I–II</td></tr>
+        <tr><td>Lung disease</td><td class="td-r">Asthma / severe bronchospastic COPD</td><td class="td-g">ILD ✓ / mild COPD ✓ (use cardioselective)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub"><h3>Nitrate Contraindications</h3></div>
+    <table>
+      <thead><tr><th>Condition</th><th>Mechanism — Why Dangerous</th></tr></thead>
+      <tbody>
+        <tr><td class="td-r">SBP &lt; 90 mmHg</td><td>Nitrates ↓ preload → worsens hypotension directly</td></tr>
+        <tr><td class="td-r">Sildenafil / Vardenafil within 24h</td><td>Both inhibit cGMP breakdown → additive vasodilation → severe hypotension</td></tr>
+        <tr><td class="td-r">Tadalafil within 48h</td><td>Same mechanism; longer half-life requires 48h washout</td></tr>
+        <tr><td class="td-r">Right ventricular infarct</td><td>RV output depends entirely on preload; nitrates → ↓ preload → RV failure → shock</td></tr>
+        <tr><td class="td-r">Severe aortic stenosis</td><td>Fixed obstruction; CO cannot compensate for ↓ preload → catastrophic hypotension</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub"><h3>Anticoagulants — Key Distinctions</h3></div>
+    <table>
+      <thead><tr><th>Drug</th><th>Efficacy vs Enoxaparin</th><th>Bleeding vs Enoxaparin</th><th>PCI Note</th></tr></thead>
+      <tbody>
+        <tr><td>UFH</td><td>Equivalent</td><td>Similar</td><td class="td-g">Standard in cath lab</td></tr>
+        <tr><td>Enoxaparin</td><td>Reference</td><td>Reference</td><td>Add UFH if last dose &gt;8h before PCI</td></tr>
+        <tr><td>Bivalirudin</td><td>Equivalent</td><td class="td-g">Less than UFH</td><td>Selective peri-PCI</td></tr>
+        <tr><td><strong>Fondaparinux</strong></td><td class="td-g">Equivalent</td><td class="td-g"><strong>Less — safest</strong></td><td class="td-r"><strong>Needs supplemental UFH at PCI</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub"><h3>All 7 Board Traps — One Table</h3></div>
+    <table>
+      <thead><tr><th>Scenario</th><th>Correct Answer</th><th>Wrong Answer to Eliminate</th></tr></thead>
+      <tbody>
+        <tr><td>Confirmed NSTEMI, haemodynamically stable</td><td class="td-g">Early invasive ≤24h</td><td class="td-r">Serial troponins → discharge</td></tr>
+        <tr><td>NSTEMI + bilateral rales</td><td class="td-g">Beta blockers contraindicated (Killip III)</td><td class="td-r">"HR and BP fine — give them"</td></tr>
+        <tr><td>NSTEMI + HR 60 or ILD</td><td class="td-g">Give beta blockers — NOT contraindicated</td><td class="td-r">ILD or HR 60 contraindicates</td></tr>
+        <tr><td>NSTEMI + severe aortic stenosis</td><td class="td-g">Avoid <strong>nitrates</strong></td><td class="td-r">Avoid CCB (wrong)</td></tr>
+        <tr><td>Young, rest ST elevation, neg troponin, normal coronaries</td><td class="td-g">CCB first line</td><td class="td-r">NSAIDs / beta blockers / emergency PCI</td></tr>
+        <tr><td>Fondaparinux vs enoxaparin advantage</td><td class="td-g">Same efficacy, less bleeding</td><td class="td-r">Better efficacy</td></tr>
+        <tr><td>Post-DES antiplatelet regimen</td><td class="td-g">Aspirin + Prasugrel × 12 months</td><td class="td-r">Dabigatran / Warfarin / Aspirin alone</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sbar" style="margin-top:20px">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:20px 52px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);border-top:1px solid var(--bd);margin-top:40px">
+  Harrison's Internal Medicine · Cardiology · NSTEMI Boards Review · Israeli Stage A Exam Preparation
+</footer>
+
+<script>
+/* ── HIGHLIGHT SYSTEM ── */
+const COLORS = {y:'--hy',g:'--hg',b:'--hb',p:'--hpk',o:'--ho'};
+let activeColor = null;
+let eraseMode = false;
+const STORE_KEY = 'nstemi_boards_hl_v1';
+
+document.querySelectorAll('.hbtn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const c = btn.id.replace('h-','');
+    if (activeColor === c && !eraseMode) { activeColor = null; btn.classList.remove('active'); return; }
+    eraseMode = false;
+    document.getElementById('erase-btn').classList.remove('active');
+    document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+    activeColor = c; btn.classList.add('active');
+  });
+});
+
+document.getElementById('erase-btn').addEventListener('click', () => {
+  eraseMode = !eraseMode;
+  if (eraseMode) {
+    activeColor = null;
+    document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+    document.getElementById('erase-btn').classList.add('active');
+  } else {
+    document.getElementById('erase-btn').classList.remove('active');
+  }
+});
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  if (!confirm('Clear all highlights?')) return;
+  document.querySelectorAll('.hl').forEach(el => {
+    const p = el.parentNode; p.replaceChild(document.createTextNode(el.textContent), el); p.normalize();
+  });
+  localStorage.removeItem(STORE_KEY);
+  activeColor = null; eraseMode = false;
+  document.querySelectorAll('.hbtn,.tbtn').forEach(b => b.classList.remove('active'));
+});
+
+document.querySelector('.main').addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  if (!document.querySelector('.main').contains(range.commonAncestorContainer)) return;
+  if (eraseMode) {
+    const hl = range.commonAncestorContainer.parentElement?.closest('.hl');
+    if (hl) {
+      const p = hl.parentNode; p.replaceChild(document.createTextNode(hl.textContent), hl); p.normalize();
+    }
+    sel.removeAllRanges(); return;
+  }
+  if (!activeColor) return;
+  const span = document.createElement('span');
+  span.className = 'hl';
+  span.style.background = `var(${COLORS[activeColor]})`;
+  span.dataset.c = activeColor;
+  try { range.surroundContents(span); } catch(e) { return; }
+  sel.removeAllRanges();
+  lastSelRef = '';
+  document.getElementById('sn-sel-txt').textContent = '—';
+});
+
+/* ── STICKY NOTES ── */
+let lastSelRef = '';
+
+document.querySelector('.main').addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (sel && !sel.isCollapsed) {
+    const txt = sel.toString().trim().substring(0, 80);
+    if (txt) { lastSelRef = txt; document.getElementById('sn-sel-txt').textContent = txt; }
+  }
+});
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY + '_notes') || '[]'); } catch(e) { return []; }
+}
+function saveNotes(arr) { localStorage.setItem(STORE_KEY + '_notes', JSON.stringify(arr)); }
+
+function addNote() {
+  const text = document.getElementById('sn-ta').value.trim();
+  if (!text) return;
+  const note = { id: Date.now(), ref: lastSelRef || '—', text };
+  const notes = getNotes(); notes.push(note); saveNotes(notes);
+  if (lastSelRef) {
+    const sel = window.getSelection();
+    if (sel && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      const anchor = document.createElement('span');
+      anchor.className = 'note-anchor'; anchor.dataset.noteId = note.id;
+      anchor.textContent = lastSelRef.substring(0,30) + (lastSelRef.length>30?'…':'');
+      try { range.surroundContents(anchor); } catch(e){}
+      sel.removeAllRanges();
+    }
+  }
+  document.getElementById('sn-ta').value = '';
+  lastSelRef = '';
+  document.getElementById('sn-sel-txt').textContent = '—';
+  renderNotes();
+}
+
+function deleteNote(id) {
+  saveNotes(getNotes().filter(n => n.id !== id));
+  document.querySelectorAll(`.note-anchor[data-note-id="${id}"]`).forEach(el => {
+    const p = el.parentNode; p.replaceChild(document.createTextNode(el.textContent), el); p.normalize();
+  });
+  closePopover(); renderNotes();
+}
+
+function renderNotes() {
+  const notes = getNotes();
+  const body = document.getElementById('sn-body');
+  const empty = document.getElementById('sn-empty');
+  body.querySelectorAll('.sn-note').forEach(el => el.remove());
+  if (!notes.length) { empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  notes.forEach(note => {
+    const card = document.createElement('div');
+    card.className = 'sn-note'; card.dataset.id = note.id;
+    card.innerHTML = `<div class="sn-note-hd"><span class="sn-drag-icon">⠿</span><span class="sn-note-ref">${note.ref !== '—' ? '"' + note.ref.substring(0,40) + '"' : 'Note'}</span><button class="sn-del" onclick="deleteNote(${note.id})">×</button></div><div class="sn-note-body">${note.text.replace(/\n/g,'<br>')}</div><div class="sn-resize"></div>`;
+    body.appendChild(card);
+    enableDrag(card); enableResize(card);
+  });
+}
+
+function enableDrag(card) {
+  const hd = card.querySelector('.sn-note-hd');
+  let startY, startTop;
+  hd.addEventListener('mousedown', e => {
+    startY = e.clientY; startTop = card.offsetTop;
+    document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
+  });
+  function onMove(e) {
+    const dy = e.clientY - startY;
+    const body = document.getElementById('sn-body');
+    const notes = Array.from(body.querySelectorAll('.sn-note'));
+    const idx = notes.indexOf(card);
+    if (dy > 40 && idx < notes.length - 1) { body.insertBefore(notes[idx+1], card); startY = e.clientY; }
+    else if (dy < -40 && idx > 0) { body.insertBefore(card, notes[idx-1]); startY = e.clientY; }
+  }
+  function onUp() { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
+}
+
+function enableResize(card) {
+  const handle = card.querySelector('.sn-resize');
+  let startY, startH;
+  handle.addEventListener('mousedown', e => {
+    e.stopPropagation(); startY = e.clientY; startH = card.offsetHeight;
+    document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
+  });
+  function onMove(e) { card.style.minHeight = Math.max(80, startH + e.clientY - startY) + 'px'; }
+  function onUp() { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
+}
+
+function toggleSidebar() {
+  const sb = document.getElementById('sn-sidebar');
+  const tab = document.getElementById('sn-tab');
+  sb.classList.toggle('hidden');
+  tab.textContent = sb.classList.contains('hidden') ? '📝 Notes' : '◀';
+}
+
+/* ── INLINE POPOVER ── */
+let activePopNoteId = null;
+function showPopover(anchorEl, note) {
+  const pop = document.getElementById('note-popover');
+  document.getElementById('np-pop-ref').textContent = note.ref !== '—' ? '"' + note.ref.substring(0,55) + '"' : 'Your note';
+  document.getElementById('np-pop-text').innerHTML = note.text.replace(/\n/g,'<br>');
+  document.getElementById('pop-del-btn').onclick = () => deleteNote(note.id);
+  activePopNoteId = note.id;
+  const rect = anchorEl.getBoundingClientRect();
+  pop.style.left = Math.min(rect.left, window.innerWidth - 300) + 'px';
+  pop.style.top = (rect.bottom + 8) + 'px';
+  pop.classList.add('show');
+}
+function closePopover() { document.getElementById('note-popover').classList.remove('show'); activePopNoteId = null; }
+document.addEventListener('click', function(e) {
+  const anchor = e.target.closest('.note-anchor');
+  if (anchor) {
+    e.stopPropagation();
+    const nid = parseInt(anchor.dataset.noteId);
+    if (activePopNoteId === nid) { closePopover(); return; }
+    const note = getNotes().find(n => n.id === nid);
+    if (note) showPopover(anchor, note);
+    return;
+  }
+  const pop = document.getElementById('note-popover');
+  if (pop && !pop.contains(e.target)) closePopover();
+});
+
+/* ── ACTIVE NAV ── */
+const _secs = document.querySelectorAll('.sec[id]');
+const _navs = document.querySelectorAll('.toc-a');
+_secs.forEach(s => new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    _navs.forEach(l => l.classList.remove('on'));
+    const lnk = document.querySelector('.toc-a[href="#' + s.id + '"]');
+    if (lnk) { lnk.classList.add('on'); lnk.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}); }
+  }
+}, {rootMargin:'-15% 0px -75% 0px'}).observe(s));
+
+/* ── INIT ── */
+renderNotes();
+</script>
+</body>
+</html>
