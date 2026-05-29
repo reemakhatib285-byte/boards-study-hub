@@ -1,707 +1,415 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boards Study Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
+    /* ── LIGHT MODE (default) ── */
     :root {
       --bg: #f4f6fb;
       --surface: #ffffff;
+      --surface2: #f8f9fc;
       --border: #e2e6f0;
-      --border-hover: #c8cfe0;
-      --text-primary: #1a1d2e;
-      --text-secondary: #5a6180;
-      --text-muted: #9aa0b8;
-      --accent-red: #c0392b;
-      --accent-red-dim: rgba(192, 57, 43, 0.08);
-      --accent-gold: #8a5a00;
-      --accent-gold-dim: rgba(138, 90, 0, 0.08);
-      --accent-blue: #1a6fc4;
-      --accent-blue-dim: rgba(26, 111, 196, 0.08);
-      --accent-green: #1a8a5a;
-      --accent-green-dim: rgba(26, 138, 90, 0.08);
-      --accent-purple: #7c4dcc;
-      --accent-purple-dim: rgba(124, 77, 204, 0.08);
-      --accent-orange: #b06000;
-      --accent-orange-dim: rgba(176, 96, 0, 0.08);
-      --accent-teal: #0a7fa0;
-      --accent-teal-dim: rgba(10, 127, 160, 0.08);
-      --accent-pink: #a0185a;
-      --accent-pink-dim: rgba(160, 24, 90, 0.08);
-      --accent-olive: #4a8a00;
-      --accent-olive-dim: rgba(74, 138, 0, 0.08);
-      --radius: 10px;
-      --transition: 200ms ease;
+      --border-h: #c8cfe0;
+      --text-1: #1a1d2e;
+      --text-2: #5a6180;
+      --text-3: #9aa0b8;
+      --hero-bg: linear-gradient(160deg, #fdf6ff 0%, #f0f5ff 50%, #f0fff8 100%);
+      --hero-border: #e2e6f0;
+      --stat-bg: #ffffff;
+      --nav-bg: #ffffff;
+      --tool-shadow: rgba(0,0,0,0.08);
+      --card-hover-shadow: rgba(0,0,0,0.10);
+      --task-bg: #fffdf0;
+      --task-border: #ffe8a0;
+      --task-top: #f5c400;
+      --task-item-border: #f5f6fa;
+      --soon-bg: #f5f6fa;
+      --soon-color: #b0b8cc;
+      --soon-border: #e8eaf0;
+      --radius: 12px;
+      --tr: 180ms ease;
+    }
+
+    /* ── DARK MODE ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d0f14;
+        --surface: #13161d;
+        --surface2: #181b24;
+        --border: #1e2330;
+        --border-h: #2e3548;
+        --text-1: #eceef5;
+        --text-2: #7c8299;
+        --text-3: #464d63;
+        --hero-bg: linear-gradient(160deg, #130d1a 0%, #0d1020 50%, #0a140f 100%);
+        --hero-border: #1e2330;
+        --stat-bg: #13161d;
+        --nav-bg: #11141c;
+        --tool-shadow: rgba(0,0,0,0.3);
+        --card-hover-shadow: rgba(0,0,0,0.4);
+        --task-bg: #141208;
+        --task-border: #3a3010;
+        --task-top: #c9a000;
+        --task-item-border: #1a1c24;
+        --soon-bg: #181b24;
+        --soon-color: #464d63;
+        --soon-border: #1e2330;
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text-1); font-family: 'DM Mono', monospace; min-height: 100vh; padding-bottom: 80px; transition: background var(--tr), color var(--tr); }
 
-    body {
-      background: var(--bg);
-      color: var(--text-primary);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh;
-      padding: 0 0 80px;
+    /* NAV */
+    nav { background: var(--nav-bg); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+    .nav-brand { font-size: 13px; font-weight: 500; color: var(--text-1); display: flex; align-items: center; gap: 8px; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-link { font-size: 11px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-2); background: transparent; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: all var(--tr); }
+    .nav-link:hover { border-color: var(--border-h); color: var(--text-1); background: var(--surface2); }
+
+    /* HERO */
+    .hero { padding: 36px 24px 28px; border-bottom: 1px solid var(--hero-border); text-align: center; background: var(--hero-bg); }
+    .hero-badge { display: inline-block; font-size: 10px; letter-spacing: .12em; padding: 4px 16px; border-radius: 20px; margin-bottom: 14px; }
+    @media (prefers-color-scheme: light) {
+      .hero-badge { background: linear-gradient(90deg, #ede0ff, #d4eeff); color: #5a35b0; border: 1px solid #d0c0f5; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .hero-badge { background: linear-gradient(90deg, #2a1a4a, #0a1a3a); color: #b090f0; border: 1px solid #3a2a5a; }
+    }
+    .hero h1 { font-family: 'Crimson Pro', Georgia, serif; font-size: clamp(26px, 6vw, 38px); font-weight: 700; color: var(--text-1); letter-spacing: -.02em; margin: 0 0 6px; }
+    .hero-sub { font-size: 11px; color: var(--text-3); letter-spacing: .08em; margin: 0 0 20px; }
+    .hero-stats { display: inline-flex; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--stat-bg); }
+    .h-stat { padding: 10px 22px; text-align: center; border-right: 1px solid var(--border); }
+    .h-stat:last-child { border-right: none; }
+    .h-stat-n { font-size: 20px; font-weight: 700; }
+    .h-stat-l { font-size: 9px; color: var(--text-3); letter-spacing: .08em; margin-top: 2px; }
+
+    /* TOOL BUTTONS */
+    .tools { display: flex; gap: 8px; padding: 16px 20px 0; }
+    .tool { flex: 1; border-radius: 11px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; border: 1px solid transparent; transition: all var(--tr); text-decoration: none; }
+    .tool:hover { transform: translateY(-2px); box-shadow: 0 6px 18px var(--tool-shadow); }
+    .tool-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .tool-title { font-size: 12px; font-weight: 500; }
+    .tool-sub { font-size: 9px; margin-top: 1px; opacity: .75; }
+
+    @media (prefers-color-scheme: light) {
+      .tool-checklist { background: linear-gradient(135deg,#fdf6ff,#f0e8ff); border-color: #ddd0f8; }
+      .tool-checklist .tool-title { color: #5a35b0; }
+      .tool-checklist .tool-sub { color: #7c4dcc; }
+      .tool-sketches { background: linear-gradient(135deg,#f0f6ff,#e4eeff); border-color: #b8d0f8; }
+      .tool-sketches .tool-title { color: #1040a0; }
+      .tool-sketches .tool-sub { color: #1a6fc4; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .tool-checklist { background: linear-gradient(135deg,#1e1230,#160e28); border-color: #3a2a5a; }
+      .tool-checklist .tool-title { color: #b090f0; }
+      .tool-checklist .tool-sub { color: #8060c0; }
+      .tool-sketches { background: linear-gradient(135deg,#0e1830,#0a1228); border-color: #1e3060; }
+      .tool-sketches .tool-title { color: #80b0f0; }
+      .tool-sketches .tool-sub { color: #4080c0; }
     }
 
-    .section { box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+    /* SUBJECTS */
+    .subjects { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
+    .sec-lbl { font-size: 9px; color: var(--text-3); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; padding-left: 2px; }
 
-    /* ── Header ── */
-    nav { box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-    header {
-      background: linear-gradient(180deg, #eef1f9 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 48px 24px 36px;
-      text-align: center;
+    .sc { border-radius: 11px; overflow: hidden; border: 1px solid var(--s-border); transition: all var(--tr); cursor: pointer; }
+    .sc:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--card-hover-shadow); }
+    .sc-top { display: flex; align-items: center; gap: 11px; padding: 12px 16px; background: var(--s-bg); }
+    .sc-emoji { font-size: 19px; flex-shrink: 0; }
+    .sc-info { flex: 1; min-width: 0; }
+    .sc-name { font-size: 13px; font-weight: 500; color: var(--text-1); }
+    .sc-topics { font-size: 10px; color: var(--s-color); margin-top: 2px; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-pill { font-size: 10px; padding: 3px 10px; border-radius: 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+    .sc-pill.active { background: var(--s-pb); color: var(--s-color); border: 1px solid var(--s-border); }
+    .sc-pill.soon { background: var(--soon-bg); color: var(--soon-color); border: 1px solid var(--soon-border); }
+    .sc-bar { height: 3px; }
+    .sc-fill { height: 100%; background: linear-gradient(90deg, var(--s-color), var(--s-c2)); transition: width .5s ease; }
+
+    /* subject color vars — light */
+    @media (prefers-color-scheme: light) {
+      .sc-rheum  { --s-color:#7c4dcc;--s-c2:#a07cde;--s-bg:#faf6ff;--s-border:#ddd0f8;--s-pb:#ede0ff; }
+      .sc-cardio { --s-color:#c0392b;--s-c2:#e05c5c;--s-bg:#fff6f5;--s-border:#f4c0bc;--s-pb:#ffe4e2; }
+      .sc-nephro { --s-color:#1a6fc4;--s-c2:#5c8de0;--s-bg:#f4f9ff;--s-border:#c0d8f5;--s-pb:#ddeeff; }
+      .sc-id     { --s-color:#1a8a5a;--s-c2:#5cc49e;--s-bg:#f4fff9;--s-border:#b8ecd4;--s-pb:#d8f8ec; }
+      .sc-resp   { --s-color:#0a7fa0;--s-c2:#5cc8de;--s-bg:#f2fbff;--s-border:#b4e4f4;--s-pb:#d4f2fc; }
+      .sc-hemato { --s-color:#a0185a;--s-c2:#de7ca0;--s-bg:#fff4f8;--s-border:#f4c0d8;--s-pb:#fde0ec; }
+      .sc-endo   { --s-color:#b06000;--s-c2:#e09a5c;--s-bg:#fff9f2;--s-border:#f0d8b0;--s-pb:#faecd4; }
+      .sc-gi     { --s-color:#4a8a00;--s-c2:#a0c45c;--s-bg:#f6fff2;--s-border:#c4ecb0;--s-pb:#e0f8d0; }
+      .sc-hepato { --s-color:#8a5a00;--s-c2:#c9a96e;--s-bg:#fffcf4;--s-border:#eedcb0;--s-pb:#f8eed8; }
+    }
+    /* subject color vars — dark */
+    @media (prefers-color-scheme: dark) {
+      .sc-rheum  { --s-color:#b090f0;--s-c2:#c8aaf8;--s-bg:#180f28;--s-border:#3a2a5a;--s-pb:#2a1a48; }
+      .sc-cardio { --s-color:#f08080;--s-c2:#f0a0a0;--s-bg:#200e0e;--s-border:#4a1a1a;--s-pb:#381212; }
+      .sc-nephro { --s-color:#80b0f0;--s-c2:#a0c8f8;--s-bg:#0e1828;--s-border:#1a3060;--s-pb:#142040; }
+      .sc-id     { --s-color:#60d4a0;--s-c2:#80e8b8;--s-bg:#0a1c14;--s-border:#1a4030;--s-pb:#122a20; }
+      .sc-resp   { --s-color:#60c8e0;--s-c2:#80d8f0;--s-bg:#0a1820;--s-border:#1a3848;--s-pb:#122030; }
+      .sc-hemato { --s-color:#f090b8;--s-c2:#f8b0cc;--s-bg:#200a14;--s-border:#481830;--s-pb:#341020; }
+      .sc-endo   { --s-color:#f0b060;--s-c2:#f8c880;--s-bg:#201408;--s-border:#483010;--s-pb:#342008; }
+      .sc-gi     { --s-color:#90d040;--s-c2:#b0e860;--s-bg:#101a08;--s-border:#283810;--s-pb:#1c2a0a; }
+      .sc-hepato { --s-color:#d0a060;--s-c2:#e8c080;--s-bg:#1c1408;--s-border:#403010;--s-pb:#2c2008; }
     }
 
-    .header-badge {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
+    /* OPEN/COLLAPSE */
+    .sc-body { display: none; border-top: 1px solid var(--s-border); }
+    .sc.open .sc-body { display: block; }
+    .sc-chevron { font-size: 11px; color: var(--s-color); opacity: .6; transition: transform var(--tr); flex-shrink: 0; }
+    .sc.open .sc-chevron { transform: rotate(180deg); }
 
-    h1 {
-      font-family: 'Crimson Pro', serif;
-      font-size: clamp(28px, 6vw, 48px);
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    h1 .stethoscope {
-      display: inline-block;
-      margin-right: 10px;
-      opacity: 0.9;
-    }
-
-    .subtitle {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--text-secondary);
-      letter-spacing: 0.06em;
-    }
-
-    /* ── Main layout ── */
-    main {
-      max-width: 720px;
-      margin: 40px auto 0;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    /* ── Section ── */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color var(--transition);
-    }
-
-    .section:hover { border-color: var(--border-hover); }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      cursor: pointer;
-      user-select: none;
-      gap: 12px;
-    }
-
-    .section-header:hover .section-title { color: var(--text-primary); }
-
-    .section-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .section-emoji {
-      font-size: 20px;
-      flex-shrink: 0;
-      width: 32px;
-      text-align: center;
-    }
-
-    .section-title {
-      font-family: 'Crimson Pro', serif;
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: 0.01em;
-      transition: color var(--transition);
-    }
-
-    .section-count {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      padding: 3px 9px;
-      border-radius: 12px;
-      border: 1px solid;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .count-active {
-      color: var(--accent-gold);
-      border-color: rgba(201, 169, 110, 0.3);
-      background: var(--accent-gold-dim);
-    }
-
-    .count-empty {
-      color: var(--text-muted);
-      border-color: var(--border);
-      background: transparent;
-    }
-
-    .chevron {
-      color: var(--text-muted);
-      font-size: 11px;
-      transition: transform var(--transition), color var(--transition);
-      flex-shrink: 0;
-    }
-
-    .section.open .chevron {
-      transform: rotate(180deg);
-      color: var(--text-secondary);
-    }
-
-    /* ── Topic list ── */
-    .topic-list {
-      display: none;
-      border-top: 1px solid var(--border);
-    }
-
-    .section.open .topic-list { display: block; }
-
-    .topic-empty {
-      padding: 16px 20px 16px 64px;
-      font-size: 12px;
-      color: var(--text-muted);
-      font-style: italic;
-      letter-spacing: 0.04em;
-    }
-
-    .topic-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 20px 13px 64px;
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-size: 13px;
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition), color var(--transition), padding-left var(--transition);
-      letter-spacing: 0.02em;
-    }
-
+    .topic-link { display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 46px; text-decoration: none; color: var(--text-2); font-size: 12px; border-bottom: 1px solid var(--border); transition: all var(--tr); letter-spacing: .02em; }
     .topic-link:last-child { border-bottom: none; }
+    .topic-link:hover { background: var(--s-bg); color: var(--text-1); padding-left: 52px; }
+    .topic-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--s-color); flex-shrink: 0; }
 
-    .topic-link:hover {
-      background: rgba(0,0,0,0.02);
-      color: var(--text-primary);
-      padding-left: 70px;
-    }
+    /* TASKS */
+    .tasks-wrap { margin: 4px 20px 0; background: var(--surface); border: 1px solid var(--task-border); border-radius: 11px; overflow: hidden; border-top: 3px solid var(--task-top); }
+    .tasks-hdr { padding: 10px 16px; font-size: 12px; font-weight: 500; color: var(--text-1); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 7px; background: var(--task-bg); }
+    .task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--task-item-border); transition: background var(--tr); }
+    .task-item:last-child { border-bottom: none; }
+    .task-item:hover { background: var(--surface2); }
+    .task-item label { font-size: 12px; color: var(--text-2); flex: 1; cursor: pointer; transition: color var(--tr); }
+    .task-item.done label { color: var(--text-3); text-decoration: line-through; }
+    .task-cb { appearance: none; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--border-h); background: transparent; cursor: pointer; position: relative; transition: all var(--tr); flex-shrink: 0; }
+    .task-cb:checked { background: #1a8a5a; border-color: #1a8a5a; }
+    .task-cb:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
+    .task-empty { padding: 12px 16px; font-size: 11px; color: var(--text-3); font-style: italic; }
+    .task-del { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 13px; opacity: 0; transition: all var(--tr); padding: 0 2px; }
+    .task-item:hover .task-del { opacity: 1; }
+    .task-del:hover { color: #e05c5c; }
+    .task-input-row { display: flex; gap: 7px; padding: 9px 16px; border-top: 1px solid var(--border); background: var(--surface2); }
+    .task-input-row input { flex: 1; background: transparent; border: 1px solid var(--border); border-radius: 7px; padding: 7px 11px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-1); outline: none; transition: border-color var(--tr); }
+    .task-input-row input:focus { border-color: var(--border-h); }
+    .task-input-row input::placeholder { color: var(--text-3); }
+    .task-input-row button { background: var(--task-top); border: none; border-radius: 7px; color: #1a1400; font-size: 17px; width: 34px; font-weight: 700; cursor: pointer; transition: opacity var(--tr); }
+    .task-input-row button:hover { opacity: .85; }
 
-    .topic-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      transition: transform var(--transition);
-    }
+    /* FOOTER LINKS */
+    .footer-links { display: flex; gap: 8px; padding: 16px 20px 0; }
+    .footer-link { flex: 1; display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-decoration: none; color: var(--text-2); font-size: 12px; transition: all var(--tr); }
+    .footer-link:hover { border-color: var(--border-h); color: var(--text-1); box-shadow: 0 2px 10px var(--tool-shadow); }
+    .footer-link span:last-child { margin-left: auto; font-size: 11px; color: var(--text-3); }
 
-    .topic-link:hover .topic-dot { transform: scale(1.5); }
+    footer { margin-top: 32px; text-align: center; font-size: 10px; color: var(--text-3); letter-spacing: .08em; padding: 0 20px; }
 
-    /* Per-section accent colors */
-    .section[data-sys="rheum"] .section-count.count-active { color: var(--accent-purple); border-color: rgba(160,124,222,0.3); background: var(--accent-purple-dim); }
-    .section[data-sys="rheum"] .topic-dot { background: var(--accent-purple); }
-
-    .section[data-sys="cardio"] .section-count.count-active { color: var(--accent-red); border-color: rgba(224,92,92,0.3); background: var(--accent-red-dim); }
-    .section[data-sys="cardio"] .topic-dot { background: var(--accent-red); }
-
-    .section[data-sys="nephro"] .section-count.count-active { color: var(--accent-blue); border-color: rgba(92,141,224,0.3); background: var(--accent-blue-dim); }
-    .section[data-sys="nephro"] .topic-dot { background: var(--accent-blue); }
-
-    .section[data-sys="id"] .section-count.count-active { color: var(--accent-green); border-color: rgba(92,196,158,0.3); background: var(--accent-green-dim); }
-    .section[data-sys="id"] .topic-dot { background: var(--accent-green); }
-
-    .section[data-sys="resp"] .section-count.count-active { color: var(--accent-teal); border-color: rgba(92,200,222,0.3); background: var(--accent-teal-dim); }
-    .section[data-sys="resp"] .topic-dot { background: var(--accent-teal); }
-
-    .section[data-sys="hemato"] .section-count.count-active { color: var(--accent-pink); border-color: rgba(222,124,160,0.3); background: var(--accent-pink-dim); }
-    .section[data-sys="hemato"] .topic-dot { background: var(--accent-pink); }
-
-    .section[data-sys="endo"] .section-count.count-active { color: var(--accent-orange); border-color: rgba(224,154,92,0.3); background: var(--accent-orange-dim); }
-    .section[data-sys="endo"] .topic-dot { background: var(--accent-orange); }
-
-    .section[data-sys="gi"] .section-count.count-active { color: var(--accent-olive); border-color: rgba(160,196,92,0.3); background: var(--accent-olive-dim); }
-    .section[data-sys="gi"] .topic-dot { background: var(--accent-olive); }
-
-    .section[data-sys="hepato"] .section-count.count-active { color: var(--accent-gold); border-color: rgba(201,169,110,0.3); background: var(--accent-gold-dim); }
-    .section[data-sys="hepato"] .topic-dot { background: var(--accent-gold); }
-
-    /* ── Footer ── */
-    footer {
-      margin-top: 48px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-    }
-
-    footer span { margin: 0 8px; }
-
-    /* ── Animations ── */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .section {
-      animation: fadeIn 0.3s ease both;
-    }
-
-    .section:nth-child(1) { animation-delay: 0.05s; }
-    .section:nth-child(2) { animation-delay: 0.10s; }
-    .section:nth-child(3) { animation-delay: 0.15s; }
-    .section:nth-child(4) { animation-delay: 0.20s; }
-    .section:nth-child(5) { animation-delay: 0.25s; }
-    .section:nth-child(6) { animation-delay: 0.30s; }
-    .section:nth-child(7) { animation-delay: 0.35s; }
-    .section:nth-child(8) { animation-delay: 0.40s; }
-    .section:nth-child(9) { animation-delay: 0.45s; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
+    .sc { animation: fadeIn .3s ease both; }
+    .sc:nth-child(2){animation-delay:.04s} .sc:nth-child(3){animation-delay:.08s}
+    .sc:nth-child(4){animation-delay:.12s} .sc:nth-child(5){animation-delay:.16s}
+    .sc:nth-child(6){animation-delay:.20s} .sc:nth-child(7){animation-delay:.24s}
+    .sc:nth-child(8){animation-delay:.28s} .sc:nth-child(9){animation-delay:.32s}
+    .sc:nth-child(10){animation-delay:.36s}
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-badge">שלב א׳ רפואה פנימית</div>
-    <h1><span class="stethoscope">🩺</span>Boards Study Hub</h1>
-    <p class="subtitle">Internal Medicine Boards — Personal Study Archive</p>
-  </header>
+<nav>
+  <div class="nav-brand">🩺 Boards Study Hub</div>
+  <div class="nav-links">
+    <a class="nav-link" href="checklist.html">📋 Checklist</a>
+    <a class="nav-link" href="sketches.html">🎨 Sketches</a>
+  </div>
+</nav>
 
-  <main>
+<div class="hero">
+  <div class="hero-badge">שלב א׳ רפואה פנימית</div>
+  <h1>Boards Study Hub</h1>
+  <p class="hero-sub">Internal Medicine Boards — Personal Study Archive</p>
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-n" style="color:#7c4dcc">9</div><div class="h-stat-l">subjects</div></div>
+    <div class="h-stat"><div class="h-stat-n" style="color:#c0392b">7</div><div class="h-stat-l">guides</div></div>
+    <div class="h-stat"><div class="h-stat-n" style="color:#1a6fc4">133</div><div class="h-stat-l">topics</div></div>
+  </div>
+</div>
 
-    <!-- Rheumatology -->
-    <div class="section" data-sys="rheum">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🦴</span>
-          <span class="section-title">Rheumatology</span>
-        </div>
-        <span class="section-count count-active">3 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <a class="topic-link" href="SLE_Boards_Study_Guide.html">
-          <span class="topic-dot"></span>Systemic Lupus Erythematosus (SLE)
-        </a>
-        <a class="topic-link" href="APS_Boards_Study_Guide.html">
-          <span class="topic-dot"></span>Antiphospholipid Syndrome (APS)
-        </a>
-        <a class="topic-link" href="gout_boards_guide.html">
-          <span class="topic-dot"></span>Gout
-        </a>
-      </div>
+<div class="tools">
+  <a class="tool tool-checklist" href="checklist.html">
+    <div class="tool-icon">📋</div>
+    <div><div class="tool-title">Checklist</div><div class="tool-sub">Subject + Questions</div></div>
+  </a>
+  <a class="tool tool-sketches" href="sketches.html">
+    <div class="tool-icon">🎨</div>
+    <div><div class="tool-title">Sketch Gallery</div><div class="tool-sub">All your scenes</div></div>
+  </a>
+</div>
+
+<div class="subjects">
+  <div class="sec-lbl" style="margin-top:8px">Study Guides</div>
+
+  <div class="sc sc-rheum" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🦴</span>
+      <div class="sc-info"><div class="sc-name">Rheumatology</div><div class="sc-topics">SLE · APS · Gout</div></div>
+      <span class="sc-pill active">3 guides</span>
+      <span class="sc-chevron">▾</span>
     </div>
-
-    <!-- Cardiology -->
-    <div class="section open" data-sys="cardio">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">❤️</span>
-          <span class="section-title">Cardiology</span>
-        </div>
-        <span class="section-count count-active">5 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <a class="topic-link" href="Stable_Angina_Boards_Guide.html">
-          <span class="topic-dot"></span>Stable Angina
-        </a>
-        <a class="topic-link" href="NSTEMI_boards_guide.html">
-          <span class="topic-dot"></span>NSTEMI
-        </a>
-        <a class="topic-link" href="STEMI_boards_guide_final.html">
-          <span class="topic-dot"></span>STEMI
-        </a>
-        <a class="topic-link" href="Hypertension_boards_guide.html">
-          <span class="topic-dot"></span>Hypertension
-        </a>
-        <a class="topic-link" href="pericardial_disease_boards_guide.html">
-          <span class="topic-dot"></span>Pericardial Disease
-        </a>
-      </div>
-    </div>
-
-    <!-- Nephrology -->
-    <div class="section" data-sys="nephro">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🫘</span>
-          <span class="section-title">Nephrology</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Infectious Disease -->
-    <div class="section" data-sys="id">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🦠</span>
-          <span class="section-title">Infectious Disease</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Respiratory -->
-    <div class="section" data-sys="resp">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🫁</span>
-          <span class="section-title">Respiratory</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Hematology -->
-    <div class="section" data-sys="hemato">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🩸</span>
-          <span class="section-title">Hematology</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Endocrinology -->
-    <div class="section" data-sys="endo">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">⚗️</span>
-          <span class="section-title">Endocrinology</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Gastroenterology -->
-    <div class="section" data-sys="gi">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🫄</span>
-          <span class="section-title">Gastroenterology</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-    <!-- Hepatology -->
-    <div class="section" data-sys="hepato">
-      <div class="section-header" onclick="toggle(this)">
-        <div class="section-left">
-          <span class="section-emoji">🫀</span>
-          <span class="section-title">Hepatology</span>
-        </div>
-        <span class="section-count count-empty">0 topics</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="topic-list">
-        <p class="topic-empty">Topics coming soon…</p>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ── Study Tasks ── -->
-  <div class="todo-wrap">
-    <div class="todo-header">
-      <span class="todo-icon">✏️</span>
-      <span class="todo-title">Study Tasks</span>
-    </div>
-    <div class="todo-block">
-      <div id="tasks-list"></div>
-      <div class="task-input-row">
-        <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
-        <button onclick="addTask()">+</button>
-      </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:20%"></div></div>
+    <div class="sc-body">
+      <a class="topic-link" href="SLE_Boards_Study_Guide.html"><span class="topic-dot"></span>Systemic Lupus Erythematosus (SLE)</a>
+      <a class="topic-link" href="APS_Boards_Study_Guide.html"><span class="topic-dot"></span>Antiphospholipid Syndrome (APS)</a>
+      <a class="topic-link" href="gout_boards_guide.html"><span class="topic-dot"></span>Gout</a>
     </div>
   </div>
 
-  <div style="max-width:720px;margin:20px auto 0;padding:0 16px;display:flex;flex-direction:column;gap:8px;">
-    <a href="checklist.html" style="display:flex;align-items:center;gap:12px;background:#ffffff;border:1px solid #e2e6f0;box-shadow:0 2px 8px rgba(0,0,0,.06);border-radius:10px;padding:16px 20px;text-decoration:none;color:#7c8299;font-family:'DM Mono',monospace;font-size:13px;transition:border-color 200ms ease;" onmouseover="this.style.borderColor='#c8cfe0';this.style.color='#1a1d2e'" onmouseout="this.style.borderColor='#e2e6f0';this.style.color='#5a6180'">
-      <span style="font-size:18px;">📋</span>
-      <span>Study Checklist — track every topic with Subject + Questions checkboxes</span>
-      <span style="margin-left:auto;font-size:12px;">→</span>
-    </a>
-    <a href="sketches.html" style="display:flex;align-items:center;gap:12px;background:#ffffff;border:1px solid #e2e6f0;box-shadow:0 2px 8px rgba(0,0,0,.06);border-radius:10px;padding:16px 20px;text-decoration:none;color:#7c8299;font-family:'DM Mono',monospace;font-size:13px;transition:border-color 200ms ease;" onmouseover="this.style.borderColor='#c8cfe0';this.style.color='#1a1d2e'" onmouseout="this.style.borderColor='#e2e6f0';this.style.color='#5a6180'">
-      <span style="font-size:18px;">🎨</span>
-      <span>Sketch Gallery — all your Sketchy scenes organized by topic</span>
-      <span style="margin-left:auto;font-size:12px;">→</span>
-    </a>
+  <div class="sc sc-cardio" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">❤️</span>
+      <div class="sc-info"><div class="sc-name">Cardiology</div><div class="sc-topics">Stable Angina · NSTEMI · STEMI · HTN · Pericardial</div></div>
+      <span class="sc-pill active">5 guides</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:26%"></div></div>
+    <div class="sc-body">
+      <a class="topic-link" href="Stable_Angina_Boards_Guide.html"><span class="topic-dot"></span>Stable Angina</a>
+      <a class="topic-link" href="NSTEMI_boards_guide.html"><span class="topic-dot"></span>NSTEMI</a>
+      <a class="topic-link" href="STEMI_boards_guide_final.html"><span class="topic-dot"></span>STEMI</a>
+      <a class="topic-link" href="Hypertension_boards_guide.html"><span class="topic-dot"></span>Hypertension</a>
+      <a class="topic-link" href="pericardial_disease_boards_guide.html"><span class="topic-dot"></span>Pericardial Disease</a>
+    </div>
   </div>
 
-  <footer>
-    <span>Tap a subject to expand</span>·<span>Tap a topic to open the guide</span>
-  </footer>
+  <div class="sc sc-nephro" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🫘</span>
+      <div class="sc-info"><div class="sc-name">Nephrology</div><div class="sc-topics">AKI · CKD · Glomerular · Fluid & Electrolytes</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
 
-  <style>
-    /* ── To-Do styles ── */
-    .todo-wrap {
-      max-width: 720px;
-      margin: 32px auto 0;
-      padding: 0 16px;
+  <div class="sc sc-id" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🦠</span>
+      <div class="sc-info"><div class="sc-name">Infectious Disease</div><div class="sc-topics">HIV · TB · Endocarditis · Sepsis</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sc sc-resp" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🫁</span>
+      <div class="sc-info"><div class="sc-name">Respiratory</div><div class="sc-topics">Asthma · COPD · ILD · Sleep Apnea</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sc sc-hemato" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🩸</span>
+      <div class="sc-info"><div class="sc-name">Hematology & Oncology</div><div class="sc-topics">Anemias · Leukemia · Lymphoma · Coagulation</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sc sc-endo" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">⚗️</span>
+      <div class="sc-info"><div class="sc-name">Endocrinology</div><div class="sc-topics">Diabetes · Thyroid · Adrenal · Calcium</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sc sc-gi" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🫄</span>
+      <div class="sc-info"><div class="sc-name">Gastroenterology</div><div class="sc-topics">IBD · PUD · GI Bleeding · Pancreas</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sc sc-hepato" onclick="toggle(this)">
+    <div class="sc-top">
+      <span class="sc-emoji">🫀</span>
+      <div class="sc-info"><div class="sc-name">Hepatology</div><div class="sc-topics">Cirrhosis · Viral Hepatitis · MASLD · Ascites</div></div>
+      <span class="sc-pill soon">coming soon</span>
+      <span class="sc-chevron">▾</span>
+    </div>
+    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="tasks-wrap">
+  <div class="tasks-hdr">✏️ Study Tasks</div>
+  <div id="task-list"></div>
+  <div class="task-input-row">
+    <input id="task-input" type="text" placeholder="Add a task and press Enter…" autocomplete="off"/>
+    <button onclick="addTask()">+</button>
+  </div>
+</div>
+
+<footer>
+  <p style="margin-bottom:8px">Tap a subject to expand · Tap a topic to open the guide</p>
+</footer>
+
+<script>
+  function toggle(card) {
+    const hasBody = card.querySelector('.sc-body');
+    if (!hasBody) return;
+    card.classList.toggle('open');
+  }
+
+  function getTasks() { return JSON.parse(localStorage.getItem('hub-tasks') || '[]'); }
+  function saveTasks(t) { localStorage.setItem('hub-tasks', JSON.stringify(t)); }
+
+  function renderTasks() {
+    const tasks = getTasks();
+    const el = document.getElementById('task-list');
+    if (!tasks.length) {
+      el.innerHTML = '<div class="task-empty">No tasks yet — add one below</div>';
+      return;
     }
+    el.innerHTML = tasks.map((t, i) => `
+      <div class="task-item ${t.done ? 'done' : ''}">
+        <input type="checkbox" class="task-cb" ${t.done ? 'checked' : ''} onchange="toggleTask(${i})"/>
+        <label onclick="toggleTask(${i})">${t.text}</label>
+        <button class="task-del" onclick="deleteTask(${i})">✕</button>
+      </div>`).join('');
+  }
 
-    .todo-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .todo-icon { font-size: 18px; }
-
-    .todo-title {
-      font-family: 'Crimson Pro', serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .todo-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    .todo-block-label {
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 12px 18px 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .todo-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 18px;
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-    }
-
-    .todo-item:last-child { border-bottom: none; }
-    .todo-item:hover { background: rgba(0,0,0,0.02); }
-
-    .todo-item input[type="checkbox"] {
-      appearance: none;
-      width: 15px;
-      height: 15px;
-      border: 1px solid var(--border-hover);
-      border-radius: 4px;
-      flex-shrink: 0;
-      cursor: pointer;
-      position: relative;
-      transition: background var(--transition), border-color var(--transition);
-    }
-
-    .todo-item input[type="checkbox"]:checked {
-      background: var(--accent-green);
-      border-color: var(--accent-green);
-    }
-
-    .todo-item input[type="checkbox"]:checked::after {
-      content: '✓';
-      position: absolute;
-      top: -1px;
-      left: 2px;
-      font-size: 11px;
-      color: #0d0f14;
-      font-weight: 700;
-    }
-
-    .todo-item label {
-      font-size: 13px;
-      color: var(--text-secondary);
-      flex: 1;
-      cursor: pointer;
-      transition: color var(--transition), text-decoration var(--transition);
-    }
-
-    .todo-item.done label {
-      color: var(--text-muted);
-      text-decoration: line-through;
-    }
-
-    .todo-item .delete-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 14px;
-      padding: 0 2px;
-      line-height: 1;
-      opacity: 0;
-      transition: opacity var(--transition), color var(--transition);
-    }
-
-    .todo-item:hover .delete-btn { opacity: 1; }
-    .todo-item .delete-btn:hover { color: var(--accent-red); }
-
-    .task-input-row {
-      display: flex;
-      gap: 8px;
-      padding: 10px 18px;
-      border-top: 1px solid var(--border);
-    }
-
-    .task-input-row input {
-      flex: 1;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 7px 12px;
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--text-primary);
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    .task-input-row input:focus { border-color: var(--border-hover); }
-    .task-input-row input::placeholder { color: var(--text-muted); }
-
-    .task-input-row button {
-      background: var(--border-hover);
-      border: none;
-      border-radius: 6px;
-      color: var(--text-primary);
-      font-size: 18px;
-      width: 34px;
-      cursor: pointer;
-      transition: background var(--transition);
-      line-height: 1;
-    }
-
-    .task-input-row button:hover { background: var(--accent-gold); color: #0d0f14; }
-  </style>
-
-  <script>
-    function toggle(header) {
-      const section = header.closest('.section');
-      section.classList.toggle('open');
-    }
-
-    /* ── Study Tasks ── */
-    function getTasks() {
-      return JSON.parse(localStorage.getItem('hub-tasks') || '[]');
-    }
-
-    function saveTasks(tasks) {
-      localStorage.setItem('hub-tasks', JSON.stringify(tasks));
-    }
-
-    function renderTasks() {
-      const tasks = getTasks();
-      const el = document.getElementById('tasks-list');
-      if (!tasks.length) {
-        el.innerHTML = '<div style="padding:12px 18px;font-size:12px;color:var(--text-muted);font-style:italic;">No tasks yet — add one below</div>';
-        return;
-      }
-      el.innerHTML = tasks.map((t, i) => `
-        <div class="todo-item ${t.done ? 'done' : ''}">
-          <input type="checkbox" id="tk-${i}" ${t.done ? 'checked' : ''}
-            onchange="toggleTask(${i})" />
-          <label for="tk-${i}">${t.text}</label>
-          <button class="delete-btn" onclick="deleteTask(${i})">✕</button>
-        </div>
-      `).join('');
-    }
-
-    function addTask() {
-      const input = document.getElementById('task-input');
-      const text = input.value.trim();
-      if (!text) return;
-      const tasks = getTasks();
-      tasks.push({ text, done: false });
-      saveTasks(tasks);
-      input.value = '';
-      renderTasks();
-    }
-
-    function toggleTask(i) {
-      const tasks = getTasks();
-      tasks[i].done = !tasks[i].done;
-      saveTasks(tasks);
-      renderTasks();
-    }
-
-    function deleteTask(i) {
-      const tasks = getTasks();
-      tasks.splice(i, 1);
-      saveTasks(tasks);
-      renderTasks();
-    }
-
-    document.getElementById('task-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') addTask();
-    });
-
+  function addTask() {
+    const input = document.getElementById('task-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const tasks = getTasks();
+    tasks.push({ text, done: false });
+    saveTasks(tasks);
+    input.value = '';
     renderTasks();
-  </script>
+  }
 
+  function toggleTask(i) {
+    const tasks = getTasks();
+    tasks[i].done = !tasks[i].done;
+    saveTasks(tasks);
+    renderTasks();
+  }
+
+  function deleteTask(i) {
+    const tasks = getTasks();
+    tasks.splice(i, 1);
+    saveTasks(tasks);
+    renderTasks();
+  }
+
+  document.getElementById('task-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addTask();
+  });
+
+  renderTasks();
+</script>
 </body>
 </html>
