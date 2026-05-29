@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Checklist — Boards Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#f4f6fb; --surface:#ffffff; --surface2:#f8f9fc;
+      --border:#e2e6f0; --border-h:#c8cfe0;
+      --text-1:#1a1d2e; --text-2:#5a6180; --text-3:#9aa0b8;
+      --green:#1a8a5a; --radius:12px; --tr:180ms ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text-1);font-family:'DM Mono',monospace;min-height:100vh;padding-bottom:80px;}
+
+    nav{background:var(--surface);border-bottom:1px solid var(--border);padding:13px 24px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    nav a{color:var(--text-3);text-decoration:none;font-size:12px;letter-spacing:.08em;transition:color var(--tr);}
+    nav a:hover{color:var(--text-1);}
+    nav .sep{color:var(--border-h);font-size:12px;}
+
+    header{padding:44px 24px 32px;text-align:center;background:linear-gradient(180deg,#eef1f9 0%,var(--bg) 100%);border-bottom:1px solid var(--border);}
+    h1{font-family:'Crimson Pro',serif;font-size:clamp(26px,6vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--text-1);}
+    .sub{font-size:11px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;}
+
+    .wrap{max-width:780px;margin:32px auto 0;padding:0 16px;display:flex;flex-direction:column;gap:10px;}
+
+    .subject{
+      background:var(--surface);border:1px solid var(--s-border);
+      border-radius:var(--radius);overflow:hidden;
+      border-top:3px solid var(--s-color);
+      box-shadow:0 2px 8px rgba(0,0,0,.05);
+      transition:box-shadow var(--tr);
+    }
+    .subject:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);}
+
+    .subj-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;background:var(--s-bg);}
+    .subj-emoji{font-size:20px;flex-shrink:0;}
+    .subj-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:700;flex:1;color:var(--s-color);}
+    .subj-stats{font-size:10px;color:var(--s-color);opacity:.7;letter-spacing:.06em;white-space:nowrap;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.6);border:1px solid var(--s-border);}
+    .chevron{font-size:11px;color:var(--s-color);opacity:.5;transition:transform var(--tr);}
+    .subject.open .chevron{transform:rotate(180deg);}
+
+    .progress-bar-wrap{padding:8px 20px 10px;display:none;background:var(--s-bg);border-bottom:1px solid var(--s-border);}
+    .subject.open .progress-bar-wrap{display:block;}
+    .progress-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+    .progress-fill{height:100%;border-radius:3px;transition:width .5s ease;}
+
+    .topic-list{display:none;}
+    .subject.open .topic-list{display:block;}
+
+    .topic-row{
+      display:flex;align-items:center;padding:11px 20px;
+      border-bottom:1px solid var(--border);
+      transition:background var(--tr);gap:12px;
+    }
+    .topic-row:last-child{border-bottom:none;}
+    .topic-row:hover{background:var(--s-bg);}
+    .topic-name{flex:1;font-size:12px;color:var(--text-2);letter-spacing:.02em;}
+    .topic-row.done-both .topic-name{color:var(--text-3);text-decoration:line-through;}
+
+    .topic-checks{display:flex;gap:24px;flex-shrink:0;}
+    .cb-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;}
+    .cb-hidden{display:none;}
+    .cb-vis{
+      width:20px;height:20px;border-radius:6px;
+      border:2px solid var(--border-h);background:#fff;
+      display:flex;align-items:center;justify-content:center;
+      transition:all var(--tr);font-size:13px;line-height:1;color:transparent;
+    }
+    .cb-vis::after{content:"✓";font-weight:700;}
+    .cb-hidden:checked + .cb-vis.subj-cb{
+      background:var(--cb-color,#5c8de0);border-color:var(--cb-color,#5c8de0);
+      color:#fff;box-shadow:0 2px 8px color-mix(in srgb,var(--cb-color,#5c8de0) 40%,transparent);
+    }
+    .cb-hidden:checked + .cb-vis.qs-cb{
+      background:#1a8a5a;border-color:#1a8a5a;color:#fff;
+      box-shadow:0 2px 8px rgba(26,138,90,.3);
+    }
+    .cb-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+
+    .section-sublabel{
+      padding:7px 20px 5px;font-size:9px;letter-spacing:.16em;
+      text-transform:uppercase;font-weight:600;
+      border-top:1px solid var(--border);
+    }
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+    .subject{animation:fadeIn .3s ease both;}
+    .subject:nth-child(2){animation-delay:.04s;}
+    .subject:nth-child(3){animation-delay:.08s;}
+    .subject:nth-child(4){animation-delay:.12s;}
+    .subject:nth-child(5){animation-delay:.16s;}
+    .subject:nth-child(6){animation-delay:.2s;}
+    .subject:nth-child(7){animation-delay:.24s;}
+    .subject:nth-child(8){animation-delay:.28s;}
+    .subject:nth-child(9){animation-delay:.32s;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Hub</a>
+  <span class="sep">/</span>
+  <a href="#">Study Checklist</a>
+</nav>
+
+<header>
+  <h1>📋 Study Checklist</h1>
+  <p class="sub">שלב א׳ — every topic · Subject ☑ + Questions ☑</p>
+</header>
+
+<div class="wrap">
+  <div class="subject" data-id="rheum" style="--s-color:#7c4dcc;--s-bg:#f5f0ff;--s-border:#d4b8f5">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🦴</span>
+      <span class="subj-title">Rheumatology</span>
+      <span class="subj-stats" id="stats-rheum"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-rheum" style="width:0%;background:#7c4dcc"></div></div>
+    </div>
+    <div class="topic-list" id="tl-rheum">
+      <div class="topic-row" data-subj="rheum" data-topic="vasculitis">
+        <span class="topic-name">Vasculitis Syndromes</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','vasculitis','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','vasculitis','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="ra">
+        <span class="topic-name">Rheumatoid Arthritis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','ra','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','ra','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="sle">
+        <span class="topic-name">SLE</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sle','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sle','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="gout">
+        <span class="topic-name">Gout</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','gout','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','gout','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="aps">
+        <span class="topic-name">APS</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','aps','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','aps','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="spondylo">
+        <span class="topic-name">Spondyloarthritis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','spondylo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','spondylo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="sarc">
+        <span class="topic-name">Sarcoidosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sarc','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sarc','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="sclero">
+        <span class="topic-name">Systemic Sclerosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sclero','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sclero','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="fmf">
+        <span class="topic-name">FMF</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','fmf','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','fmf','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="myop">
+        <span class="topic-name">Inflammatory Myopathy</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','myop','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','myop','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="igg4">
+        <span class="topic-name">IgG4</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','igg4','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','igg4','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="oa">
+        <span class="topic-name">OA</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','oa','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','oa','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="sjogren">
+        <span class="topic-name">Sjögren</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sjogren','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','sjogren','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="behcet">
+        <span class="topic-name">Behçet</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','behcet','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','behcet','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="rheum" data-topic="fibro">
+        <span class="topic-name">Fibromyalgia</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','fibro','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#7c4dcc"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('rheum','fibro','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="cardio" style="--s-color:#c0392b;--s-bg:#fff5f5;--s-border:#f5b8b8">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">❤️</span>
+      <span class="subj-title">Cardiology</span>
+      <span class="subj-stats" id="stats-cardio"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-cardio" style="width:0%;background:#c0392b"></div></div>
+    </div>
+    <div class="topic-list" id="tl-cardio">
+      <div class="topic-row" data-subj="cardio" data-topic="physex">
+        <span class="topic-name">Physical Exam of CV System</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','physex','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','physex','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="ecg">
+        <span class="topic-name">Electrocardiography</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','ecg','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','ecg','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="arrhyth">
+        <span class="topic-name">Arrhythmias</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','arrhyth','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','arrhyth','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="hf">
+        <span class="topic-name">Heart Failure</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','hf','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','hf','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="peri">
+        <span class="topic-name">Pericardial Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','peri','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','peri','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="cmp">
+        <span class="topic-name">Cardiomyopathy</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','cmp','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','cmp','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="valv">
+        <span class="topic-name">Valvular Diseases</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','valv','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','valv','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="ischemia">
+        <span class="topic-name">Ischemia (Stable Angina/NSTEMI/STEMI)</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','ischemia','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','ischemia','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="htn">
+        <span class="topic-name">Hypertension</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','htn','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','htn','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="phtn">
+        <span class="topic-name">Pulmonary Hypertension</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','phtn','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','phtn','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="dvt">
+        <span class="topic-name">DVT & PE</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','dvt','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','dvt','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="aorta">
+        <span class="topic-name">Diseases of the Aorta</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','aorta','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','aorta','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="cardio" data-topic="chd">
+        <span class="topic-name">Congenital Heart Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','chd','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#c0392b"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('cardio','chd','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="nephro" style="--s-color:#1a6fc4;--s-bg:#f0f6ff;--s-border:#b8d4f5">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫘</span>
+      <span class="subj-title">Nephrology</span>
+      <span class="subj-stats" id="stats-nephro"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-nephro" style="width:0%;background:#1a6fc4"></div></div>
+    </div>
+    <div class="topic-list" id="tl-nephro">
+      <div class="topic-row" data-subj="nephro" data-topic="aki">
+        <span class="topic-name">AKI</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','aki','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','aki','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="ckd">
+        <span class="topic-name">CKD</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','ckd','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','ckd','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="glom">
+        <span class="topic-name">Glomerular Diseases</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','glom','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','glom','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="tub">
+        <span class="topic-name">Tubulointerstitial</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','tub','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','tub','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="transplant">
+        <span class="topic-name">Kidney Transplantation</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','transplant','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','transplant','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="dialysis">
+        <span class="topic-name">Dialysis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','dialysis','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','dialysis','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="fluids">
+        <span class="topic-name">Fluids & Electrolytes</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','fluids','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','fluids','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="nephro" data-topic="acidbase">
+        <span class="topic-name">Acidosis & Alkalosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','acidbase','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a6fc4"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('nephro','acidbase','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="id" style="--s-color:#1a8a5a;--s-bg:#f0fff7;--s-border:#b8ecd4">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🦠</span>
+      <span class="subj-title">Infectious Disease</span>
+      <span class="subj-stats" id="stats-id"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-id" style="width:0%;background:#1a8a5a"></div></div>
+    </div>
+    <div class="topic-list" id="tl-id">
+      <div class="topic-row" data-subj="id" data-topic="hiv">
+        <span class="topic-name">HIV/AIDS</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','hiv','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','hiv','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="tb">
+        <span class="topic-name">Tuberculosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','tb','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','tb','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="pneumo">
+        <span class="topic-name">Pneumococcal Infections</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','pneumo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','pneumo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="hsv">
+        <span class="topic-name">Herpes Simplex Virus</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','hsv','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','hsv','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="staph">
+        <span class="topic-name">Staphylococcal Infections</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','staph','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','staph','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="endo">
+        <span class="topic-name">Infective Endocarditis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','endo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','endo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="uti">
+        <span class="topic-name">UTI, Pyelonephritis & Prostatitis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','uti','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','uti','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="pneumonia">
+        <span class="topic-name">Pneumonia</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','pneumonia','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','pneumonia','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="id" data-topic="sepsis">
+        <span class="topic-name">Sepsis & Septic Shock</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','sepsis','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#1a8a5a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('id','sepsis','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="resp" style="--s-color:#0a7fa0;--s-bg:#f0faff;--s-border:#b8e4f5">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫁</span>
+      <span class="subj-title">Respiratory</span>
+      <span class="subj-stats" id="stats-resp"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-resp" style="width:0%;background:#0a7fa0"></div></div>
+    </div>
+    <div class="topic-list" id="tl-resp">
+      <div class="topic-row" data-subj="resp" data-topic="asthma">
+        <span class="topic-name">Asthma</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','asthma','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','asthma','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="copd">
+        <span class="topic-name">COPD</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','copd','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','copd','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="ild">
+        <span class="topic-name">ILD</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','ild','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','ild','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="pleura">
+        <span class="topic-name">Pleural Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','pleura','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','pleura','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="sleep">
+        <span class="topic-name">Sleep Apnea</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','sleep','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','sleep','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="phtn">
+        <span class="topic-name">Pulmonary Hypertension</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','phtn','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','phtn','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="bronchi">
+        <span class="topic-name">Bronchiectasis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','bronchi','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','bronchi','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="hemo">
+        <span class="topic-name">Hemoptysis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','hemo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','hemo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="resp" data-topic="hypoxia">
+        <span class="topic-name">Hypoxia & Cyanosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','hypoxia','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#0a7fa0"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('resp','hypoxia','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="hemato" style="--s-color:#a0185a;--s-bg:#fff0f6;--s-border:#f5b8d4">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🩸</span>
+      <span class="subj-title">Hematology & Oncology</span>
+      <span class="subj-stats" id="stats-hemato"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-hemato" style="width:0%;background:#a0185a"></div></div>
+    </div>
+    <div class="topic-list" id="tl-hemato">
+      <div class="topic-row" data-subj="hemato" data-topic="anemia">
+        <span class="topic-name">Anemia & Polycythemia</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','anemia','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','anemia','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="iron">
+        <span class="topic-name">Iron Deficiency & Acquired Anemias</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','iron','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','iron','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="hgb">
+        <span class="topic-name">Disorders of Hemoglobin</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hgb','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hgb','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="mega">
+        <span class="topic-name">Megaloblastic Anemias</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','mega','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','mega','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="hemol">
+        <span class="topic-name">Hemolytic Anemias</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hemol','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hemol','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="bmf">
+        <span class="topic-name">Bone Marrow Failure</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','bmf','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','bmf','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="mpn">
+        <span class="topic-name">Myeloproliferative Neoplasms</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','mpn','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','mpn','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="section-sublabel" style="color:#a0185a;border-color:#f5b8d4;background:#ffd4e8">Hemostasis</div>
+      <div class="topic-row" data-subj="hemato" data-topic="plt">
+        <span class="topic-name">Platelet & Vessel Wall Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','plt','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','plt','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="coag">
+        <span class="topic-name">Coagulation Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','coag','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','coag','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="anticoag">
+        <span class="topic-name">Antiplatelet, Anticoagulant & Fibrinolytic Drugs</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','anticoag','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','anticoag','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="section-sublabel" style="color:#a0185a;border-color:#f5b8d4;background:#ffd4e8">Oncology</div>
+      <div class="topic-row" data-subj="hemato" data-topic="aml">
+        <span class="topic-name">AML</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','aml','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','aml','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="cml">
+        <span class="topic-name">CML</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','cml','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','cml','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="cll">
+        <span class="topic-name">CLL</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','cll','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','cll','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="hl">
+        <span class="topic-name">Hodgkin's Lymphoma</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hl','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','hl','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="nhl">
+        <span class="topic-name">Non-Hodgkin's Lymphoma</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','nhl','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','nhl','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="plasma">
+        <span class="topic-name">Plasma Cell Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','plasma','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','plasma','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="amy">
+        <span class="topic-name">Amyloidosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','amy','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','amy','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="transfusion">
+        <span class="topic-name">Transfusion Medicine</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','transfusion','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','transfusion','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hemato" data-topic="onc_emerg">
+        <span class="topic-name">Oncologic Emergency</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','onc_emerg','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#a0185a"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hemato','onc_emerg','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="endo" style="--s-color:#b06000;--s-bg:#fffaf0;--s-border:#f5ddb8">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">⚗️</span>
+      <span class="subj-title">Endocrinology</span>
+      <span class="subj-stats" id="stats-endo"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-endo" style="width:0%;background:#b06000"></div></div>
+    </div>
+    <div class="topic-list" id="tl-endo">
+      <div class="topic-row" data-subj="endo" data-topic="hypopit">
+        <span class="topic-name">Hypopituitarism</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hypopit','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hypopit','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="pittumor">
+        <span class="topic-name">Pituitary Tumor Syndromes</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','pittumor','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','pittumor','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="thyroid">
+        <span class="topic-name">Thyroid</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','thyroid','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','thyroid','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="neurohypo">
+        <span class="topic-name">Neurohypophysis Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','neurohypo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','neurohypo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="adrenal">
+        <span class="topic-name">Adrenal Cortex Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','adrenal','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','adrenal','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="pheo">
+        <span class="topic-name">Pheochromocytoma</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','pheo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','pheo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="men">
+        <span class="topic-name">MEN Syndromes</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','men','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','men','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="aps">
+        <span class="topic-name">Autoimmune Polyendocrine Syndrome</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','aps','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','aps','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="calcium">
+        <span class="topic-name">Calcium–Phosphate–PTH–Vitamin D</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','calcium','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','calcium','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="calcdis">
+        <span class="topic-name">Calcium Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','calcdis','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','calcdis','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="bone">
+        <span class="topic-name">Bone & Mineral Metabolism</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','bone','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','bone','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="para">
+        <span class="topic-name">Parathyroid & Calcium Homeostasis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','para','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','para','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="osteo">
+        <span class="topic-name">Osteoporosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','osteo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','osteo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="dm">
+        <span class="topic-name">Diabetes Mellitus</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','dm','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','dm','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="hypogly">
+        <span class="topic-name">Hypoglycemia</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hypogly','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hypogly','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="metsyn">
+        <span class="topic-name">Metabolic Syndrome</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','metsyn','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','metsyn','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="obesity">
+        <span class="topic-name">Obesity</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','obesity','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','obesity','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="lipid">
+        <span class="topic-name">Lipoprotein Disorders</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','lipid','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','lipid','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="hemochrom">
+        <span class="topic-name">Hemochromatosis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hemochrom','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','hemochrom','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="endo" data-topic="wilson">
+        <span class="topic-name">Wilson Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','wilson','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#b06000"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('endo','wilson','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="gi" style="--s-color:#4a8a00;--s-bg:#f5fff0;--s-border:#c8f0b8">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫄</span>
+      <span class="subj-title">Gastroenterology</span>
+      <span class="subj-stats" id="stats-gi"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-gi" style="width:0%;background:#4a8a00"></div></div>
+    </div>
+    <div class="topic-list" id="tl-gi">
+      <div class="topic-row" data-subj="gi" data-topic="ibd">
+        <span class="topic-name">IBD</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','ibd','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','ibd','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="pud">
+        <span class="topic-name">Peptic Ulcer Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','pud','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','pud','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="esoph">
+        <span class="topic-name">Diseases of the Esophagus</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','esoph','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','esoph','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="endo">
+        <span class="topic-name">GI Endoscopy</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','endo','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','endo','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="absorp">
+        <span class="topic-name">Disorders of Absorption</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','absorp','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','absorp','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="bleed">
+        <span class="topic-name">GI Bleeding</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','bleed','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','bleed','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="ibs">
+        <span class="topic-name">IBS</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','ibs','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','ibs','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="gi" data-topic="pancreas">
+        <span class="topic-name">Pancreatic Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','pancreas','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#4a8a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('gi','pancreas','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject" data-id="hepato" style="--s-color:#8a5a00;--s-bg:#fffbf0;--s-border:#f0dcb8">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫀</span>
+      <span class="subj-title">Hepatology</span>
+      <span class="subj-stats" id="stats-hepato"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="prog-hepato" style="width:0%;background:#8a5a00"></div></div>
+    </div>
+    <div class="topic-list" id="tl-hepato">
+      <div class="topic-row" data-subj="hepato" data-topic="viral">
+        <span class="topic-name">Viral Hepatitis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','viral','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','viral','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="approach">
+        <span class="topic-name">Approach to Liver Disease</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','approach','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','approach','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="eval">
+        <span class="topic-name">Evaluation of Liver Function</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','eval','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','eval','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="bili">
+        <span class="topic-name">Hyperbilirubinemias</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','bili','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','bili','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="cirr">
+        <span class="topic-name">Cirrhosis & Complications</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','cirr','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','cirr','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="drug">
+        <span class="topic-name">Drug-Induced Hepatitis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','drug','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','drug','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="ald">
+        <span class="topic-name">ALD</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','ald','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','ald','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="masld">
+        <span class="topic-name">MASLD & Steatohepatitis</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','masld','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','masld','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="tumor">
+        <span class="topic-name">Liver & Biliary Tumors</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','tumor','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','tumor','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+      <div class="topic-row" data-subj="hepato" data-topic="ascites">
+        <span class="topic-name">Ascites</span>
+        <div class="topic-checks">
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','ascites','s',this.checked)"/>
+            <span class="cb-vis subj-cb" style="--cb-color:#8a5a00"></span>
+            <span class="cb-lbl">Subject</span>
+          </label>
+          <label class="cb-wrap">
+            <input type="checkbox" class="cb-hidden" onchange="save('hepato','ascites','q',this.checked)"/>
+            <span class="cb-vis qs-cb"></span>
+            <span class="cb-lbl">Questions</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getState(){return JSON.parse(localStorage.getItem('cl-state')||'{}');}
+  function setState(s){localStorage.setItem('cl-state',JSON.stringify(s));}
+
+  function save(subj,topic,type,val){
+    const s=getState();
+    s[`${subj}__${topic}__${type}`]=val;
+    setState(s);
+    updateRow(subj,topic);
+    updateProgress(subj);
+  }
+
+  function updateRow(subj,topic){
+    const s=getState();
+    const row=document.querySelector(`[data-subj="${subj}"][data-topic="${topic}"]`);
+    if(!row)return;
+    row.classList.toggle('done-both',!!(s[`${subj}__${topic}__s`]&&s[`${subj}__${topic}__q`]));
+  }
+
+  function updateProgress(subjId){
+    const s=getState();
+    const rows=document.querySelectorAll(`#tl-${subjId} .topic-row`);
+    let total=0,done=0;
+    rows.forEach(r=>{
+      const subj=r.dataset.subj,topic=r.dataset.topic;
+      total+=2;
+      if(s[`${subj}__${topic}__s`])done++;
+      if(s[`${subj}__${topic}__q`])done++;
+    });
+    const pct=total?Math.round((done/total)*100):0;
+    const fill=document.getElementById(`prog-${subjId}`);
+    if(fill)fill.style.width=pct+'%';
+    const stats=document.getElementById(`stats-${subjId}`);
+    if(stats)stats.textContent=`${pct}% · ${Math.floor(done/2)}/${rows.length} topics`;
+  }
+
+  function loadAll(){
+    const s=getState();
+    document.querySelectorAll('.topic-row').forEach(row=>{
+      const subj=row.dataset.subj,topic=row.dataset.topic;
+      const inputs=row.querySelectorAll('.cb-hidden');
+      if(inputs[0])inputs[0].checked=!!s[`${subj}__${topic}__s`];
+      if(inputs[1])inputs[1].checked=!!s[`${subj}__${topic}__q`];
+      row.classList.toggle('done-both',!!(s[`${subj}__${topic}__s`]&&s[`${subj}__${topic}__q`]));
+    });
+    ['rheum', 'cardio', 'nephro', 'id', 'resp', 'hemato', 'endo', 'gi', 'hepato'].forEach(updateProgress);
+  }
+
+  function toggleSubj(header){header.closest('.subject').classList.toggle('open');}
+
+  loadAll();
+</script>
+</body>
+</html>

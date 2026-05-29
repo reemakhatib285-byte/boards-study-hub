@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sketch Gallery — Boards Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#f4f6fb; --surface:#ffffff; --surface2:#f8f9fc;
+      --border:#e2e6f0; --border-h:#c8cfe0;
+      --text-1:#1a1d2e; --text-2:#5a6180; --text-3:#9aa0b8;
+      --radius:12px; --tr:180ms ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text-1);font-family:'DM Mono',monospace;min-height:100vh;padding-bottom:80px;}
+
+    nav{background:var(--surface);border-bottom:1px solid var(--border);padding:13px 24px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+    nav a{color:var(--text-3);text-decoration:none;font-size:12px;letter-spacing:.08em;transition:color var(--tr);}
+    nav a:hover{color:var(--text-1);}
+    nav .sep{color:var(--border-h);font-size:12px;}
+
+    header{padding:44px 24px 28px;text-align:center;background:linear-gradient(180deg,#eef1f9 0%,var(--bg) 100%);border-bottom:1px solid var(--border);}
+    h1{font-family:'Crimson Pro',serif;font-size:clamp(26px,6vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;}
+    .sub{font-size:11px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;}
+
+    .how-to{max-width:780px;margin:28px auto 0;padding:0 16px;}
+    .how-to-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;font-size:12px;color:var(--text-2);line-height:1.8;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    .how-to-box strong{color:var(--text-1);}
+    .how-to-box code{background:var(--surface2);padding:2px 6px;border-radius:4px;color:#5cc8de;font-size:11px;}
+
+    .wrap{max-width:780px;margin:16px auto 0;padding:0 16px;display:flex;flex-direction:column;gap:10px;}
+
+    .subject-section{background:var(--surface);border:1px solid var(--s-border);border-radius:var(--radius);overflow:hidden;border-top:3px solid var(--s-color);box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    .subj-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;background:var(--s-bg);}
+    .subj-emoji{font-size:20px;flex-shrink:0;}
+    .subj-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;flex:1;color:var(--s-color);}
+    .subj-total{font-size:10px;color:var(--s-color);opacity:.7;letter-spacing:.06em;white-space:nowrap;}
+    .chevron{font-size:11px;color:var(--s-color);opacity:.6;transition:transform var(--tr);}
+    .subject-section.open .chevron{transform:rotate(180deg);}
+
+    .subj-body{display:none;border-top:1px solid var(--s-border);}
+    .subject-section.open .subj-body{display:block;}
+
+    .topic-section{border-bottom:1px solid var(--border);padding:14px 20px 16px;}
+    .topic-section:last-child{border-bottom:none;}
+    .topic-sec-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+    .topic-sec-name{font-size:13px;color:var(--text-2);flex:1;letter-spacing:.02em;}
+    .scene-count{font-size:10px;color:var(--text-3);letter-spacing:.08em;}
+
+    .scene-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+
+    .scene-card{
+      background:var(--surface2);border:1px solid var(--border);border-radius:9px;
+      overflow:hidden;cursor:pointer;transition:all var(--tr);aspect-ratio:4/3;
+      position:relative;
+    }
+    .scene-card:hover{border-color:var(--s-color);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4);}
+    .scene-card img{width:100%;height:100%;object-fit:cover;display:block;}
+    .scene-label{
+      position:absolute;bottom:0;left:0;right:0;
+      background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);
+      padding:18px 8px 6px;font-size:9px;color:#fff;letter-spacing:.06em;text-align:center;
+    }
+
+    .empty-topic{
+      grid-column:1/-1;
+      border:1px dashed var(--border);border-radius:8px;padding:20px;
+      text-align:center;font-size:11px;color:var(--text-3);font-style:italic;
+    }
+
+    /* LIGHTBOX */
+    .lightbox{
+      display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;
+      align-items:center;justify-content:center;flex-direction:column;gap:12px;
+    }
+    .lightbox.active{display:flex;}
+    .lightbox img{max-width:90vw;max-height:82vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+    .lightbox-label{font-size:13px;color:var(--text-2);letter-spacing:.06em;}
+    .lightbox-close{
+      position:absolute;top:20px;right:24px;background:none;border:none;
+      color:var(--text-2);font-size:28px;cursor:pointer;transition:color var(--tr);
+    }
+    .lightbox-close:hover{color:var(--text-1);}
+    .lb-nav{display:flex;gap:16px;}
+    .lb-btn{
+      background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      color:var(--text-2);font-size:12px;padding:8px 18px;cursor:pointer;
+      transition:all var(--tr);font-family:'DM Mono',monospace;
+    }
+    .lb-btn:hover{background:var(--border-h);color:var(--text-1);}
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+    .subject-section{animation:fadeIn .35s ease both;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Hub</a>
+  <span class="sep">/</span>
+  <a href="#">Sketch Gallery</a>
+</nav>
+
+<header>
+  <h1>🎨 Sketch Gallery</h1>
+  <p class="sub">All your Sketchy scenes — organized by topic</p>
+</header>
+
+<div class="how-to">
+  <div class="how-to-box">
+    <strong>How to add sketches:</strong> Upload image files to your GitHub repo following this naming pattern:<br/>
+    <code>sketches/rheum/sle_1.png</code> &nbsp;·&nbsp; <code>sketches/cardio/pericardial_1.png</code> &nbsp;·&nbsp; <code>sketches/nephro/aki_1.png</code><br/>
+    The gallery checks for scenes numbered <strong>1–20</strong> per topic automatically. Just upload and refresh!
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="subject-section" id="subj-rheum" style="--s-color:#a07cde;--s-bg:rgba(160,124,222,0.1);--s-border:rgba(160,124,222,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🦴</span>
+      <span class="subj-title">Rheumatology</span>
+      <span class="subj-total" id="st-rheum"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-rheum-vasculitis">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Vasculitis Syndromes</span>
+            <span class="scene-count" id="sc-rheum-vasculitis">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-vasculitis"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-ra">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Rheumatoid Arthritis</span>
+            <span class="scene-count" id="sc-rheum-ra">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-ra"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-sle">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">SLE</span>
+            <span class="scene-count" id="sc-rheum-sle">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-sle"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-gout">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Gout</span>
+            <span class="scene-count" id="sc-rheum-gout">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-gout"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-aps">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">APS</span>
+            <span class="scene-count" id="sc-rheum-aps">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-aps"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-spondylo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Spondyloarthritis</span>
+            <span class="scene-count" id="sc-rheum-spondylo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-spondylo"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-sarc">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Sarcoidosis</span>
+            <span class="scene-count" id="sc-rheum-sarc">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-sarc"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-sclero">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Systemic Sclerosis</span>
+            <span class="scene-count" id="sc-rheum-sclero">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-sclero"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-fmf">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">FMF</span>
+            <span class="scene-count" id="sc-rheum-fmf">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-fmf"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-myop">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Inflammatory Myopathy</span>
+            <span class="scene-count" id="sc-rheum-myop">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-myop"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-igg4">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">IgG4</span>
+            <span class="scene-count" id="sc-rheum-igg4">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-igg4"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-oa">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">OA</span>
+            <span class="scene-count" id="sc-rheum-oa">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-oa"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-sjogren">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Sjögren</span>
+            <span class="scene-count" id="sc-rheum-sjogren">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-sjogren"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-behcet">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Behçet</span>
+            <span class="scene-count" id="sc-rheum-behcet">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-behcet"></div>
+        </div>
+        <div class="topic-section" id="t-rheum-fibro">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Fibromyalgia</span>
+            <span class="scene-count" id="sc-rheum-fibro">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-rheum-fibro"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-cardio" style="--s-color:#e05c5c;--s-bg:rgba(224,92,92,0.1);--s-border:rgba(224,92,92,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">❤️</span>
+      <span class="subj-title">Cardiology</span>
+      <span class="subj-total" id="st-cardio"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-cardio-physex">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Physical Exam</span>
+            <span class="scene-count" id="sc-cardio-physex">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-physex"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-ecg">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">ECG</span>
+            <span class="scene-count" id="sc-cardio-ecg">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-ecg"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-arrhyth">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Arrhythmias</span>
+            <span class="scene-count" id="sc-cardio-arrhyth">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-arrhyth"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-hf">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Heart Failure</span>
+            <span class="scene-count" id="sc-cardio-hf">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-hf"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-peri">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pericardial Disease</span>
+            <span class="scene-count" id="sc-cardio-peri">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-peri"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-cmp">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Cardiomyopathy</span>
+            <span class="scene-count" id="sc-cardio-cmp">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-cmp"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-valv">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Valvular Diseases</span>
+            <span class="scene-count" id="sc-cardio-valv">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-valv"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-ischemia">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Ischemia</span>
+            <span class="scene-count" id="sc-cardio-ischemia">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-ischemia"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-htn">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hypertension</span>
+            <span class="scene-count" id="sc-cardio-htn">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-htn"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-phtn">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pulm. HTN</span>
+            <span class="scene-count" id="sc-cardio-phtn">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-phtn"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-dvt">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">DVT/PE</span>
+            <span class="scene-count" id="sc-cardio-dvt">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-dvt"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-aorta">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Aortic Disease</span>
+            <span class="scene-count" id="sc-cardio-aorta">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-aorta"></div>
+        </div>
+        <div class="topic-section" id="t-cardio-chd">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Congenital HD</span>
+            <span class="scene-count" id="sc-cardio-chd">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-cardio-chd"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-nephro" style="--s-color:#5c8de0;--s-bg:rgba(92,141,224,0.1);--s-border:rgba(92,141,224,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫘</span>
+      <span class="subj-title">Nephrology</span>
+      <span class="subj-total" id="st-nephro"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-nephro-aki">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">AKI</span>
+            <span class="scene-count" id="sc-nephro-aki">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-aki"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-ckd">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">CKD</span>
+            <span class="scene-count" id="sc-nephro-ckd">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-ckd"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-glom">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Glomerular Diseases</span>
+            <span class="scene-count" id="sc-nephro-glom">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-glom"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-tub">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Tubulointerstitial</span>
+            <span class="scene-count" id="sc-nephro-tub">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-tub"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-transplant">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Transplant</span>
+            <span class="scene-count" id="sc-nephro-transplant">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-transplant"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-dialysis">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Dialysis</span>
+            <span class="scene-count" id="sc-nephro-dialysis">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-dialysis"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-fluids">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Fluids & Electrolytes</span>
+            <span class="scene-count" id="sc-nephro-fluids">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-fluids"></div>
+        </div>
+        <div class="topic-section" id="t-nephro-acidbase">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Acidosis & Alkalosis</span>
+            <span class="scene-count" id="sc-nephro-acidbase">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-nephro-acidbase"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-id" style="--s-color:#5cc49e;--s-bg:rgba(92,196,158,0.1);--s-border:rgba(92,196,158,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🦠</span>
+      <span class="subj-title">Infectious Disease</span>
+      <span class="subj-total" id="st-id"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-id-hiv">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">HIV/AIDS</span>
+            <span class="scene-count" id="sc-id-hiv">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-hiv"></div>
+        </div>
+        <div class="topic-section" id="t-id-tb">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Tuberculosis</span>
+            <span class="scene-count" id="sc-id-tb">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-tb"></div>
+        </div>
+        <div class="topic-section" id="t-id-pneumo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pneumococcal</span>
+            <span class="scene-count" id="sc-id-pneumo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-pneumo"></div>
+        </div>
+        <div class="topic-section" id="t-id-hsv">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">HSV</span>
+            <span class="scene-count" id="sc-id-hsv">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-hsv"></div>
+        </div>
+        <div class="topic-section" id="t-id-staph">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Staph</span>
+            <span class="scene-count" id="sc-id-staph">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-staph"></div>
+        </div>
+        <div class="topic-section" id="t-id-endo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Endocarditis</span>
+            <span class="scene-count" id="sc-id-endo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-endo"></div>
+        </div>
+        <div class="topic-section" id="t-id-uti">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">UTI/Pyelonephritis</span>
+            <span class="scene-count" id="sc-id-uti">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-uti"></div>
+        </div>
+        <div class="topic-section" id="t-id-pneumonia">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pneumonia</span>
+            <span class="scene-count" id="sc-id-pneumonia">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-pneumonia"></div>
+        </div>
+        <div class="topic-section" id="t-id-sepsis">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Sepsis</span>
+            <span class="scene-count" id="sc-id-sepsis">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-id-sepsis"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-resp" style="--s-color:#5cc8de;--s-bg:rgba(92,200,222,0.1);--s-border:rgba(92,200,222,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫁</span>
+      <span class="subj-title">Respiratory</span>
+      <span class="subj-total" id="st-resp"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-resp-asthma">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Asthma</span>
+            <span class="scene-count" id="sc-resp-asthma">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-asthma"></div>
+        </div>
+        <div class="topic-section" id="t-resp-copd">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">COPD</span>
+            <span class="scene-count" id="sc-resp-copd">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-copd"></div>
+        </div>
+        <div class="topic-section" id="t-resp-ild">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">ILD</span>
+            <span class="scene-count" id="sc-resp-ild">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-ild"></div>
+        </div>
+        <div class="topic-section" id="t-resp-pleura">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pleural Disorders</span>
+            <span class="scene-count" id="sc-resp-pleura">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-pleura"></div>
+        </div>
+        <div class="topic-section" id="t-resp-sleep">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Sleep Apnea</span>
+            <span class="scene-count" id="sc-resp-sleep">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-sleep"></div>
+        </div>
+        <div class="topic-section" id="t-resp-phtn">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pulm. HTN</span>
+            <span class="scene-count" id="sc-resp-phtn">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-phtn"></div>
+        </div>
+        <div class="topic-section" id="t-resp-hemo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hemoptysis</span>
+            <span class="scene-count" id="sc-resp-hemo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-hemo"></div>
+        </div>
+        <div class="topic-section" id="t-resp-hypoxia">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hypoxia & Cyanosis</span>
+            <span class="scene-count" id="sc-resp-hypoxia">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-resp-hypoxia"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-hemato" style="--s-color:#de7ca0;--s-bg:rgba(222,124,160,0.1);--s-border:rgba(222,124,160,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🩸</span>
+      <span class="subj-title">Hematology & Oncology</span>
+      <span class="subj-total" id="st-hemato"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-hemato-anemia">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Anemia</span>
+            <span class="scene-count" id="sc-hemato-anemia">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-anemia"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-iron">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Iron Def. Anemias</span>
+            <span class="scene-count" id="sc-hemato-iron">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-iron"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-hgb">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hemoglobin Disorders</span>
+            <span class="scene-count" id="sc-hemato-hgb">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-hgb"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-mega">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Megaloblastic</span>
+            <span class="scene-count" id="sc-hemato-mega">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-mega"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-hemol">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hemolytic Anemias</span>
+            <span class="scene-count" id="sc-hemato-hemol">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-hemol"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-bmf">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Bone Marrow Failure</span>
+            <span class="scene-count" id="sc-hemato-bmf">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-bmf"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-mpn">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">MPN</span>
+            <span class="scene-count" id="sc-hemato-mpn">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-mpn"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-plt">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Platelet Disorders</span>
+            <span class="scene-count" id="sc-hemato-plt">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-plt"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-coag">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Coagulation</span>
+            <span class="scene-count" id="sc-hemato-coag">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-coag"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-aml">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">AML</span>
+            <span class="scene-count" id="sc-hemato-aml">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-aml"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-cml">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">CML</span>
+            <span class="scene-count" id="sc-hemato-cml">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-cml"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-cll">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">CLL</span>
+            <span class="scene-count" id="sc-hemato-cll">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-cll"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-hl">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hodgkin's</span>
+            <span class="scene-count" id="sc-hemato-hl">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-hl"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-nhl">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">NHL</span>
+            <span class="scene-count" id="sc-hemato-nhl">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-nhl"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-plasma">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Plasma Cell Disorders</span>
+            <span class="scene-count" id="sc-hemato-plasma">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-plasma"></div>
+        </div>
+        <div class="topic-section" id="t-hemato-amy">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Amyloidosis</span>
+            <span class="scene-count" id="sc-hemato-amy">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hemato-amy"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-endo" style="--s-color:#e09a5c;--s-bg:rgba(224,154,92,0.1);--s-border:rgba(224,154,92,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">⚗️</span>
+      <span class="subj-title">Endocrinology</span>
+      <span class="subj-total" id="st-endo"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-endo-thyroid">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Thyroid</span>
+            <span class="scene-count" id="sc-endo-thyroid">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-thyroid"></div>
+        </div>
+        <div class="topic-section" id="t-endo-adrenal">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Adrenal</span>
+            <span class="scene-count" id="sc-endo-adrenal">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-adrenal"></div>
+        </div>
+        <div class="topic-section" id="t-endo-pheo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pheochromocytoma</span>
+            <span class="scene-count" id="sc-endo-pheo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-pheo"></div>
+        </div>
+        <div class="topic-section" id="t-endo-dm">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Diabetes Mellitus</span>
+            <span class="scene-count" id="sc-endo-dm">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-dm"></div>
+        </div>
+        <div class="topic-section" id="t-endo-hypogly">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Hypoglycemia</span>
+            <span class="scene-count" id="sc-endo-hypogly">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-hypogly"></div>
+        </div>
+        <div class="topic-section" id="t-endo-calcium">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Calcium Disorders</span>
+            <span class="scene-count" id="sc-endo-calcium">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-calcium"></div>
+        </div>
+        <div class="topic-section" id="t-endo-osteo">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Osteoporosis</span>
+            <span class="scene-count" id="sc-endo-osteo">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-osteo"></div>
+        </div>
+        <div class="topic-section" id="t-endo-lipid">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Lipid Disorders</span>
+            <span class="scene-count" id="sc-endo-lipid">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-endo-lipid"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-gi" style="--s-color:#a0c45c;--s-bg:rgba(160,196,92,0.1);--s-border:rgba(160,196,92,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫄</span>
+      <span class="subj-title">Gastroenterology</span>
+      <span class="subj-total" id="st-gi"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-gi-ibd">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">IBD</span>
+            <span class="scene-count" id="sc-gi-ibd">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-ibd"></div>
+        </div>
+        <div class="topic-section" id="t-gi-pud">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Peptic Ulcer Disease</span>
+            <span class="scene-count" id="sc-gi-pud">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-pud"></div>
+        </div>
+        <div class="topic-section" id="t-gi-esoph">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Esophagus</span>
+            <span class="scene-count" id="sc-gi-esoph">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-esoph"></div>
+        </div>
+        <div class="topic-section" id="t-gi-absorp">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Absorption Disorders</span>
+            <span class="scene-count" id="sc-gi-absorp">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-absorp"></div>
+        </div>
+        <div class="topic-section" id="t-gi-bleed">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">GI Bleeding</span>
+            <span class="scene-count" id="sc-gi-bleed">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-bleed"></div>
+        </div>
+        <div class="topic-section" id="t-gi-ibs">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">IBS</span>
+            <span class="scene-count" id="sc-gi-ibs">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-ibs"></div>
+        </div>
+        <div class="topic-section" id="t-gi-pancreas">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Pancreatic Disease</span>
+            <span class="scene-count" id="sc-gi-pancreas">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-gi-pancreas"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="subject-section" id="subj-hepato" style="--s-color:#c9a96e;--s-bg:rgba(201,169,110,0.1);--s-border:rgba(201,169,110,0.25)">
+    <div class="subj-header" onclick="toggleSubj(this)">
+      <span class="subj-emoji">🫀</span>
+      <span class="subj-title">Hepatology</span>
+      <span class="subj-total" id="st-hepato"></span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="subj-body">
+        <div class="topic-section" id="t-hepato-viral">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Viral Hepatitis</span>
+            <span class="scene-count" id="sc-hepato-viral">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-viral"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-cirr">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Cirrhosis</span>
+            <span class="scene-count" id="sc-hepato-cirr">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-cirr"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-drug">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Drug-Induced Hepatitis</span>
+            <span class="scene-count" id="sc-hepato-drug">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-drug"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-ald">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">ALD</span>
+            <span class="scene-count" id="sc-hepato-ald">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-ald"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-masld">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">MASLD</span>
+            <span class="scene-count" id="sc-hepato-masld">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-masld"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-tumor">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Liver Tumors</span>
+            <span class="scene-count" id="sc-hepato-tumor">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-tumor"></div>
+        </div>
+        <div class="topic-section" id="t-hepato-ascites">
+          <div class="topic-sec-header">
+            <span class="topic-sec-name">Ascites</span>
+            <span class="scene-count" id="sc-hepato-ascites">loading…</span>
+          </div>
+          <div class="scene-grid" id="sg-hepato-ascites"></div>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLB(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt=""/>
+  <div class="lb-nav">
+    <button class="lb-btn" onclick="lbNav(-1)">← Prev</button>
+    <span class="lightbox-label" id="lb-label"></span>
+    <button class="lb-btn" onclick="lbNav(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+  const SUBJ_TOPICS = {
+  "rheum": ["vasculitis", "ra", "sle", "gout", "aps", "spondylo", "sarc", "sclero", "fmf", "myop", "igg4", "oa", "sjogren", "behcet", "fibro"],
+  "cardio": ["physex", "ecg", "arrhyth", "hf", "peri", "cmp", "valv", "ischemia", "htn", "phtn", "dvt", "aorta", "chd"],
+  "nephro": ["aki", "ckd", "glom", "tub", "transplant", "dialysis", "fluids", "acidbase"],
+  "id": ["hiv", "tb", "pneumo", "hsv", "staph", "endo", "uti", "pneumonia", "sepsis"],
+  "resp": ["asthma", "copd", "ild", "pleura", "sleep", "phtn", "hemo", "hypoxia"],
+  "hemato": ["anemia", "iron", "hgb", "mega", "hemol", "bmf", "mpn", "plt", "coag", "aml", "cml", "cll", "hl", "nhl", "plasma", "amy"],
+  "endo": ["thyroid", "adrenal", "pheo", "dm", "hypogly", "calcium", "osteo", "lipid"],
+  "gi": ["ibd", "pud", "esoph", "absorp", "bleed", "ibs", "pancreas"],
+  "hepato": ["viral", "cirr", "drug", "ald", "masld", "tumor", "ascites"]
+};
+  const MAX_SCENES = 20;
+
+  let lbImages = [];
+  let lbIndex = 0;
+
+  function toggleSubj(header) {
+    header.closest('.subject-section').classList.toggle('open');
+  }
+
+  function tryLoadImages(subjId, topicId) {
+    const grid = document.getElementById(`sg-${subjId}-${topicId}`);
+    const countEl = document.getElementById(`sc-${subjId}-${topicId}`);
+    let loaded = 0;
+    let checked = 0;
+
+    const images = [];
+
+    for (let i = 1; i <= MAX_SCENES; i++) {
+      const img = new Image();
+      const src = `sketches/${subjId}/${topicId}_${i}.png`;
+      img.onload = () => {
+        images[i] = src;
+        checked++;
+        if (checked === MAX_SCENES) finalize();
+      };
+      img.onerror = () => {
+        // try jpg
+        const imgJpg = new Image();
+        imgJpg.onload = () => { images[i] = `sketches/${subjId}/${topicId}_${i}.jpg`; checked++; if (checked===MAX_SCENES) finalize(); };
+        imgJpg.onerror = () => { checked++; if (checked===MAX_SCENES) finalize(); };
+        imgJpg.src = `sketches/${subjId}/${topicId}_${i}.jpg`;
+      };
+      img.src = src;
+    }
+
+    function finalize() {
+      const validImages = images.filter(Boolean);
+      loaded = validImages.length;
+      countEl.textContent = loaded ? `${loaded} scene${loaded===1?'':'s'}` : 'no sketches yet';
+      if (!loaded) {
+        grid.innerHTML = `<div class="empty-topic">No sketches yet — upload <code>sketches/${subjId}/${topicId}_1.png</code> to get started</div>`;
+        return;
+      }
+      grid.innerHTML = '';
+      validImages.forEach((src, idx) => {
+        const card = document.createElement('div');
+        card.className = 'scene-card';
+        card.innerHTML = `<img src="${src}" loading="lazy"/><div class="scene-label">Scene ${idx+1}</div>`;
+        card.onclick = () => openLightbox(validImages, idx);
+        grid.appendChild(card);
+      });
+      updateSubjTotal(subjId);
+    }
+  }
+
+  function updateSubjTotal(subjId) {
+    const topics = SUBJ_TOPICS[subjId];
+    let total = 0;
+    topics.forEach(tid => {
+      const el = document.getElementById(`sc-${subjId}-${tid}`);
+      if (el) {
+        const n = parseInt(el.textContent);
+        if (!isNaN(n)) total += n;
+      }
+    });
+    const el = document.getElementById(`st-${subjId}`);
+    if (el && total > 0) el.textContent = `${total} scenes`;
+  }
+
+  function openLightbox(images, index) {
+    lbImages = images;
+    lbIndex = index;
+    showLB();
+    document.getElementById('lightbox').classList.add('active');
+  }
+
+  function showLB() {
+    document.getElementById('lb-img').src = lbImages[lbIndex];
+    document.getElementById('lb-label').textContent = `Scene ${lbIndex+1} of ${lbImages.length}`;
+  }
+
+  function lbNav(dir) {
+    lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+    showLB();
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  function closeLB(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // Load all topics
+  Object.entries(SUBJ_TOPICS).forEach(([subjId, topics]) => {
+    topics.forEach(tid => tryLoadImages(subjId, tid));
+  });
+</script>
+</body>
+</html>

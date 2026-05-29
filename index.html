@@ -8,31 +8,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0d0f14;
-      --surface: #13161d;
-      --border: #1e2330;
-      --border-hover: #2e3548;
-      --text-primary: #e8eaf0;
-      --text-secondary: #7c8299;
-      --text-muted: #464d63;
-      --accent-red: #e05c5c;
-      --accent-red-dim: rgba(224, 92, 92, 0.12);
-      --accent-gold: #c9a96e;
-      --accent-gold-dim: rgba(201, 169, 110, 0.1);
-      --accent-blue: #5c8de0;
-      --accent-blue-dim: rgba(92, 141, 224, 0.1);
-      --accent-green: #5cc49e;
-      --accent-green-dim: rgba(92, 196, 158, 0.1);
-      --accent-purple: #a07cde;
-      --accent-purple-dim: rgba(160, 124, 222, 0.1);
-      --accent-orange: #e09a5c;
-      --accent-orange-dim: rgba(224, 154, 92, 0.1);
-      --accent-teal: #5cc8de;
-      --accent-teal-dim: rgba(92, 200, 222, 0.1);
-      --accent-pink: #de7ca0;
-      --accent-pink-dim: rgba(222, 124, 160, 0.1);
-      --accent-olive: #a0c45c;
-      --accent-olive-dim: rgba(160, 196, 92, 0.1);
+      --bg: #f4f6fb;
+      --surface: #ffffff;
+      --border: #e2e6f0;
+      --border-hover: #c8cfe0;
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a6180;
+      --text-muted: #9aa0b8;
+      --accent-red: #c0392b;
+      --accent-red-dim: rgba(192, 57, 43, 0.08);
+      --accent-gold: #8a5a00;
+      --accent-gold-dim: rgba(138, 90, 0, 0.08);
+      --accent-blue: #1a6fc4;
+      --accent-blue-dim: rgba(26, 111, 196, 0.08);
+      --accent-green: #1a8a5a;
+      --accent-green-dim: rgba(26, 138, 90, 0.08);
+      --accent-purple: #7c4dcc;
+      --accent-purple-dim: rgba(124, 77, 204, 0.08);
+      --accent-orange: #b06000;
+      --accent-orange-dim: rgba(176, 96, 0, 0.08);
+      --accent-teal: #0a7fa0;
+      --accent-teal-dim: rgba(10, 127, 160, 0.08);
+      --accent-pink: #a0185a;
+      --accent-pink-dim: rgba(160, 24, 90, 0.08);
+      --accent-olive: #4a8a00;
+      --accent-olive-dim: rgba(74, 138, 0, 0.08);
       --radius: 10px;
       --transition: 200ms ease;
     }
@@ -47,9 +47,12 @@
       padding: 0 0 80px;
     }
 
+    .section { box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+
     /* ── Header ── */
+    nav { box-shadow: 0 1px 3px rgba(0,0,0,.06); }
     header {
-      background: linear-gradient(180deg, #111420 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #eef1f9 0%, var(--bg) 100%);
       border-bottom: 1px solid var(--border);
       padding: 48px 24px 36px;
       text-align: center;
@@ -214,7 +217,7 @@
     .topic-link:last-child { border-bottom: none; }
 
     .topic-link:hover {
-      background: rgba(255,255,255,0.03);
+      background: rgba(0,0,0,0.02);
       color: var(--text-primary);
       padding-left: 70px;
     }
@@ -458,15 +461,246 @@
 
   </main>
 
+  <!-- ── Study Tasks ── -->
+  <div class="todo-wrap">
+    <div class="todo-header">
+      <span class="todo-icon">✏️</span>
+      <span class="todo-title">Study Tasks</span>
+    </div>
+    <div class="todo-block">
+      <div id="tasks-list"></div>
+      <div class="task-input-row">
+        <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
+        <button onclick="addTask()">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:720px;margin:20px auto 0;padding:0 16px;display:flex;flex-direction:column;gap:8px;">
+    <a href="checklist.html" style="display:flex;align-items:center;gap:12px;background:#ffffff;border:1px solid #e2e6f0;box-shadow:0 2px 8px rgba(0,0,0,.06);border-radius:10px;padding:16px 20px;text-decoration:none;color:#7c8299;font-family:'DM Mono',monospace;font-size:13px;transition:border-color 200ms ease;" onmouseover="this.style.borderColor='#c8cfe0';this.style.color='#1a1d2e'" onmouseout="this.style.borderColor='#e2e6f0';this.style.color='#5a6180'">
+      <span style="font-size:18px;">📋</span>
+      <span>Study Checklist — track every topic with Subject + Questions checkboxes</span>
+      <span style="margin-left:auto;font-size:12px;">→</span>
+    </a>
+    <a href="sketches.html" style="display:flex;align-items:center;gap:12px;background:#ffffff;border:1px solid #e2e6f0;box-shadow:0 2px 8px rgba(0,0,0,.06);border-radius:10px;padding:16px 20px;text-decoration:none;color:#7c8299;font-family:'DM Mono',monospace;font-size:13px;transition:border-color 200ms ease;" onmouseover="this.style.borderColor='#c8cfe0';this.style.color='#1a1d2e'" onmouseout="this.style.borderColor='#e2e6f0';this.style.color='#5a6180'">
+      <span style="font-size:18px;">🎨</span>
+      <span>Sketch Gallery — all your Sketchy scenes organized by topic</span>
+      <span style="margin-left:auto;font-size:12px;">→</span>
+    </a>
+  </div>
+
   <footer>
     <span>Tap a subject to expand</span>·<span>Tap a topic to open the guide</span>
   </footer>
+
+  <style>
+    /* ── To-Do styles ── */
+    .todo-wrap {
+      max-width: 720px;
+      margin: 32px auto 0;
+      padding: 0 16px;
+    }
+
+    .todo-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .todo-icon { font-size: 18px; }
+
+    .todo-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .todo-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .todo-block-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 12px 18px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    .todo-item:last-child { border-bottom: none; }
+    .todo-item:hover { background: rgba(0,0,0,0.02); }
+
+    .todo-item input[type="checkbox"] {
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1px solid var(--border-hover);
+      border-radius: 4px;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .todo-item input[type="checkbox"]:checked {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .todo-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -1px;
+      left: 2px;
+      font-size: 11px;
+      color: #0d0f14;
+      font-weight: 700;
+    }
+
+    .todo-item label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      flex: 1;
+      cursor: pointer;
+      transition: color var(--transition), text-decoration var(--transition);
+    }
+
+    .todo-item.done label {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .todo-item .delete-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0 2px;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity var(--transition), color var(--transition);
+    }
+
+    .todo-item:hover .delete-btn { opacity: 1; }
+    .todo-item .delete-btn:hover { color: var(--accent-red); }
+
+    .task-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .task-input-row input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .task-input-row input:focus { border-color: var(--border-hover); }
+    .task-input-row input::placeholder { color: var(--text-muted); }
+
+    .task-input-row button {
+      background: var(--border-hover);
+      border: none;
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 18px;
+      width: 34px;
+      cursor: pointer;
+      transition: background var(--transition);
+      line-height: 1;
+    }
+
+    .task-input-row button:hover { background: var(--accent-gold); color: #0d0f14; }
+  </style>
 
   <script>
     function toggle(header) {
       const section = header.closest('.section');
       section.classList.toggle('open');
     }
+
+    /* ── Study Tasks ── */
+    function getTasks() {
+      return JSON.parse(localStorage.getItem('hub-tasks') || '[]');
+    }
+
+    function saveTasks(tasks) {
+      localStorage.setItem('hub-tasks', JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+      const tasks = getTasks();
+      const el = document.getElementById('tasks-list');
+      if (!tasks.length) {
+        el.innerHTML = '<div style="padding:12px 18px;font-size:12px;color:var(--text-muted);font-style:italic;">No tasks yet — add one below</div>';
+        return;
+      }
+      el.innerHTML = tasks.map((t, i) => `
+        <div class="todo-item ${t.done ? 'done' : ''}">
+          <input type="checkbox" id="tk-${i}" ${t.done ? 'checked' : ''}
+            onchange="toggleTask(${i})" />
+          <label for="tk-${i}">${t.text}</label>
+          <button class="delete-btn" onclick="deleteTask(${i})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addTask() {
+      const input = document.getElementById('task-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const tasks = getTasks();
+      tasks.push({ text, done: false });
+      saveTasks(tasks);
+      input.value = '';
+      renderTasks();
+    }
+
+    function toggleTask(i) {
+      const tasks = getTasks();
+      tasks[i].done = !tasks[i].done;
+      saveTasks(tasks);
+      renderTasks();
+    }
+
+    function deleteTask(i) {
+      const tasks = getTasks();
+      tasks.splice(i, 1);
+      saveTasks(tasks);
+      renderTasks();
+    }
+
+    document.getElementById('task-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addTask();
+    });
+
+    renderTasks();
   </script>
 
 </body>
