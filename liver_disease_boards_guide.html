@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Liver Disease · Boards Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.7}
+:root{
+  --bg:#f8f7f4;--sf:#fff;--sf2:#f0ede8;--bd:#ddd9d2;--bd2:#b8b3aa;
+  --tx:#1c1a17;--t2:#4a4540;--t3:#857f77;
+  --blu:#1e4db7;--blu-l:#eef2fd;--blu-d:#163a8c;
+  --red:#b91c1c;--red-l:#fef2f2;
+  --amb:#b45309;--amb-l:#fffbeb;
+  --grn:#15803d;--grn-l:#f0fdf4;
+  --pur:#6d28d9;--pur-l:#f5f3ff;
+  --tel:#0e7490;--tel-l:#ecfeff;
+  --hy:rgba(253,224,71,.5);--hg:rgba(134,239,172,.5);
+  --hb:rgba(147,197,253,.5);--hpk:rgba(249,168,212,.5);--ho:rgba(253,186,116,.5);
+  --nav:54px;--snw:300px;
+}
+#toolbar{position:fixed;top:10px;left:12px;z-index:999;background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:5px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+.albl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-right:2px}
+.hbtn{width:23px;height:23px;border-radius:5px;border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:transform .15s,outline .15s;flex-shrink:0}
+.hbtn:hover{transform:scale(1.2)}
+.hbtn.active{outline:2.5px solid var(--blu);outline-offset:1px}
+#h-y{background:#fde047}#h-g{background:#86efac}#h-b{background:#93c5fd}#h-p{background:#f9a8d4}#h-o{background:#fdba74}
+.tsep{width:1px;height:22px;background:var(--bd);margin:0 3px}
+.tbtn{width:30px;height:30px;border:1.5px solid var(--bd);border-radius:6px;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);transition:background .15s}
+.tbtn:hover{background:var(--blu-l);color:var(--blu)}
+.tbtn.wide{width:auto;padding:0 8px;font-family:'JetBrains Mono',monospace;font-size:8.5px}
+#sn-sidebar{position:fixed;right:0;top:var(--nav);width:var(--snw);height:calc(100vh - var(--nav));background:var(--sf2);border-left:1.5px solid var(--bd2);display:flex;flex-direction:column;z-index:800;transition:transform .25s}
+#sn-sidebar.hidden{transform:translateX(100%)}
+#sn-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-hd span{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+#sn-toggle-btn{cursor:pointer;border:none;background:none;font-size:16px;color:var(--t3);padding:0 2px}
+#sn-toggle-btn:hover{color:var(--pur)}
+#sn-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+#sn-empty{text-align:center;color:var(--t3);font-size:11px;padding:28px 10px;font-style:italic}
+.sn-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 12px;position:relative;resize:vertical;overflow:auto;min-height:70px;cursor:grab}
+.sn-card:active{cursor:grabbing}
+.sn-card-ref{font-size:10px;color:var(--pur);font-style:italic;margin-bottom:4px;word-break:break-word}
+.sn-card-text{font-size:12px;color:var(--tx);white-space:pre-wrap;word-break:break-word}
+.sn-card-del{position:absolute;top:6px;right:8px;cursor:pointer;color:var(--t3);font-size:14px;line-height:1;border:none;background:none;padding:0}
+.sn-card-del:hover{color:var(--red)}
+.sn-card-drag{position:absolute;top:6px;right:28px;cursor:ns-resize;color:var(--t3);font-size:12px;line-height:1}
+#sn-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:801;background:var(--pur);color:#fff;border:none;border-radius:8px 0 0 8px;padding:12px 7px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9px;writing-mode:vertical-rl;letter-spacing:.08em;box-shadow:-2px 2px 8px rgba(0,0,0,.15)}
+#sn-tab:hover{background:var(--blu-d)}
+#note-popover{position:fixed;z-index:1200;background:#fff;border:1.5px solid var(--pur);border-radius:10px;padding:12px 14px;width:260px;box-shadow:0 6px 24px rgba(0,0,0,.15);display:none}
+#note-popover.show{display:block}
+#np-pop-ref{font-size:10px;color:var(--pur);font-style:italic;margin-bottom:6px}
+#np-pop-text{font-size:12px;color:var(--tx);white-space:pre-wrap;margin-bottom:8px}
+#pop-del-btn{font-size:10px;color:var(--red);background:none;border:1px solid var(--red);border-radius:4px;padding:2px 7px;cursor:pointer}
+#pop-del-btn:hover{background:var(--red-l)}
+.note-input-wrap{position:fixed;z-index:1100;background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:12px;width:240px;box-shadow:0 6px 20px rgba(0,0,0,.13);display:none}
+.note-input-wrap.show{display:block}
+.note-input-wrap textarea{width:100%;min-height:70px;border:1px solid var(--bd);border-radius:6px;font-size:12px;padding:6px;resize:vertical;font-family:'Source Sans 3',sans-serif}
+.note-input-wrap .nib-row{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}
+.note-input-wrap button{font-size:11px;padding:3px 10px;border-radius:5px;cursor:pointer;border:1px solid var(--bd)}
+.nib-save{background:var(--pur);color:#fff;border-color:var(--pur)!important}
+.nib-cancel{background:var(--bg)}
+.note-anchor{border-bottom:2px dotted var(--pur);cursor:pointer;color:inherit}
+.note-anchor:hover{background:var(--pur-l)}
+hero{display:block;background:linear-gradient(135deg,#1e3a8a 0%,#1e4db7 60%,#0e7490 100%);color:#fff;padding:56px 40px 40px;margin-right:var(--snw)}
+.hero-sup{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.hero-title{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:1.15;margin-bottom:12px}
+.hero-sub{font-size:15px;opacity:.85;margin-bottom:28px;max-width:620px}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap}
+.stat-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 18px;min-width:130px}
+.stat-n{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700}
+.stat-l{font-size:11px;opacity:.75;margin-top:2px}
+nav.sticky-nav{position:sticky;top:0;z-index:700;background:#fff;border-bottom:1.5px solid var(--bd);height:var(--nav);display:flex;align-items:center;padding:0 16px;overflow-x:auto;gap:4px;margin-right:var(--snw)}
+nav.sticky-nav::-webkit-scrollbar{height:3px}
+nav.sticky-nav::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.toc-a{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:6px;transition:background .15s,color .15s}
+.toc-a:hover{background:var(--blu-l);color:var(--blu)}
+.toc-a.on{background:var(--blu);color:#fff}
+.main{margin-right:var(--snw);padding:0 40px 60px}
+.sec{padding:36px 0 8px;scroll-margin-top:calc(var(--nav) + 12px)}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--tx);margin-bottom:18px}
+.sec-title.blu{color:var(--blu)}
+.sec-title.red{color:var(--red)}
+.sec-title.grn{color:var(--grn)}
+.sec-title.amb{color:var(--amb)}
+.sec-title.pur{color:var(--pur)}
+.sec-title.tel{color:var(--tel)}
+h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin:20px 0 8px;color:var(--tx)}
+h4{font-family:'Source Sans 3',sans-serif;font-size:.9rem;font-weight:600;margin:14px 0 5px;text-transform:uppercase;letter-spacing:.06em;color:var(--t2)}
+p{margin-bottom:10px}
+ul,ol{margin:6px 0 12px 20px}
+li{margin-bottom:4px}
+ul ul{margin:2px 0 4px 16px}
+.sep{border:none;border-top:1.5px solid var(--bd);margin:32px 0}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card.blu{border-left:4px solid var(--blu);background:var(--blu-l)}
+.card.red{border-left:4px solid var(--red);background:var(--red-l)}
+.card.grn{border-left:4px solid var(--grn);background:var(--grn-l)}
+.card.amb{border-left:4px solid var(--amb);background:var(--amb-l)}
+.card.pur{border-left:4px solid var(--pur);background:var(--pur-l)}
+.card.tel{border-left:4px solid var(--tel);background:var(--tel-l)}
+.card-title{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.card-title.blu{color:var(--blu)}
+.card-title.red{color:var(--red)}
+.card-title.grn{color:var(--grn)}
+.card-title.amb{color:var(--amb)}
+.card-title.pur{color:var(--pur)}
+.card-title.tel{color:var(--tel)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.vs-box{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-bottom:14px;align-items:stretch}
+.vs-l,.vs-r{background:var(--sf);border:1px solid var(--bd);padding:16px 18px;border-radius:10px 0 0 10px}
+.vs-r{border-radius:0 10px 10px 0;border-left:none}
+.vs-mid{background:var(--sf2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--t3);padding:0 12px;writing-mode:vertical-rl}
+.vs-title{font-family:'Source Sans 3',sans-serif;font-weight:600;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;margin-bottom:8px}
+.vs-title.blu{color:var(--blu)}
+.vs-title.red{color:var(--red)}
+.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin:1px}
+.pill.blu{background:var(--blu-l);color:var(--blu)}
+.pill.red{background:var(--red-l);color:var(--red)}
+.pill.grn{background:var(--grn-l);color:var(--grn)}
+.pill.amb{background:var(--amb-l);color:var(--amb)}
+.pill.pur{background:var(--pur-l);color:var(--pur)}
+.pill.tel{background:var(--tel-l);color:var(--tel)}
+table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+th{background:var(--sf2);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;text-align:left;border:1px solid var(--bd)}
+td{padding:8px 12px;border:1px solid var(--bd);vertical-align:top}
+tr:nth-child(even) td{background:#faf9f7}
+.trap{background:#fff;border:1px solid var(--bd);border-left:4px solid var(--amb);border-radius:8px;padding:16px 18px;margin-bottom:14px}
+.trap-n{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--amb);margin-bottom:6px}
+.trap-q{font-weight:600;margin-bottom:8px}
+.trap-wrong{color:var(--red);font-size:13px;margin-bottom:4px}
+.trap-right{color:var(--grn);font-weight:600;font-size:13px;margin-bottom:4px}
+.trap-why{font-size:13px;color:var(--t2);margin-bottom:4px}
+.trap-kw{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pur);background:var(--pur-l);padding:2px 7px;border-radius:4px;display:inline-block}
+.sec-footer{display:flex;align-items:center;gap:10px;margin-top:22px;padding-top:12px;border-top:1px solid var(--bd)}
+.status-btn{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:5px 13px;border-radius:6px;cursor:pointer;border:1.5px solid var(--bd2);background:var(--bg);color:var(--t2);transition:all .15s}
+.status-btn:hover{border-color:var(--grn);color:var(--grn)}
+.status-btn.learned{background:var(--grn-l);border-color:var(--grn);color:var(--grn)}
+.status-btn.review{background:var(--amb-l);border-color:var(--amb);color:var(--amb)}
+.flow{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:14px}
+.flow-steps{display:flex;flex-direction:column;gap:6px}
+.flow-step{display:flex;align-items:flex-start;gap:10px}
+.flow-arrow{color:var(--t3);font-size:18px;flex-shrink:0;margin-top:0px}
+.flow-box{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:7px 12px;flex:1;font-size:13px}
+.flow-box.blu{background:var(--blu-l);border-color:var(--blu)}
+.flow-box.red{background:var(--red-l);border-color:var(--red)}
+.flow-box.grn{background:var(--grn-l);border-color:var(--grn)}
+.flow-box.amb{background:var(--amb-l);border-color:var(--amb)}
+footer.footer{text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t3);padding:20px;margin-right:var(--snw);border-top:1px solid var(--bd)}
+mark.hy{background:var(--hy)}mark.hg{background:var(--hg)}mark.hb{background:var(--hb)}mark.hpk{background:var(--hpk)}mark.ho{background:var(--ho)}
+@media print{#toolbar,#sn-sidebar,#sn-tab,nav.sticky-nav,.sec-footer{display:none!important}.main,hero,footer.footer{margin-right:0}}
+</style>
+</head>
+<body>
+<!-- ANNOTATION TOOLBAR -->
+<div id="toolbar">
+  <span class="albl">Highlight</span>
+  <div class="hbtn" id="h-y" onclick="setHL('hy','h-y')" title="Yellow"></div>
+  <div class="hbtn" id="h-g" onclick="setHL('hg','h-g')" title="Green"></div>
+  <div class="hbtn" id="h-b" onclick="setHL('hb','h-b')" title="Blue"></div>
+  <div class="hbtn" id="h-p" onclick="setHL('hpk','h-p')" title="Pink"></div>
+  <div class="hbtn" id="h-o" onclick="setHL('ho','h-o')" title="Orange"></div>
+  <div class="tsep"></div>
+  <button class="tbtn" id="erase-btn" onclick="toggleErase()" title="Erase">✕</button>
+  <button class="tbtn wide" onclick="clearAll()">CLEAR</button>
+  <div class="tsep"></div>
+  <button class="tbtn" onclick="toggleNoteMode()" id="note-btn" title="Add Note">📝</button>
+</div>
+<!-- STICKY NOTE SIDEBAR -->
+<div id="sn-sidebar">
+  <div id="sn-hd"><span>📝 Study Notes</span><button id="sn-toggle-btn" onclick="toggleSidebar()">◀</button></div>
+  <div id="sn-body"><div id="sn-empty">Select text and click 📝 to add a note</div></div>
+</div>
+<button id="sn-tab" onclick="toggleSidebar()">📝 Notes</button>
+<!-- NOTE POPOVER -->
+<div id="note-popover">
+  <div id="np-pop-ref"></div>
+  <div id="np-pop-text"></div>
+  <button id="pop-del-btn">🗑 Delete</button>
+</div>
+<!-- NOTE INPUT WIDGET -->
+<div class="note-input-wrap" id="note-input-wrap">
+  <textarea id="note-textarea" placeholder="Type your note…"></textarea>
+  <div class="nib-row">
+    <button class="nib-cancel" onclick="cancelNote()">Cancel</button>
+    <button class="nib-save" onclick="saveNote()">Save Note</button>
+  </div>
+</div>
+<!-- HERO -->
+<hero>
+  <div class="hero-sup">Harrison's Internal Medicine · Chapters 347–349 · Stage A Boards</div>
+  <div class="hero-title">Approach to Liver Disease,<br>Liver Function & Hyperbilirubinemias</div>
+  <div class="hero-sub">Structure & function · Clinical approach · Lab evaluation · Grading & staging · Hyperbilirubinemia syndromes · Exam traps</div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-n">1–1.5 kg</div><div class="stat-l">Liver weight</div></div>
+    <div class="stat-box"><div class="stat-n">80%</div><div class="stat-l">Blood from portal vein</div></div>
+    <div class="stat-box"><div class="stat-n">2/3</div><div class="stat-l">Hepatocytes (by mass)</div></div>
+    <div class="stat-box"><div class="stat-n">2.5 mg/dL</div><div class="stat-l">Bilirubin threshold for jaundice</div></div>
+    <div class="stat-box"><div class="stat-n">18–20 days</div><div class="stat-l">Albumin half-life</div></div>
+    <div class="stat-box"><div class="stat-n">8%</div><div class="stat-l">Gilbert syndrome prevalence</div></div>
+  </div>
+</hero>
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#s-structure" class="toc-a">Structure & Function</a>
+  <a href="#s-disease" class="toc-a">Liver Diseases</a>
+  <a href="#s-history" class="toc-a">Clinical History</a>
+  <a href="#s-exam" class="toc-a">Physical Exam</a>
+  <a href="#s-diagnosis" class="toc-a">Diagnosis</a>
+  <a href="#s-grading" class="toc-a">Grading & Staging</a>
+  <a href="#s-lfts" class="toc-a">Liver Function Tests</a>
+  <a href="#s-bilirubin" class="toc-a">Bilirubin Metabolism</a>
+  <a href="#s-hyperbili" class="toc-a">Hyperbilirubinemias</a>
+  <a href="#s-hereditary" class="toc-a">Hereditary Syndromes</a>
+  <a href="#s-quickref" class="toc-a">Quick Reference</a>
+  <a href="#s-traps" class="toc-a">★ Exam Traps</a>
+</nav>
+<main class="main">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-structure">
+  <div class="sec-label">Section 1</div>
+  <div class="sec-title blu">Liver Structure & Function</div>
+
+  <h3>Anatomy & Blood Supply</h3>
+  <div class="g2">
+    <div class="card blu">
+      <div class="card-title blu">Basic Anatomy</div>
+      <ul>
+        <li>Weight: <strong>1–1.5 kg</strong>; 1.5–2.5% of lean body mass</li>
+        <li>Located in right upper quadrant, under right lower rib cage</li>
+        <li>Projects variably into left upper quadrant</li>
+        <li>Held by ligamentous attachments: diaphragm, peritoneum, great vessels, upper GI organs</li>
+      </ul>
+    </div>
+    <div class="card tel">
+      <div class="card-title tel">Dual Blood Supply</div>
+      <ul>
+        <li><strong>Hepatic artery: ~20%</strong> — oxygen-rich blood</li>
+        <li><strong>Portal vein: ~80%</strong> — nutrient-rich blood from stomach, intestines, pancreas, spleen</li>
+        <li>This dual supply explains why hepatic arterial occlusion alone rarely causes infarction</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Histological Organization</h3>
+  <div class="vs-box">
+    <div class="vs-l">
+      <div class="vs-title blu">Lobular View (Light Microscopy)</div>
+      <ul>
+        <li>Portal areas at <em>periphery</em></li>
+        <li>Central veins at <em>center</em> of each lobule</li>
+        <li>Useful for describing morphologic patterns</li>
+      </ul>
+    </div>
+    <div class="vs-mid">vs</div>
+    <div class="vs-r">
+      <div class="vs-title grn">Acinar View (Functional — Preferred)</div>
+      <ul>
+        <li><strong>Zone 1</strong>: nearest portal area — first blood contact, most oxygen-rich, most affected by toxins requiring activation</li>
+        <li><strong>Zone 2</strong>: intermediate hepatocytes</li>
+        <li><strong>Zone 3</strong>: nearest central vein — most susceptible to ischemia, most CYP450</li>
+        <li>Blood flows: Zone 1 → Zone 3</li>
+        <li>Bile flows in opposite direction (countercurrent): Zone 3 → Zone 1</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amb">
+    <div class="card-title amb">⭐ Why the Acinar Model Matters for Boards</div>
+    <p>The acinus explains zonality of liver disease: ischemic injury → Zone 3 (pericentral) necrosis; toxic injury (acetaminophen) → Zone 3; PBC/bile acid toxicity → Zone 1. Questions about patterns of necrosis require knowing which zone is affected.</p>
+  </div>
+
+  <h3>Cell Types</h3>
+  <ul>
+    <li><strong>Hepatocytes</strong>: 2/3 of organ mass; main metabolic and synthetic cell</li>
+    <li><strong>Kupffer cells</strong>: Resident macrophages, within sinusoidal vascular space; <em>largest group of fixed macrophages in the body</em></li>
+    <li><strong>Stellate (Ito) cells</strong>: In space of Disse; fat-storing; when activated → produce <strong>collagen and matrix</strong> → fibrosis</li>
+    <li><strong>Sinusoidal endothelial cells</strong>: Fenestrated — allow free flow of plasma (not cells) into space of Disse</li>
+    <li>Space of Disse: subendothelial space where plasma contacts hepatocytes directly</li>
+  </ul>
+
+  <h3>Hepatocyte Polarity</h3>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Basolateral (Sinusoidal) Side</div>
+      <ul>
+        <li>Lines space of Disse; richly lined with microvilli</li>
+        <li>Endocytotic + pinocytotic activity</li>
+        <li>Passive and active uptake of nutrients, proteins, molecules</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Apical (Canalicular) Side</div>
+      <ul>
+        <li>Forms canalicular membranes</li>
+        <li>Bile components are <em>secreted</em> here</li>
+        <li>Canaliculi → fuse into bile ductular elements → portal areas</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Key Hepatocyte Functions</h3>
+  <div class="g4">
+    <div class="card grn"><div class="card-title grn">Protein Synthesis</div>Albumin, carrier proteins, coagulation factors, hormonal & growth factors</div>
+    <div class="card blu"><div class="card-title blu">Bile Production</div>Bile acids, cholesterol, lecithin, phospholipids</div>
+    <div class="card amb"><div class="card-title amb">Nutrient Regulation</div>Glucose, glycogen, lipids, cholesterol, amino acids</div>
+    <div class="card pur"><div class="card-title pur">Metabolism & Conjugation</div>Bilirubin, anions, cations, drugs → excretion in bile or urine</div>
+  </div>
+
+  <h3>Standard "Liver Function" Tests — What They Actually Measure</h3>
+  <table>
+    <tr><th>Test</th><th>What it measures</th><th>Limitation</th></tr>
+    <tr><td>Serum bilirubin</td><td>Hepatic conjugation &amp; excretion</td><td>Elevated in many conditions; not specific</td></tr>
+    <tr><td>Serum albumin</td><td>Protein synthesis</td><td>18–20 day half-life → not sensitive for acute disease</td></tr>
+    <tr><td>Prothrombin time / INR</td><td>Protein synthesis (clotting factors)</td><td>Also elevated in Vit K deficiency (cholestasis)</td></tr>
+    <tr><td>ALT / AST</td><td>Cell damage (not function!)</td><td>No prognostic value for absolute level in acute disease</td></tr>
+    <tr><td>Alkaline phosphatase</td><td>Cholestasis / infiltrative disease</td><td>Also elevated in bone disease; not liver-specific</td></tr>
+  </table>
+  <p style="color:var(--t2);font-style:italic">⚠️ Frank liver failure is incompatible with life — liver's functions are too complex and diverse to be replaced by mechanical or pharmacologic means.</p>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-structure')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-structure','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-disease">
+  <div class="sec-label">Section 2</div>
+  <div class="sec-title tel">Patterns of Liver Disease</div>
+
+  <div class="g3">
+    <div class="card red">
+      <div class="card-title red">Hepatocellular Pattern</div>
+      <ul>
+        <li><strong>Features</strong>: liver injury, inflammation, necrosis predominate</li>
+        <li><strong>↑↑ ALT/AST</strong>, relatively less ↑ AlkP</li>
+        <li>Examples: viral hepatitis, alcoholic liver disease</li>
+      </ul>
+    </div>
+    <div class="card amb">
+      <div class="card-title amb">Cholestatic (Obstructive) Pattern</div>
+      <ul>
+        <li><strong>Features</strong>: inhibition of bile flow predominates</li>
+        <li><strong>↑↑ AlkP, ↑↑ GGT</strong>, relatively less ↑ ALT</li>
+        <li>Examples: gallstone obstruction, PBC, drug-induced cholestasis</li>
+      </ul>
+    </div>
+    <div class="card pur">
+      <div class="card-title pur">Mixed Pattern</div>
+      <ul>
+        <li>Both hepatocellular and cholestatic features</li>
+        <li>Examples: cholestatic viral hepatitis, many drug-induced liver diseases</li>
+        <li>↑ ALT + ↑ AlkP</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Evaluation Framework: 3 Goals</h3>
+  <div class="g3">
+    <div class="card blu"><div class="card-title blu">1. Etiologic Diagnosis</div>Focus on pattern (hepatocellular vs. cholestatic), risk factors, specific testing</div>
+    <div class="card grn"><div class="card-title grn">2. Grading (Severity)</div>Active vs. inactive; mild / moderate / severe disease activity</div>
+    <div class="card amb"><div class="card-title amb">3. Staging (Course)</div>Early vs. late; precirrhotic vs. cirrhotic vs. end-stage</div>
+  </div>
+
+  <h3>Common Causes by Timeline</h3>
+  <div class="vs-box">
+    <div class="vs-l">
+      <div class="vs-title red">Acute Liver Disease</div>
+      <ul>
+        <li>Viral hepatitis (A, B, C)</li>
+        <li>Drug-induced liver injury</li>
+        <li>Cholangitis</li>
+        <li>Alcohol-related liver disease</li>
+        <li>Ischemic hepatitis</li>
+      </ul>
+    </div>
+    <div class="vs-mid">Acute &lt;6m / Chronic &gt;6m</div>
+    <div class="vs-r">
+      <div class="vs-title amb">Chronic Liver Disease (in order of frequency)</div>
+      <ol>
+        <li>Chronic hepatitis C</li>
+        <li>Alcoholic liver disease</li>
+        <li>MASH (metabolic dysfunction–associated steatohepatitis)</li>
+        <li>Chronic hepatitis B</li>
+        <li>Autoimmune hepatitis</li>
+        <li>Sclerosing cholangitis (PSC)</li>
+        <li>Primary biliary cholangitis (PBC)</li>
+        <li>Hemochromatosis</li>
+        <li>Wilson disease</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Typical Presenting Symptoms of Liver Disease</h3>
+  <div class="g2">
+    <div>
+      <ul>
+        <li><strong>Fatigue</strong> — most common, most characteristic symptom; "afternoon" fatigue (after activity); intermittent, variable</li>
+        <li><strong>Jaundice</strong> — hallmark; patients notice dark urine <em>first</em>, then scleral icterus; not detectable if bili &lt;2.5 mg/dL</li>
+        <li><strong>Itching (pruritus)</strong> — early in obstructive jaundice/drug cholestasis; later in hepatocellular; chronic in PBC/PSC (often presenting symptom before jaundice)</li>
+        <li><strong>Dark urine</strong> — conjugated bilirubin (water-soluble → filtered by kidney)</li>
+        <li><strong>Light stools + steatorrhea</strong> — severe cholestasis; lack of bile acids → fat malabsorption</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong>Right upper quadrant pain</strong> — from stretching/irritation of Glisson's capsule; severe pain: gallbladder disease, liver abscess, sinusoidal obstruction syndrome</li>
+        <li><strong>Nausea</strong> — with more severe disease; provoked by food smells or fatty foods</li>
+        <li><strong>Poor appetite + weight loss</strong> — frequent in acute disease; rare in chronic unless cirrhosis present</li>
+        <li><strong>Abdominal distention</strong> — ascites</li>
+        <li><strong>Intestinal bleeding</strong> — portal hypertension, varices</li>
+        <li><strong>Jaundice without dark urine</strong> → unconjugated hyperbilirubinemia (hemolysis, Gilbert, Crigler-Najjar)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-disease')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-disease','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-history">
+  <div class="sec-label">Section 3</div>
+  <div class="sec-title grn">Clinical History</div>
+
+  <h3>Key Risk Factors to Elicit</h3>
+  <div class="g2">
+    <div class="card blu">
+      <div class="card-title blu">Exposure / Behavioral History</div>
+      <ul>
+        <li>Alcohol use (quantity, duration, dependence vs. abuse)</li>
+        <li>Medication use: prescription, herbal compounds, OTCs, birth control pills</li>
+        <li>Injection drug use (IDU) — <em>single most common risk factor for hepatitis C</em></li>
+        <li>Sexual history: # of lifetime partners; men who have sex with men (Hep B/D risk)</li>
+        <li>Blood transfusions:
+          <ul>
+            <li>Before <strong>1986</strong> → Hep B risk (anti-HBc screening introduced)</li>
+            <li>Before <strong>1992</strong> → Hep C risk (anti-HCV EIA introduced)</li>
+          </ul>
+        </li>
+        <li>Travel to developing countries → Hep A, Hep E</li>
+        <li>Young children in day care → Hep A</li>
+        <li>Occupational: needlestick, blood exposure</li>
+      </ul>
+    </div>
+    <div class="card tel">
+      <div class="card-title tel">Family History — Genetic Liver Diseases</div>
+      <ul>
+        <li><strong>Wilson disease</strong>: childhood/adolescence + family history of liver disease or <em>neuropsychiatric disturbance</em></li>
+        <li><strong>Hemochromatosis</strong>: cirrhosis + diabetes + endocrine failure in adulthood → check iron studies → HFE gene (C282Y, H63D)</li>
+        <li><strong>α1-antitrypsin deficiency</strong>: family history of emphysema → check α1AT levels → Pi genotype</li>
+        <li><strong>Familial cholestasis syndromes</strong>: PFIC, BRIC, Alagille syndrome</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Hepatitis E — Special Notes</h3>
+  <div class="card amb">
+    <div class="card-title amb">Hepatitis E — Board Pearls</div>
+    <ul>
+      <li>Common cause of jaundice in <strong>Asia and Africa</strong>; uncommon in developed nations</li>
+      <li>In endemic areas: fecal-contaminated water transmission</li>
+      <li>In developed countries (autochthonous): genotypes 3 &amp; 4, endemic in swine and wild animals (deer, wild boars)</li>
+      <li>Most cases in developed world: <strong>elderly men without typical risk factors for viral hepatitis</strong></li>
+      <li><strong>Chronic hepatitis E</strong>: occurs in immunosuppressed (transplant recipients, chemotherapy, HIV) → presents with abnormal enzymes without Hep B/C markers</li>
+    </ul>
+  </div>
+
+  <h3>Alcohol Use Assessment — CAGE Questionnaire</h3>
+  <div class="card grn">
+    <div class="card-title grn">CAGE Questions (Recommended for All Medical Histories)</div>
+    <table>
+      <tr><th>Letter</th><th>Question</th></tr>
+      <tr><td><strong>C</strong> — Cut down</td><td>Have you ever felt you ought to <strong>cut down</strong> on your drinking?</td></tr>
+      <tr><td><strong>A</strong> — Annoyed</td><td>Have people <strong>annoyed</strong> you by criticizing your drinking?</td></tr>
+      <tr><td><strong>G</strong> — Guilty</td><td>Have you ever felt <strong>guilty</strong> or bad about your drinking?</td></tr>
+      <tr><td><strong>E</strong> — Eye-opener</td><td>Have you ever had a drink first thing in the morning to steady nerves or rid hangover (<strong>eye-opener</strong>)?</td></tr>
+    </table>
+    <p><strong>1 "yes"</strong> → raises suspicion; <strong>&gt;1 "yes"</strong> → strong indication of abuse or dependence</p>
+    <p style="margin-top:6px">Harmful alcohol intake threshold: <strong>&gt;2 drinks/day in women</strong>, <strong>&gt;3 drinks/day in men</strong> (1 drink = 11–15 g alcohol)</p>
+  </div>
+
+  <h3>Alcohol Dependence vs. Abuse</h3>
+  <div class="vs-box">
+    <div class="vs-l">
+      <div class="vs-title red">Abuse</div>
+      Repetitive pattern of drinking that has adverse effects on <strong>social, family, occupational, or health status</strong>
+    </div>
+    <div class="vs-mid">Alcoholism</div>
+    <div class="vs-r">
+      <div class="vs-title red">Dependence (More Severe)</div>
+      Alcohol-seeking behavior <strong>despite adverse effects</strong>. More serious and advanced form of alcoholism.
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-history')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-history','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-exam">
+  <div class="sec-label">Section 4</div>
+  <div class="sec-title amb">Physical Examination</div>
+
+  <div class="card amb">
+    <div class="card-title amb">Key Principle</div>
+    <p>The physical exam rarely uncovers liver dysfunction in asymptomatic patients with normal labs. It <strong>complements</strong> rather than replaces other diagnostics. Often normal unless disease is acute, severe, or advanced. Most signs are <em>not</em> specific to one diagnosis.</p>
+  </div>
+
+  <h3>Typical Findings</h3>
+  <div class="g2">
+    <div>
+      <h4>General Liver Disease Signs</h4>
+      <ul>
+        <li><strong>Icterus</strong>: best seen in sclera under <em>natural light</em>; mucous membranes below tongue in dark-skinned individuals; not visible if bili &lt;2.5 mg/dL</li>
+        <li><strong>Spider angiomata</strong>: superficial tortuous arterioles; fill from <em>center outward</em> (distinguishes from simple telangiectasias); <em>only on arms, face, upper torso</em>; can be pulsatile; occur in acute AND chronic disease; also in normal pregnancy</li>
+        <li><strong>Palmar erythema</strong>: both acute and chronic; prominent in cirrhosis; also in normal pregnancy</li>
+        <li><strong>Splenomegaly</strong>: subtle but significant → suggests underlying <em>cirrhosis</em></li>
+        <li><strong>Hepatomegaly</strong>: not very reliable (variability in liver size/shape); marked hepatomegaly typical of cirrhosis, sinusoidal obstruction, infiltrative disorders, metastatic cancer, alcoholic hepatitis</li>
+        <li><strong>Hepatic tenderness</strong>: most reliable liver exam finding; percuss right vs. left UQ</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Signs of Advanced / Decompensated Disease</h4>
+      <ul>
+        <li>Muscle wasting + weight loss</li>
+        <li>Bruising</li>
+        <li>Ascites (shifting dullness on percussion; confirm with US)</li>
+        <li>Peripheral edema — also: hypoalbuminemia, venous insufficiency, heart failure, medications</li>
+        <li>Dilated abdominal veins; caput medusa (collateral veins radiating from umbilicus — recanalization of umbilical vein)</li>
+        <li>Umbilical hernia (from ascites)</li>
+        <li>Hydrothorax</li>
+        <li>Widened pulse pressure + hyperdynamic circulation (cirrhosis: ↑ cardiac output, ↓ peripheral resistance)</li>
+        <li>In male patients with cirrhosis (esp. alcohol): <strong>gynecomastia, testicular atrophy, loss of male-pattern hair</strong> (hyperestrogenemia)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Hepatic Encephalopathy — Signs &amp; Assessment</h3>
+  <div class="card red">
+    <div class="card-title red">Hepatic Encephalopathy Progression</div>
+    <div class="flow">
+      <div class="flow-steps">
+        <div class="flow-step"><span class="flow-arrow">▸</span><div class="flow-box">Early: Change in sleep patterns, personality change, irritability, mental dullness</div></div>
+        <div class="flow-step"><span class="flow-arrow">▸</span><div class="flow-box amb">Confusion, disorientation, stupor</div></div>
+        <div class="flow-step"><span class="flow-arrow">▸</span><div class="flow-box red">Coma</div></div>
+      </div>
+    </div>
+    <ul>
+      <li><strong>Asterixis</strong>: flapping tremor of body and tongue</li>
+      <li><strong>Fetor hepaticus</strong>: slightly sweet, ammoniacal odor → portal-venous shunting of blood around liver</li>
+      <li><strong>In acute liver failure</strong>: excitability and mania may be present</li>
+      <li>In <strong>chronic liver disease</strong>, encephalopathy is triggered by: GI bleeding, overdiuresis, uremia, dehydration, electrolyte imbalance, infection, constipation, narcotic analgesics</li>
+      <li><strong>Trail-making test</strong>: 25 numbered circles, connect rapidly; normal: 15–30 seconds; prolonged in early HE</li>
+    </ul>
+  </div>
+  <div class="card amb">
+    <div class="card-title amb">⚠️ Hepatic Encephalopathy in Acute Hepatitis = Major Criterion for Acute Liver Failure → Poor Prognosis</div>
+  </div>
+
+  <h3>Hepatopulmonary Syndrome</h3>
+  <div class="card tel">
+    <div class="card-title tel">Hepatopulmonary Syndrome — Triad</div>
+    <ul>
+      <li>Liver disease + <strong>Hypoxemia</strong> + Pulmonary arteriovenous shunting</li>
+      <li><strong>Platypnea</strong>: shortness of breath upright (worsens in upright position)</li>
+      <li><strong>Orthodeoxia</strong>: oxygen desaturation paradoxically in upright position</li>
+      <li>Screening: <strong>pulse oximetry</strong></li>
+    </ul>
+  </div>
+
+  <h3>Disease-Specific Signs</h3>
+  <table>
+    <tr><th>Sign</th><th>Disease</th><th>Mechanism / Notes</th></tr>
+    <tr><td><strong>Kayser-Fleischer rings</strong></td><td>Wilson disease</td><td>Golden-brown copper pigment in Descemet's membrane at corneal periphery; seen best on <strong>slit-lamp examination</strong></td></tr>
+    <tr><td><strong>Dupuytren contracture</strong></td><td>Alcohol-related liver disease</td><td>Also: parotid enlargement</td></tr>
+    <tr><td><strong>Hyperpigmentation of skin</strong></td><td>Advanced PBC, PSC</td><td>Chronic cholestatic diseases</td></tr>
+    <tr><td><strong>Xanthelasma + tendon xanthomata</strong></td><td>PBC, PSC</td><td>Retention of lipids and cholesterol</td></tr>
+    <tr><td><strong>Slate-gray skin pigmentation</strong></td><td>Hemochromatosis</td><td>Prolonged high iron levels</td></tr>
+    <tr><td><strong>Mucocutaneous vasculitis + palpable purpura (lower extremities)</strong></td><td>Cryoglobulinemia</td><td>Typical of <strong>chronic Hepatitis C</strong>; also Hep B</td></tr>
+    <tr><td><strong>Cachexia + firm hepatomegaly + hepatic bruit</strong></td><td>HCC / Metastatic liver disease</td><td>Signs of malignancy</td></tr>
+  </table>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-exam')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-exam','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-diagnosis">
+  <div class="sec-label">Section 5</div>
+  <div class="sec-title pur">Diagnostic Evaluation</div>
+
+  <h3>Key Diagnostic Tests by Disease</h3>
+  <table>
+    <tr><th>Disease</th><th>Diagnostic Test(s)</th></tr>
+    <tr><td>Hepatitis A</td><td>Anti-HAV <strong>IgM</strong></td></tr>
+    <tr><td>Hepatitis B (Acute)</td><td><strong>HBsAg</strong> + anti-HBc <strong>IgM</strong></td></tr>
+    <tr><td>Hepatitis B (Chronic)</td><td>HBsAg + HBeAg and/or <strong>HBV DNA</strong></td></tr>
+    <tr><td>Hepatitis C</td><td>Anti-HCV + <strong>HCV RNA</strong></td></tr>
+    <tr><td>Hepatitis D</td><td>HBsAg + <strong>anti-HDV</strong></td></tr>
+    <tr><td>Hepatitis E</td><td>Anti-HEV IgM + <strong>HEV RNA</strong></td></tr>
+    <tr><td>Autoimmune hepatitis</td><td>ANA or SMA, elevated <strong>IgG</strong>, compatible histology</td></tr>
+    <tr><td>Primary biliary cholangitis (PBC)</td><td><strong>Antimitochondrial antibody (AMA)</strong>, elevated IgM, compatible histology</td></tr>
+    <tr><td>Primary sclerosing cholangitis (PSC)</td><td><strong>P-ANCA</strong>, cholangiography (MRCP/ERCP)</td></tr>
+    <tr><td>Drug-induced liver disease</td><td>History of drug ingestion</td></tr>
+    <tr><td>Alcohol-related liver disease</td><td>History of excessive alcohol + compatible histology</td></tr>
+    <tr><td>MASH / MASLD</td><td>Ultrasound or CT evidence of fatty liver + compatible histology</td></tr>
+    <tr><td>α1-Antitrypsin deficiency</td><td>Reduced α1AT levels, phenotype <strong>PiZZ or PiSZ</strong></td></tr>
+    <tr><td>Wilson disease</td><td>Decreased <strong>ceruloplasmin</strong> + increased urinary copper + increased <em>hepatic</em> copper level</td></tr>
+    <tr><td>Hemochromatosis</td><td>Elevated iron saturation + serum ferritin; <strong>HFE gene testing</strong> (C282Y, H63D)</td></tr>
+    <tr><td>Hepatocellular carcinoma (HCC)</td><td>AFP &gt;500 ng/mL; US or CT mass</td></tr>
+  </table>
+
+  <h3>Diagnostic Imaging Modalities</h3>
+  <div class="g2">
+    <div class="card blu">
+      <div class="card-title blu">Biliary Tree Visualization</div>
+      <ul>
+        <li><strong>MRCP vs ERCP</strong> for biliary tree:
+          <ul>
+            <li>MRCP: no contrast/radiation, faster, less operator-dependent, no pancreatitis risk; superior to US/CT for choledocholithiasis</li>
+            <li>ERCP: better for ampullary lesions and PSC; allows therapeutic intervention: biopsy, sphincterotomy, stone extraction, stent placement</li>
+          </ul>
+        </li>
+        <li><strong>US and CT</strong>: highly sensitive for biliary duct dilation → first-line for obstructive jaundice</li>
+      </ul>
+    </div>
+    <div class="card grn">
+      <div class="card-title grn">Hepatic Masses & Vascular</div>
+      <ul>
+        <li><strong>Multidetector CT + MRI with contrast</strong>: hepatic masses, tumor staging, preoperative assessment</li>
+        <li><strong>US</strong>: recommended modality for <strong>HCC screening</strong></li>
+        <li><strong>Contrast-enhanced US/CT/MRI</strong>: further evaluation of lesions found on screening US</li>
+        <li><strong>LI-RADS</strong>: standardized reporting system for HCC on CT/MRI/CEUS (American College of Radiology)</li>
+        <li><strong>Doppler US + MRI</strong>: hepatic vasculature assessment, TIPS monitoring</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Liver Fat Assessment</h3>
+  <table>
+    <tr><th>Modality</th><th>Advantages</th><th>Disadvantages</th><th>Clinical Use</th></tr>
+    <tr><td>Ultrasound</td><td>No radiation; widely available</td><td>Operator-dependent; imprecise for mild steatosis</td><td><strong>Initial screening</strong> for suspected liver fat</td></tr>
+    <tr><td>Transient elastography + CAP</td><td>No radiation; point-of-care; semiquantitative</td><td>Special software required; no reliable cutoff</td><td>Alternate screening if available</td></tr>
+    <tr><td>CT</td><td>Rapid; non-operator-dependent</td><td>Radiation; specific protocols needed</td><td><strong>Not recommended</strong> routinely — radiation + low sensitivity for mild fat</td></tr>
+    <tr><td>MRI-PDFF</td><td>Direct assessment; highly sensitive &amp; specific</td><td>Limited accessibility</td><td><strong>Test of choice</strong> for quantitative assessment if available</td></tr>
+  </table>
+
+  <h3>Noninvasive Fibrosis Markers</h3>
+  <table>
+    <tr><th>Test</th><th>Parameters</th><th>Advanced Fibrosis Cutoff</th><th>Cirrhosis Cutoff</th></tr>
+    <tr><td>APRI</td><td>AST, platelet count</td><td>&gt;1</td><td>&gt;1.5 (range 1–2)</td></tr>
+    <tr><td>ELF</td><td>Age, hyaluronic acid, MMP-3, TIMP-1</td><td>&gt;7.7</td><td>&gt;9.3</td></tr>
+    <tr><td>FIB-4</td><td>Age, AST, ALT, platelet count</td><td>&gt;1.45</td><td>&gt;3.25</td></tr>
+    <tr><td>FibroTest</td><td>Haptoglobin, α2-macroglobulin, ApoA1, GGT, total bilirubin</td><td>&gt;0.45</td><td>&gt;0.63</td></tr>
+    <tr><td>TE (FibroScan)</td><td>Speed of shear wave through liver</td><td>&gt;7.3 kPa</td><td>&gt;15 kPa (range 9–26.5)</td></tr>
+    <tr><td>ARFI</td><td>Speed of shear wave (acoustic radiation)</td><td>&gt;1.3 m/s</td><td>&gt;1.87 m/s</td></tr>
+  </table>
+  <div class="card amb">
+    <div class="card-title amb">⚠️ Limitations of Noninvasive Fibrosis Markers</div>
+    <ul>
+      <li>Cutpoints vary among different liver diseases and populations (mostly derived from chronic Hepatitis C)</li>
+      <li>Can be affected by disease activity (inflammation, edema, necrosis, intrasinusoidal cellularity)</li>
+      <li>TE measures <em>stiffness</em>, not fibrosis per se</li>
+      <li><strong>Mild to moderate hepatic fibrosis still detectable only by liver biopsy</strong></li>
+    </ul>
+  </div>
+
+  <h3>Liver Biopsy — Indications &amp; Practicalities</h3>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">When Biopsy is Indicated</div>
+      <ul>
+        <li>Hepatocellular disease of uncertain cause</li>
+        <li>Prolonged hepatitis with possible autoimmune hepatitis</li>
+        <li>Unexplained hepatomegaly</li>
+        <li>Unexplained splenomegaly</li>
+        <li>Hepatic lesions uncharacterized by imaging</li>
+        <li>Fever of unknown origin</li>
+        <li>Staging malignant lymphoma</li>
+        <li>Critical for: autoimmune hepatitis, PBC, MASH/alcoholic steatohepatitis, Wilson disease</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Technical Requirements &amp; Contraindications</div>
+      <ul>
+        <li><strong>Adequate sample</strong>: length 1.5–2 cm with <strong>≥10 portal tracts</strong> for accurate fibrosis assessment</li>
+        <li>Safe, performed with local anesthesia + US guidance</li>
+        <li><strong>Contraindications</strong>:
+          <ul>
+            <li>Significant ascites</li>
+            <li>Prolonged INR</li>
+            <li>→ Under these: use <strong>transjugular approach</strong></li>
+          </ul>
+        </li>
+        <li>Liver biopsy is NOT the initial procedure in cholestasis — first assess biliary tree for obstruction</li>
+        <li>In acute liver disease: usually NOT needed; reserved for diagnosis unclear despite workup</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-diagnosis')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-diagnosis','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-grading">
+  <div class="sec-label">Section 6</div>
+  <div class="sec-title red">Grading, Staging & Scoring Systems</div>
+
+  <div class="vs-box">
+    <div class="vs-l">
+      <div class="vs-title grn">Grading (Activity)</div>
+      <ul>
+        <li>Severity of disease activity: active/inactive; mild/moderate/severe</li>
+        <li>Liver biopsy most accurate</li>
+        <li>ALT/AST serve as noninvasive markers but <strong>do not always reliably reflect severity</strong></li>
+        <li>Examples: normal ALT in Hep B carrier state or mild chronic Hep B; normal ALT in chronic Hep C despite moderate activity; unreliable in alcoholic/MASH</li>
+        <li>Numerical scales: <strong>METAVIR</strong>, Histology Activity Index (HAI)</li>
+      </ul>
+    </div>
+    <div class="vs-mid">vs</div>
+    <div class="vs-r">
+      <div class="vs-title amb">Staging (Fibrosis Progression)</div>
+      <ul>
+        <li>Position in natural history: early/late; precirrhotic/cirrhotic/end-stage</li>
+        <li>Degree of fibrosis: <strong>METAVIR scale: 0–4</strong>; Ishak scale: 0–6</li>
+        <li>Clinical/biochemical/imaging: only become abnormal in middle-to-late cirrhosis</li>
+        <li>Earliest noninvasive signs of worsening fibrosis: mild ↑ bilirubin, prolonged PT, slight ↓ albumin, <strong>mild thrombocytopenia</strong> (often first sign)</li>
+        <li>Importance: prognosis, therapy recommendation, complication screening</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Child-Pugh Classification of Cirrhosis</h3>
+  <table>
+    <tr><th>Factor</th><th>1 Point</th><th>2 Points</th><th>3 Points</th></tr>
+    <tr><td>Serum bilirubin (mg/dL)</td><td>&lt;2.0</td><td>2.0–3.0</td><td>&gt;3.0</td></tr>
+    <tr><td>Serum albumin (g/dL)</td><td>&gt;3.5</td><td>3.0–3.5</td><td>&lt;3.0</td></tr>
+    <tr><td>Prothrombin time (INR)</td><td>&lt;1.7</td><td>1.7–2.3</td><td>&gt;2.3</td></tr>
+    <tr><td>Ascites</td><td>None</td><td>Easily controlled</td><td>Poorly controlled</td></tr>
+    <tr><td>Hepatic encephalopathy</td><td>None</td><td>Minimal</td><td>Advanced</td></tr>
+  </table>
+  <div class="g3">
+    <div class="card grn"><div class="card-title grn">Class A: 5–6 points</div>Compensated cirrhosis. No transplant listing.</div>
+    <div class="card amb"><div class="card-title amb">Class B: 7–9 points</div>Decompensation. Criterion for transplant listing (Child-Pugh ≥7).</div>
+    <div class="card red"><div class="card-title red">Class C: 10–15 points</div>Severe decompensation. High mortality.</div>
+  </div>
+  <p><em>Child-Pugh predicts survival and likelihood of complications (variceal bleeding, SBP).</em></p>
+
+  <h3>MELD Score — Current Transplant System</h3>
+  <div class="card blu">
+    <div class="card-title blu">MELD Score — Variables &amp; Use</div>
+    <ul>
+      <li><strong>Variables</strong>: INR (prothrombin time), serum bilirubin, serum creatinine</li>
+      <li><strong>MELD 3.0</strong> (updated): also includes <strong>serum sodium</strong> + reweighted components; incorporates albumin and sodium</li>
+      <li>Designed to predict <strong>short-term mortality</strong> of patients awaiting orthotopic liver transplant and after TIPS</li>
+      <li>Provides more objective measure than Child-Pugh; less center-to-center variation; wider range of values</li>
+      <li>Currently used to <strong>establish priority listing for liver transplantation in the US</strong></li>
+      <li>PELD score: used for children &lt;12 years</li>
+      <li>Calculator: https://optn.transplant.hrsa.gov</li>
+    </ul>
+  </div>
+  <div class="card tel">
+    <div class="card-title tel">TE (Transient Elastography) for Staging</div>
+    Useful in staging cirrhosis; predicts complications: <strong>variceal hemorrhage, ascites development, liver-related death</strong>
+  </div>
+
+  <h3>Cirrhosis Surveillance — What Cirrhotic Patients Need</h3>
+  <div class="g2">
+    <div class="card grn">
+      <div class="card-title grn">Variceal Surveillance</div>
+      <ul>
+        <li>Cirrhosis → upper endoscopy to assess for varices</li>
+        <li>If large varices: chronic beta-blocker therapy OR endoscopic obliteration</li>
+      </ul>
+    </div>
+    <div class="card amb">
+      <div class="card-title amb">HCC Surveillance</div>
+      <ul>
+        <li>Cirrhosis → screening + long-term surveillance for HCC</li>
+        <li>Appropriate approach: <strong>US liver every 6–12 months</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>General Management Principles for Liver Disease Patients</h3>
+  <ul>
+    <li><strong>Alcohol</strong>: use sparingly or not at all; <em>abstinence</em> mandated for: alcohol-related liver disease, cirrhosis, interferon-based therapy for Hep B/D, antiviral therapy for Hep C</li>
+    <li><strong>Medications</strong>: exercise caution with all medications; drug-induced hepatotoxicity can mimic many liver diseases and exacerbate chronic hepatitis</li>
+    <li><strong>Vaccinations</strong>: all liver disease patients → Hep A + Hep B vaccine (if not vaccinated); screen for Hep C; follow CDC adult vaccination recommendations</li>
+  </ul>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-grading')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-grading','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-lfts">
+  <div class="sec-label">Section 7</div>
+  <div class="sec-title tel">Evaluation of Liver Function — LFTs</div>
+
+  <div class="card tel">
+    <div class="card-title tel">Core Principle</div>
+    <p>Liver tests rarely suggest a <em>specific diagnosis</em> — they suggest a <em>category</em> (hepatocellular vs. cholestatic). Many tests (ALT, AST, AlkP) don't actually measure liver <em>function</em> — they detect <strong>cell damage or bile flow interference</strong>. Use them as a battery for sensitivity and specificity.</p>
+  </div>
+
+  <h3>Serum Bilirubin</h3>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Normal Values</div>
+      <ul>
+        <li>Total bilirubin: 0.2–0.9 mg/dL (95% of population); upper limit ~1–1.5 mg/dL</li>
+        <li>Conjugated (direct) upper limit: <strong>0.3 mg/dL</strong></li>
+        <li>If direct fraction &lt;15% of total → consider ALL bilirubin as indirect</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Fractionation Rule</div>
+      <ul>
+        <li><strong>Unconjugated (indirect)</strong>: isolated elevation → hemolytic disorders, Crigler-Najjar, Gilbert syndrome; NOT usually liver disease</li>
+        <li><strong>Conjugated (direct)</strong>: elevation <em>almost always</em> implies liver or biliary tract disease; rate-limiting step is <em>transport into bile canaliculi</em>, not conjugation</li>
+        <li>In most liver diseases: <em>both</em> fractions elevated</li>
+        <li>Fractionation rarely helpful except for initial differentiation</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amb">
+    <div class="card-title amb">Bilirubinuria Pearl</div>
+    <p>Unconjugated bilirubin is bound to albumin → NOT filtered by kidney → <strong>any bilirubin in urine = conjugated bilirubin = liver disease or obstructive jaundice</strong>. Test is ~100% accurate. False positive: phenothiazines with Ictotest. In recovering jaundice: urine bilirubin clears <em>before</em> serum bilirubin.</p>
+  </div>
+
+  <h3>Prognostic Value of Bilirubin</h3>
+  <ul>
+    <li>Viral hepatitis: higher serum bilirubin → greater hepatocellular damage</li>
+    <li>Total serum bilirubin correlates with poor outcomes in <strong>alcoholic hepatitis</strong></li>
+    <li>Critical component of <strong>MELD</strong> score</li>
+    <li>Elevated in drug-induced liver disease → indicates more severe injury</li>
+    <li>Prognostic value in <strong>PBC</strong></li>
+  </ul>
+
+  <h3>Aminotransferases (ALT &amp; AST)</h3>
+  <div class="vs-box">
+    <div class="vs-l">
+      <div class="vs-title">AST (Aspartate Aminotransferase)</div>
+      <ul>
+        <li>Found in: liver, <strong>cardiac muscle, skeletal muscle</strong>, kidneys, brain, pancreas, lungs, leukocytes, erythrocytes</li>
+        <li>Less specific for liver injury</li>
+      </ul>
+    </div>
+    <div class="vs-mid">vs</div>
+    <div class="vs-r">
+      <div class="vs-title">ALT (Alanine Aminotransferase)</div>
+      <ul>
+        <li>Found primarily in the liver</li>
+        <li><strong>More specific indicator of liver injury</strong></li>
+        <li>Low level in alcoholic liver disease: alcohol-induced deficiency of <strong>pyridoxal phosphate</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card grn">
+    <div class="card-title grn">AST:ALT Ratio — Diagnostic Interpretation</div>
+    <table>
+      <tr><th>Ratio</th><th>Interpretation</th></tr>
+      <tr><td>ALT ≥ AST (ratio &lt;1)</td><td>Chronic viral hepatitis, NAFLD/MASLD — typical pattern</td></tr>
+      <tr><td>Ratio &gt;1 as cirrhosis develops</td><td>Any chronic liver disease progressing to cirrhosis</td></tr>
+      <tr><td>Ratio <strong>&gt;2:1</strong></td><td>Suggestive of alcohol-related liver disease</td></tr>
+      <tr><td>Ratio <strong>&gt;3:1</strong></td><td><strong>Highly suggestive</strong> of alcohol-related liver disease</td></tr>
+    </table>
+    <p>⚠️ In alcohol-related liver disease: AST rarely &gt;300 IU/L; ALT often normal</p>
+  </div>
+
+  <div class="card blu">
+    <div class="card-title blu">When Aminotransferases Exceed 1000 IU/L</div>
+    <p>Striking elevations (&gt;1000 IU/L) occur <strong>almost exclusively</strong> in:</p>
+    <ol>
+      <li>Viral hepatitis</li>
+      <li>Ischemic liver injury (prolonged hypotension, acute heart failure)</li>
+      <li>Toxin- or drug-induced liver injury</li>
+    </ol>
+    <p><strong>Exception</strong>: Acute biliary obstruction from gallstone passing into common bile duct can transiently produce 1000–2000 IU/L — but decreases quickly and pattern evolves to cholestatic.</p>
+  </div>
+
+  <h3>Alkaline Phosphatase (AlkP)</h3>
+  <div class="card">
+    <div class="card-title">AlkP Key Points</div>
+    <ul>
+      <li>Found in or near <strong>bile canalicular membrane</strong> of hepatocytes</li>
+      <li>Normal serum AlkP consists of isoenzymes from: liver, bone, placenta, small intestine</li>
+      <li><strong>Elevation &gt;4× normal</strong>: primarily cholestatic liver disorders, infiltrative liver diseases (cancer, amyloidosis), bone conditions with rapid turnover (Paget's disease)</li>
+      <li>Level does <strong>not</strong> distinguish intrahepatic from extrahepatic cholestasis</li>
+      <li>To confirm liver origin: measure GGT or 5'-nucleotidase (or fractionate by electrophoresis)</li>
+      <li>Isolated AlkP elevation → consider early cholestasis, hepatic infiltration by tumor/granulomata, PBC, PSC, Hodgkin's disease, diabetes, hyperthyroidism, CHF, amyloidosis</li>
+      <li>Normal cause: age &gt;60 (mildly elevated); blood types O and B (after fatty meal — intestinal AlkP); children/adolescents (bone growth); late pregnancy (placental AlkP)</li>
+    </ul>
+  </div>
+
+  <h3>GGT (γ-Glutamyl Transpeptidase)</h3>
+  <ul>
+    <li>Located in endoplasmic reticulum and <strong>bile duct epithelial cells</strong></li>
+    <li>More diffuse localization → <strong>less specific for cholestasis</strong> than AlkP or 5'-nucleotidase</li>
+    <li>Elevated in cholestasis but also with alcohol (some advocate for occult alcohol use detection — but poor specificity)</li>
+    <li>Use to confirm liver origin of elevated AlkP</li>
+  </ul>
+
+  <h3>Tests of Biosynthetic Function</h3>
+  <div class="g2">
+    <div class="card grn">
+      <div class="card-title grn">Serum Albumin</div>
+      <ul>
+        <li>Synthesized exclusively by hepatocytes</li>
+        <li>Half-life: <strong>18–20 days</strong>; 4% degraded per day</li>
+        <li><strong>NOT a good indicator of acute/mild dysfunction</strong> (too long half-life)</li>
+        <li>In hepatitis: albumin &lt;3 g/dL → suggest chronic liver disease</li>
+        <li>Hypoalbuminemia in chronic disease (cirrhosis) → severe liver damage + ↓ synthesis</li>
+        <li><strong>Not specific for liver disease</strong>: also in protein malnutrition, protein-losing enteropathy, nephrotic syndrome, chronic infections (IL-1, TNF inhibit synthesis)</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <div class="card-title red">Prothrombin Time / INR</div>
+      <ul>
+        <li>Clotting factors synthesized in hepatocytes (except Factor VIII — vascular endothelial cells)</li>
+        <li>Half-lives: Factor VII = <strong>6 hours</strong>; fibrinogen = 5 days</li>
+        <li><strong>Best acute measure of hepatic synthetic function</strong></li>
+        <li>Prolonged PT: hepatitis, cirrhosis, <em>also</em> Vit K deficiency (obstructive jaundice, fat malabsorption)</li>
+        <li><strong>PT &gt;5 s above control not corrected by parenteral Vit K → poor prognosis</strong> in acute viral hepatitis</li>
+        <li>Component of MELD 3.0 score</li>
+        <li>Biosynthesis of factors II, VII, IX, X depends on <strong>Vitamin K</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Serum Globulins</h3>
+  <ul>
+    <li>γ-Globulins (immunoglobulins) ↑ in chronic liver disease (esp. cirrhosis): ↑ synthesis of antibodies against intestinal bacteria due to liver failure to clear bacterial antigens</li>
+    <li><strong>Diffuse polyclonal ↑ IgG</strong> (&gt;100% increase): <em>autoimmune hepatitis</em></li>
+    <li><strong>↑ IgM</strong>: <em>primary biliary cholangitis (PBC)</em></li>
+    <li><strong>↑ IgA</strong>: <em>alcoholic liver disease</em></li>
+  </ul>
+
+  <h3>Ammonia</h3>
+  <ul>
+    <li>Produced from protein metabolism and intestinal bacteria (colon)</li>
+    <li>Liver converts to urea → renal excretion; striated muscle converts to glutamine</li>
+    <li><strong>Poor correlation</strong> between blood ammonia level and presence/severity of acute encephalopathy</li>
+    <li>Ammonia elevated even with <em>normal hepatic function</em> if severe portal hypertension + portal-systemic shunting</li>
+    <li>Elevated arterial ammonia correlates with outcome in <strong>fulminant hepatic failure</strong></li>
+  </ul>
+
+  <h3>Liver Test Pattern Summary</h3>
+  <table>
+    <tr><th>Disorder</th><th>Bilirubin</th><th>Aminotransferases</th><th>AlkP</th><th>Albumin</th><th>PT</th></tr>
+    <tr><td>Hemolysis / Gilbert syndrome</td><td>↑ (indirect); &lt;5 mg/dL; no bilirubinuria</td><td>Normal</td><td>Normal</td><td>Normal</td><td>Normal</td></tr>
+    <tr><td>Acute hepatocellular necrosis (viral, ischemic, drug)</td><td>Both ↑; peak follows AST/ALT; bilirubinuria</td><td><strong>↑↑ &gt;500 IU; ALT &gt; AST</strong></td><td>Normal to &lt;3× N</td><td>Normal</td><td>Usually normal; if &gt;5× and no Vit K correction → poor prognosis</td></tr>
+    <tr><td>Chronic hepatocellular disorders</td><td>Both ↑; bilirubinuria</td><td>↑ but usually &lt;300 IU</td><td>Normal to &lt;3× N</td><td>Often ↓</td><td>Often prolonged; fails to correct with Vit K</td></tr>
+    <tr><td>Alcoholic hepatitis / cirrhosis</td><td>Both ↑; bilirubinuria</td><td><strong>AST:ALT &gt;2</strong></td><td>Normal to &lt;3× N</td><td>Often ↓</td><td>Often prolonged; fails to correct with Vit K</td></tr>
+    <tr><td>Intra- and extrahepatic cholestasis</td><td>Both ↑; bilirubinuria</td><td>Normal to moderate ↑; rarely &gt;500 IU</td><td><strong>↑↑ often &gt;4× N</strong></td><td>Normal (unless chronic)</td><td>Normal; if prolonged → corrects with Vit K</td></tr>
+    <tr><td>Infiltrative diseases (tumor, granulomata)</td><td>Usually normal</td><td>Normal to slight ↑</td><td><strong>↑↑ often &gt;4× N</strong>; confirm with GGT/5'-nucl</td><td>Normal</td><td>Normal</td></tr>
+  </table>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-lfts')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-lfts','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-bilirubin">
+  <div class="sec-label">Section 8</div>
+  <div class="sec-title blu">Bilirubin Metabolism</div>
+
+  <h3>Overview</h3>
+  <ul>
+    <li>Bilirubin = end product of <strong>heme degradation</strong></li>
+    <li><strong>70–90%</strong> derived from degradation of hemoglobin of <em>senescent red blood cells</em></li>
+    <li>Produced in periphery → transported to liver bound tightly to albumin (insoluble in water)</li>
+  </ul>
+
+  <h3>The 4 Steps of Bilirubin Transport (Blood → Bile)</h3>
+  <div class="flow">
+    <div class="flow-steps">
+      <div class="flow-step"><span class="flow-arrow">1</span><div class="flow-box blu"><strong>Hepatocellular Uptake</strong>: carrier-mediated kinetics via OATP1B1 and OATP1B3 transporters at basolateral membrane. Identity of actual transporter still not fully elucidated.</div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div class="flow-box tel"><strong>Intracellular Binding</strong>: bilirubin binds as nonsubstrate ligand to glutathione-S-transferases (formerly called ligandins) → kept in solution</div></div>
+      <div class="flow-step"><span class="flow-arrow">3</span><div class="flow-box grn"><strong>Conjugation</strong>: bilirubin conjugated with 1 or 2 glucuronic acid moieties by <strong>UGT1A1</strong> (bilirubin-UDP-glucuronosyltransferase) → bilirubin mono- and diglucuronides. Conjugation disrupts internal hydrogen bonding → <strong>highly water-soluble</strong>. Conjugation is <em>obligatory</em> for canalicular excretion.</div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div class="flow-box amb"><strong>Biliary Excretion</strong>: conjugated bilirubin excreted across canalicular membrane by ATP-dependent transporter <strong>MRP2 (ABCC2)</strong>. Additionally: some glucuronides transported into portal circulation by <strong>MRP3 (ABCC3)</strong> → reuptake by <strong>OATP1B1/1B3</strong>. (Defective MRP2 → Dubin-Johnson; defective OATP1B1/1B3 → Rotor)</div></div>
+    </div>
+  </div>
+
+  <h3>UGT1 Gene Complex — Structure (Board-Relevant)</h3>
+  <div class="card pur">
+    <div class="card-title pur">UGT1A1 Gene Architecture</div>
+    <ul>
+      <li>Large complex on chromosome 2; ≥13 substrate-specific first exons (A1, A2…); 9 expressed isoforms</li>
+      <li>Each exon 1 has own promoter; encodes amino-terminal ~286 AA (substrate-specific)</li>
+      <li>Common exons 2–5: encode 245 carboxyl-terminal AA (shared by all isoforms)</li>
+      <li><strong>Mutation in first exon (e.g., A1)</strong> → affects only one isoform (e.g., UGT1A1 → bilirubin conjugation)</li>
+      <li><strong>Mutation in exons 2–5</strong> → affects <em>ALL</em> isoforms encoded by UGT1 complex → broader spectrum of conjugation defects</li>
+      <li>UGT1A1 encodes the physiologically critical bilirubin-UDP-glucuronosyltransferase</li>
+    </ul>
+  </div>
+
+  <h3>Extrahepatic Bilirubin Disposition</h3>
+  <ul>
+    <li><strong>Conjugated bilirubin in gut</strong>: not reabsorbed; converted by intestinal bacteria → <strong>urobilinogen</strong> (water-soluble, colorless)</li>
+    <li>Urobilinogen → enterohepatic circulation; excess cleared by kidneys → urine</li>
+    <li><strong>Unconjugated bilirubin</strong>: does NOT reach gut ordinarily (except neonates or severe unconjugated hyperbilirubinemia like CN-I)</li>
+    <li><strong>Renal bilirubin excretion</strong>:
+      <ul>
+        <li>Unconjugated bilirubin: too tightly bound to albumin → NOT filtered at glomerulus → never in urine</li>
+        <li>Conjugated bilirubin: readily filtered → appears in urine in conjugated hyperbilirubinemia</li>
+        <li>Kidney acts as "overflow valve" for conjugated bilirubin → renal failure can amplify jaundice in conjugated hyperbilirubinemia</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Causes of Unconjugated Hyperbilirubinemia — Increased Production</h3>
+  <div class="g3">
+    <div class="card red">
+      <div class="card-title red">Hemolysis</div>
+      <ul>
+        <li>Increased bilirubin turnover → unconjugated hyperbilirubinemia</li>
+        <li>Hemolysis alone: sustained bili usually &lt;<strong>4 mg/dL</strong> (bone marrow max 8× increase in RBC production)</li>
+        <li>Bili &gt;4 mg/dL + hemolysis → concomitant hepatic dysfunction</li>
+        <li>Prolonged hemolysis → pigment gallstones (bilirubin, not cholesterol) → cholecystitis, biliary obstruction</li>
+      </ul>
+    </div>
+    <div class="card amb">
+      <div class="card-title amb">Ineffective Erythropoiesis</div>
+      <ul>
+        <li>Fraction of bilirubin from ineffective erythropoiesis ↑ in: thalassemia major, megaloblastic anemias (folate/B12 deficiency), congenital erythropoietic porphyria, lead poisoning, dyserythropoietic anemias</li>
+        <li>Can reach 70% of total bilirubin production → modest unconjugated hyperbilirubinemia</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Miscellaneous</div>
+      Massive tissue infarctions or large hematomas → transient unconjugated hyperbilirubinemia from degradation of extravascular RBCs
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-bilirubin')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-bilirubin','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-hyperbili">
+  <div class="sec-label">Section 9</div>
+  <div class="sec-title amb">Causes of Hyperbilirubinemia</div>
+
+  <h3>Decreased Hepatic Bilirubin Clearance — Unconjugated</h3>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Decreased Hepatic Uptake</div>
+      <ul>
+        <li>Contributes to unconjugated hyperbilirubinemia of Gilbert syndrome</li>
+        <li>Drugs inhibiting bilirubin uptake: flavaspidic acid, novobiocin, rifampin, cholecystographic contrast agents → resolves with stopping drug</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Neonatal/Physiologic Jaundice</div>
+      <ul>
+        <li>Fetal bilirubin: cleared by placenta → maternal liver</li>
+        <li>At birth: neonatal liver assumes responsibility; UGT1A1 levels are LOW; intestinal flora undeveloped → enterohepatic circulation of unconjugated bilirubin</li>
+        <li>Most neonates: mild unconjugated hyperbilirubinemia, days 2–5; peak &lt;5–10 mg/dL; resolves in 2 weeks</li>
+        <li>Risk of <strong>kernicterus</strong> (bilirubin encephalopathy): rapidly rising unconjugated bili or &gt;<strong>20 mg/dL</strong> → bilirubin crosses immature BBB → deposits in basal ganglia → neurologic deficits to death</li>
+        <li>Treatment: <strong>phototherapy</strong> (converts bilirubin to water-soluble photoisomers excreted directly into bile); exchange transfusion</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card amb">
+    <div class="card-title amb">Acquired Conjugation Defects</div>
+    <ul>
+      <li>Advanced hepatitis or cirrhosis: modest reduction in conjugation capacity; but conjugation better preserved than canalicular excretion</li>
+      <li>Drugs inhibiting UGT1A1: pregnanediol, novobiocin, chloramphenicol, gentamicin, <strong>atazanavir</strong> → unconjugated hyperbilirubinemia</li>
+      <li><strong>Breast milk jaundice</strong>: fatty acids in breast milk inhibit UGT1A1; may also ↑ enterohepatic circulation</li>
+      <li>Transient familial neonatal hyperbilirubinemia (Lucey-Driscoll syndrome): UGT1A1 inhibitor in maternal serum</li>
+    </ul>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-hyperbili')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-hyperbili','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-hereditary">
+  <div class="sec-label">Section 10</div>
+  <div class="sec-title pur">Hereditary Hyperbilirubinemia Syndromes</div>
+
+  <h3>Comparison — Unconjugated Syndromes</h3>
+  <table>
+    <tr><th>Feature</th><th>Crigler-Najjar Type I</th><th>Crigler-Najjar Type II</th><th>Gilbert Syndrome</th></tr>
+    <tr><td>Total bilirubin (mg/dL)</td><td><strong>18–45 (usually &gt;20)</strong></td><td>6–25 (usually ≤20)</td><td>Typically ≤4; fluctuates widely</td></tr>
+    <tr><td>Routine liver tests</td><td>Normal</td><td>Normal</td><td>Normal</td></tr>
+    <tr><td>Response to phenobarbital</td><td><strong>None</strong></td><td><strong>&gt;25% decrease in bilirubin</strong></td><td>Normalizes bilirubin</td></tr>
+    <tr><td>Kernicterus</td><td><strong>Usual (without treatment)</strong></td><td>Rare (can occur in intercurrent illness)</td><td>No</td></tr>
+    <tr><td>Hepatic histology</td><td>Normal (occasional bile plugs)</td><td>Normal</td><td>Usually normal; increased lipofuscin in some</td></tr>
+    <tr><td>Bile characteristics</td><td>Pale or colorless; &gt;90% unconjugated</td><td>Pigmented; ↑ monoconjugates (mean 57%)</td><td>Normal dark; mainly diconjugates (↑ monoconjugates, mean 23%)</td></tr>
+    <tr><td>UGT1A1 activity</td><td><strong>Absent</strong> (or traces)</td><td>Markedly reduced: 0–10% of normal</td><td>Reduced: 10–33% of normal</td></tr>
+    <tr><td>Genetics</td><td>Autosomal recessive</td><td>Predominantly recessive (missense mutations more common)</td><td>Promoter mutation A[TA]7TAA (recessive); missense mutations (7/8 dominant in Japanese)</td></tr>
+    <tr><td>Molecular defect</td><td>Mutations in exon A1 (type IB) or exons 2–5 (type IA — broader defects)</td><td>Missense mutations in UGT1 gene; some residual enzyme activity</td><td>A[TA]7TAA promoter insertion (reduced UGT1A1 expression)</td></tr>
+    <tr><td>Management</td><td>Phototherapy (12–18h/day); liver transplantation; future: gene therapy</td><td>Phenobarbital (single bedtime dose); avoid intercurrent illness/fasting</td><td>Reassurance; avoid fasting, stress, alcohol; warn about irinotecan</td></tr>
+  </table>
+
+  <h3>Crigler-Najjar Type I (CN-I) — Deep Dive</h3>
+  <div class="card red">
+    <div class="card-title red">CN-I Clinical Features</div>
+    <ul>
+      <li>Striking unconjugated hyperbilirubinemia ~340–765 μmol/L (<strong>20–45 mg/dL</strong>) — appears in neonatal period, persists for life</li>
+      <li>Other liver tests: normal; no hemolysis; normal hepatic histology (except occasional bile plugs)</li>
+      <li>Bilirubin glucuronides: <strong>virtually absent</strong> from bile</li>
+      <li>NO detectable UGT1A1 activity; NO response to phenobarbital</li>
+      <li>Prior to phototherapy: most died of kernicterus in infancy or early childhood</li>
+      <li>Rare: prevalence 0.6–1.0 per million; many from isolated communities (consanguinity); autosomal recessive</li>
+      <li>Type IA: mutations in exons 2–5 → broader conjugation defects (multiple substrates including drugs, xenobiotics)</li>
+      <li>Type IB: mutation in exon A1 → defect limited largely to bilirubin conjugation</li>
+      <li>Estrogen glucuronidation (mediated by UGT1A1) is defective in <em>all</em> CN-I patients</li>
+    </ul>
+  </div>
+
+  <h3>Gilbert Syndrome — Deep Dive</h3>
+  <div class="card grn">
+    <div class="card-title grn">Gilbert Syndrome — Boards Essentials</div>
+    <ul>
+      <li>Most common hereditary hyperbilirubinemia; prevalence up to <strong>8%</strong>; males predominate (1.5:1 to &gt;7:1)</li>
+      <li>Serum bilirubin: usually &lt;3 mg/dL (fluctuates); 25% will transiently normalize</li>
+      <li>Exacerbated by: <strong>fasting, stress, fatigue, alcohol, intercurrent illness, reduced caloric intake</strong></li>
+      <li>Improved by: increased caloric intake, enzyme-inducing agents</li>
+      <li>Molecular basis (Europe/US): homozygous insertion of extra TA in UGT1A1 promoter → <strong>A[TA]7TAA</strong> (vs. normal A[TA]6TAA) → ↓ UGT1A1 expression; prevalence of A[TA]7TAA allele: 30% in Western population → 9% homozygotes</li>
+      <li>UGT1A1 activity: 10–35% of normal</li>
+      <li>Hepatic bilirubin clearance: reduced to ~1/3 of normal</li>
+      <li><strong>DRUG INTERACTION BOARD TRAP</strong>: CPT-11 (irinotecan) active metabolite SN-38 is glucuronidated by UGT1A1 → patients with GS are at risk for <strong>severe diarrhea and myelosuppression</strong> from irinotecan</li>
+      <li>HIV protease inhibitors indinavir and <strong>atazanavir</strong> inhibit UGT1A1 → hyperbilirubinemia (most pronounced in pre-existing GS)</li>
+    </ul>
+  </div>
+
+  <h3>Conjugated Hyperbilirubinemia Syndromes</h3>
+  <table>
+    <tr><th>Feature</th><th>Dubin-Johnson Syndrome (DJS)</th><th>Rotor Syndrome (RS)</th></tr>
+    <tr><td>Bilirubin</td><td>Low-grade predominantly conjugated; 2–5 mg/dL typical (can fluctuate widely)</td><td>Mild predominantly conjugated; other routine tests normal</td></tr>
+    <tr><td>Liver appearance</td><td><strong>Grossly BLACK</strong>; dark coarse granular pigment in lysosomes of centrilobular hepatocytes (epinephrine metabolites)</td><td><strong>Normal; no abnormal pigmentation</strong></td></tr>
+    <tr><td>Gallbladder</td><td><strong>Not visualized</strong> on oral cholecystography</td><td><strong>Usually visualized</strong> on oral cholecystography</td></tr>
+    <tr><td>Urinary coproporphyrins</td><td>Total normal; but <strong>&gt;80% is isomer I</strong> (normally ~75% isomer III)</td><td>Total <strong>substantially increased</strong>; elevated isomer I but usually &lt;70%</td></tr>
+    <tr><td>BSP test</td><td>Characteristic late <strong>rise at 90 min</strong> (reflux of conjugated BSP from hepatocyte back into circulation)</td><td>Delayed BSP clearance; <strong>no reflux</strong> (defect in intrahepatic storage)</td></tr>
+    <tr><td>Molecular defect</td><td>Defective <strong>MRP2 (ABCC2)</strong> — ATP-dependent canalicular transporter; autosomal recessive</td><td>Simultaneous deficiency of <strong>OATP1B1 (SLCO1B1)</strong> and <strong>OATP1B3 (SLCO1B3)</strong> — reduced reuptake of conjugated bilirubin pumped into portal circulation by MRP3</td></tr>
+    <tr><td>Clinical course</td><td>Benign; asymptomatic mostly; can flare with OCP use, pregnancy, intercurrent illness</td><td>Benign; similar to DJS clinically</td></tr>
+    <tr><td>Other liver tests</td><td>Normal AlkP, transaminases</td><td>Normal</td></tr>
+    <tr><td>Drug caution</td><td>—</td><td>OATP1B1/1B3 normally mediate uptake of many drugs (statins) → possible drug toxicity from deficiency</td></tr>
+  </table>
+
+  <h3>Progressive Familial Intrahepatic Cholestasis (PFIC)</h3>
+  <table>
+    <tr><th>Type</th><th>Gene/Protein</th><th>GGT</th><th>Features</th></tr>
+    <tr><td><strong>PFIC 1 (Byler disease)</strong></td><td>ATP8B1 / FIC1</td><td><strong>Normal/low</strong></td><td>Early infancy cholestasis → progressive → malnutrition, growth retardation, end-stage liver disease in childhood; FIC1 also expressed strongly in small intestine</td></tr>
+    <tr><td><strong>PFIC 2</strong></td><td>ABCB11 / BSEP (bile salt excretory protein)</td><td><strong>Normal/low</strong></td><td>Major bile canalicular exporter of bile acids; mutations can cause PFIC2 or BRIC2 (some mutations → episodic, some → progressive)</td></tr>
+    <tr><td><strong>PFIC 3</strong></td><td>ABCB4 / MDR3</td><td><strong>↑↑ HIGH</strong></td><td>MDR3 essential for hepatocellular excretion of phospholipids across bile canaliculus; ↑ GGT distinguishes PFIC3 from types 1&amp;2</td></tr>
+  </table>
+  <div class="card amb">
+    <div class="card-title amb">⭐ PFIC GGT Distinction (Board Trap)</div>
+    <p>PFIC type 3 is the ONLY type with high GGT. PFIC 1 and 2, and BRIC 1 and 2 → normal or mildly elevated GGT despite severe cholestasis. Also: mutations in FXR (NR1H4), TJP2, and USP53 cause PFIC-like disease with normal GGT.</p>
+  </div>
+
+  <h3>Benign Recurrent Intrahepatic Cholestasis (BRIC)</h3>
+  <div class="card tel">
+    <div class="card-title tel">BRIC Key Features</div>
+    <ul>
+      <li>Recurrent attacks of <strong>pruritus + jaundice</strong></li>
+      <li>Episode: begins with malaise + ↑ aminotransferases → then ↑ AlkP + conjugated bilirubin + jaundice + itching</li>
+      <li>First 1–2 episodes may be misdiagnosed as acute viral hepatitis</li>
+      <li>Duration: weeks to months; full clinical &amp; biochemical resolution between attacks</li>
+      <li>Between episodes: physical exam normal; serum bile acids, bilirubin, transaminases, AlkP all normal</li>
+      <li>Autosomal recessive; does <strong>NOT</strong> lead to cirrhosis or end-stage liver disease (benign)</li>
+      <li>But: episodes can be <strong>prolonged and debilitating</strong>; some patients underwent liver transplantation for intractable symptoms</li>
+      <li>BRIC1: FIC1 mutations (same gene as PFIC1 — different mutations cause episodic vs. progressive)</li>
+      <li>BRIC2: BSEP mutations (same gene as PFIC2)</li>
+    </ul>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-hereditary')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-hereditary','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-quickref">
+  <div class="sec-label">Section 11</div>
+  <div class="sec-title grn">Quick Reference Master Table</div>
+
+  <h3>Key Thresholds &amp; Numbers</h3>
+  <table>
+    <tr><th>Parameter</th><th>Value / Threshold</th><th>Clinical Significance</th></tr>
+    <tr><td>Jaundice visible</td><td>Bilirubin <strong>≥2.5 mg/dL (43 μmol/L)</strong></td><td>Below this: not clinically detectable</td></tr>
+    <tr><td>Hemolysis alone max bilirubin</td><td><strong>~4 mg/dL (68 μmol/L)</strong></td><td>Higher value → concomitant hepatic dysfunction</td></tr>
+    <tr><td>Neonatal kernicterus risk</td><td>Unconjugated bili <strong>&gt;20 mg/dL (340 μmol/L)</strong> or rapidly rising</td><td>BBB immature → deposition in basal ganglia</td></tr>
+    <tr><td>Liver biopsy adequacy</td><td><strong>1.5–2 cm length, ≥10 portal tracts</strong></td><td>Required for accurate fibrosis staging</td></tr>
+    <tr><td>Portal vein blood supply</td><td><strong>80%</strong></td><td>Nutrient-rich (vs 20% hepatic artery = oxygen-rich)</td></tr>
+    <tr><td>Albumin half-life</td><td><strong>18–20 days</strong></td><td>Not useful for acute disease assessment</td></tr>
+    <tr><td>Factor VII half-life</td><td><strong>6 hours</strong></td><td>Shortest; PT most sensitive acute synthetic marker</td></tr>
+    <tr><td>Gilbert syndrome prevalence</td><td><strong>Up to 8%</strong></td><td>Most common hereditary hyperbilirubinemia</td></tr>
+    <tr><td>CN-I prevalence</td><td><strong>0.6–1.0 per million</strong></td><td>Rare; many from consanguineous communities</td></tr>
+    <tr><td>Harmful alcohol (women)</td><td><strong>&gt;2 drinks/day (22–30 g)</strong></td><td>Threshold for alcoholic liver disease risk</td></tr>
+    <tr><td>Harmful alcohol (men)</td><td><strong>&gt;3 drinks/day (33–45 g)</strong></td><td>Threshold for alcoholic liver disease risk</td></tr>
+    <tr><td>AST:ALT ratio in alcoholic liver disease</td><td><strong>&gt;2:1 suggestive; &gt;3:1 highly suggestive</strong></td><td>AST rarely &gt;300; ALT often normal</td></tr>
+    <tr><td>Aminotransferases &gt;1000 IU/L</td><td>Viral hepatitis, ischemic injury, or toxin/drug</td><td>Almost exclusive DDx</td></tr>
+    <tr><td>AlkP &gt;4× normal</td><td>Cholestatic disease, infiltrative disease, Paget's</td><td>More specific for cholestasis than lower elevations</td></tr>
+    <tr><td>Child-Pugh class A</td><td>Score <strong>5–6</strong></td><td>Compensated cirrhosis</td></tr>
+    <tr><td>Child-Pugh class B (transplant listing)</td><td>Score <strong>7–9</strong></td><td>Decompensation; traditional transplant criterion</td></tr>
+    <tr><td>Child-Pugh class C</td><td>Score <strong>10–15</strong></td><td>Severe decompensation</td></tr>
+    <tr><td>HCC surveillance interval</td><td><strong>US every 6–12 months</strong></td><td>For all cirrhotic patients</td></tr>
+    <tr><td>PT &gt;5s above control, not corrected by Vit K</td><td>Poor prognosis</td><td>Acute viral hepatitis / acute liver failure</td></tr>
+    <tr><td>IgG elevated &gt;100%</td><td>Autoimmune hepatitis</td><td>Diffuse polyclonal increase</td></tr>
+    <tr><td>IgM elevated</td><td>PBC</td><td>Pattern</td></tr>
+    <tr><td>IgA elevated</td><td>Alcoholic liver disease</td><td>Pattern</td></tr>
+    <tr><td>Trail-making test (normal)</td><td><strong>15–30 seconds</strong></td><td>Prolonged in early hepatic encephalopathy</td></tr>
+  </table>
+
+  <h3>Immunoglobulin Pattern Summary</h3>
+  <div class="g3">
+    <div class="card blu"><div class="card-title blu">↑ IgG (&gt;100%)</div>Autoimmune Hepatitis</div>
+    <div class="card tel"><div class="card-title tel">↑ IgM</div>Primary Biliary Cholangitis (PBC)</div>
+    <div class="card amb"><div class="card-title amb">↑ IgA</div>Alcoholic Liver Disease</div>
+  </div>
+
+  <h3>Antibody / Marker Summary</h3>
+  <div class="g2">
+    <div>
+      <table>
+        <tr><th>Antibody</th><th>Disease</th></tr>
+        <tr><td>AMA (antimitochondrial antibody)</td><td><strong>PBC</strong></td></tr>
+        <tr><td>ANA or SMA + ↑ IgG</td><td><strong>Autoimmune hepatitis</strong></td></tr>
+        <tr><td>P-ANCA + cholangiography</td><td><strong>PSC</strong></td></tr>
+        <tr><td>Anti-HAV IgM</td><td>Acute hepatitis A</td></tr>
+        <tr><td>HBsAg + anti-HBc IgM</td><td>Acute hepatitis B</td></tr>
+        <tr><td>HBsAg + HBV DNA + HBeAg</td><td>Chronic hepatitis B</td></tr>
+        <tr><td>Anti-HCV + HCV RNA</td><td>Hepatitis C</td></tr>
+        <tr><td>HBsAg + anti-HDV</td><td>Hepatitis D</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <tr><th>Finding</th><th>Disease</th></tr>
+        <tr><td>↓ Ceruloplasmin + ↑ urinary copper + ↑ hepatic copper</td><td>Wilson disease</td></tr>
+        <tr><td>↑ Iron saturation + ↑ ferritin + HFE gene (C282Y/H63D)</td><td>Hemochromatosis</td></tr>
+        <tr><td>↓ α1AT; phenotype PiZZ or PiSZ</td><td>α1AT deficiency</td></tr>
+        <tr><td>AFP &gt;500 ng/mL + mass</td><td>HCC</td></tr>
+        <tr><td>Kayser-Fleischer rings (slit lamp)</td><td>Wilson disease</td></tr>
+        <tr><td>Coproporphyrins: isomer I &gt;80% (total normal)</td><td>Dubin-Johnson syndrome</td></tr>
+        <tr><td>Coproporphyrins: total ↑↑; isomer I elevated &lt;70%</td><td>Rotor syndrome</td></tr>
+        <tr><td>PFIC with HIGH GGT</td><td>PFIC type 3 (MDR3)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-quickref')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-quickref','review')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ═══════════════════════════════════════════════ -->
+<section class="sec" id="s-traps">
+  <div class="sec-label">★ Section 12 — Board Exam Traps</div>
+  <div class="sec-title amb">Exam Traps — Internal Medicine Stage A</div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 1 — Look-Alike Trap</div>
+    <div class="trap-q">A 28-year-old man presents with jaundice after 48 hours of fasting for Ramadan. Total bilirubin is 3.8 mg/dL with 90% indirect fraction. ALT, AST, AlkP, albumin, and PT are all normal. No bilirubinuria. Which investigation is most important next?</div>
+    <div class="trap-wrong">✗ Wrong answer: Liver biopsy to rule out hepatitis — tempting because bilirubin is elevated and the patient is young</div>
+    <div class="trap-right">✓ Correct: <strong>Workup for hemolysis (peripheral smear, reticulocyte count, haptoglobin, Coombs test) — and if negative, diagnose Gilbert syndrome. No further workup needed.</strong></div>
+    <div class="trap-why">💡 Why: Isolated unconjugated hyperbilirubinemia (&lt;15% direct) + normal liver tests + no bilirubinuria in an otherwise healthy young patient = Gilbert syndrome if hemolysis excluded. The fasting provocation is a classic trigger. Liver biopsy is NOT indicated.</div>
+    <div class="trap-kw">Keyword: "fasting" + isolated unconjugated + normal liver tests</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 2 — Number Trap</div>
+    <div class="trap-q">A patient with acute viral hepatitis is jaundiced. When can you first detect jaundice clinically?</div>
+    <div class="trap-wrong">✗ Wrong: When total bilirubin exceeds 1.5 mg/dL (the upper limit of normal)</div>
+    <div class="trap-right">✓ Correct: <strong>When total bilirubin reaches ≥2.5 mg/dL (43 μmol/L). Clinically, patients typically notice dark urine BEFORE they notice scleral icterus.</strong></div>
+    <div class="trap-why">💡 Why: Jaundice requires bilirubin to exceed the threshold for visible scleral coloration. Dark urine (bilirubinuria from conjugated bilirubin) appears earlier. Board questions may give a patient with dark urine but no visible jaundice and ask what the bilirubin range must be.</div>
+    <div class="trap-kw">Keyword: 2.5 mg/dL threshold / dark urine before icterus</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 3 — Mechanism Trap</div>
+    <div class="trap-q">A 45-year-old woman with chronic alcoholism is found to have AST of 180 IU/L and ALT of 48 IU/L. The ALT is "almost normal." Why is ALT low in alcoholic liver disease despite significant liver injury?</div>
+    <div class="trap-wrong">✗ Wrong: Low ALT means liver disease is mild — do not pursue workup</div>
+    <div class="trap-right">✓ Correct: <strong>Alcohol causes a deficiency of pyridoxal phosphate (vitamin B6) → ↓ ALT synthesis → falsely low ALT despite liver injury. The AST:ALT ratio &gt;2:1 (here 3.75:1) is highly suggestive of alcohol-related liver disease.</strong></div>
+    <div class="trap-why">💡 Why: In alcoholic liver disease, AST rarely exceeds 300 IU/L and ALT is often normal due to the pyridoxal phosphate effect. The ratio is the key — not the absolute values. AST:ALT &gt;2:1 is suggestive; &gt;3:1 is highly suggestive.</div>
+    <div class="trap-kw">Keyword: AST:ALT ratio &gt;2 + pyridoxal phosphate deficiency</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 4 — Drug Interaction Trap</div>
+    <div class="trap-q">A 35-year-old man is diagnosed with metastatic colon cancer and is started on irinotecan (CPT-11) chemotherapy. Before starting treatment, genetic testing reveals he is homozygous for the A[TA]7TAA UGT1A1 promoter variant. What complication should you specifically warn him about?</div>
+    <div class="trap-wrong">✗ Wrong: This variant only causes benign jaundice (Gilbert syndrome) — no concern with chemotherapy</div>
+    <div class="trap-right">✓ Correct: <strong>Gilbert syndrome significantly increases the risk of severe irinotecan toxicity — specifically intractable diarrhea and myelosuppression — because UGT1A1 is responsible for glucuronidating irinotecan's active metabolite SN-38.</strong></div>
+    <div class="trap-why">💡 Why: Gilbert syndrome is "benign" for bilirubin metabolism — but not for drug metabolism. SN-38 accumulates in GS patients → severe toxicity. This is the ONE clinically important exception to Gilbert syndrome being benign.</div>
+    <div class="trap-kw">Keyword: irinotecan (CPT-11) + SN-38 + Gilbert syndrome → toxicity</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 5 — Look-Alike Trap</div>
+    <div class="trap-q">A 25-year-old woman develops jaundice during her first pregnancy. Total bilirubin 4.5 mg/dL, predominantly conjugated, with bilirubinuria. All other liver tests are normal. Ultrasound: no bile duct dilation, gallbladder NOT visualized. Urinary coproporphyrins: total normal, but &gt;80% is isomer I. Which diagnosis fits?</div>
+    <div class="trap-wrong">✗ Wrong: Cholestasis of pregnancy (intrahepatic cholestasis of pregnancy) — tempting because jaundice is new in pregnancy</div>
+    <div class="trap-right">✓ Correct: <strong>Dubin-Johnson Syndrome — unmasked by pregnancy. The diagnostic clue is: normal total urinary coproporphyrins with &gt;80% as isomer I + non-visualized gallbladder on oral cholecystography + conjugated hyperbilirubinemia with normal other tests.</strong></div>
+    <div class="trap-why">💡 Why: DJS often goes undetected until pregnancy or OCP use triggers hyperbilirubinemia. The coproporphyrin pattern is pathognomonic: total normal (unlike Rotor where total is increased) but isomer I &gt;80% (vs. normal ~75% isomer III). Rotor has increased total coproporphyrins with isomer I elevated but &lt;70%.</div>
+    <div class="trap-kw">Keyword: coproporphyrin isomer I &gt;80% + normal total + non-visualized GB</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 6 — Mechanism Trap (Cholestasis vs Hepatocellular)</div>
+    <div class="trap-q">A 50-year-old woman with known primary biliary cholangitis has AlkP 480 IU/L (4× ULN), GGT elevated, total bilirubin 3.5 mg/dL, ALT 60 IU/L (1.5× ULN). What is the pattern, and which additional antibody test is most expected to be positive?</div>
+    <div class="trap-wrong">✗ Wrong: This is a hepatocellular pattern because bilirubin is elevated; check ANA</div>
+    <div class="trap-right">✓ Correct: <strong>This is a cholestatic pattern (↑↑ AlkP with proportionally minimal ↑ ALT). The expected antibody is Antimitochondrial Antibody (AMA) — positive in PBC. IgM is elevated, not IgG.</strong></div>
+    <div class="trap-why">💡 Why: Pattern recognition: AlkP &gt;4× with minimal ALT = cholestatic. PBC is one of the commonest causes of isolated or predominantly elevated AlkP. AMA is the diagnostic marker. Elevated IgM (not IgG) is the immunoglobulin pattern in PBC.</div>
+    <div class="trap-kw">Keyword: AMA + ↑ IgM + cholestatic pattern = PBC</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 7 — Timing Trap (Liver Biopsy)</div>
+    <div class="trap-q">A 60-year-old man presents with 3 weeks of progressively worsening jaundice, dark urine, pale stools, and itching. AlkP is 6× ULN. The hospitalist orders a liver biopsy to evaluate the cause of cholestasis. What should be done first instead?</div>
+    <div class="trap-wrong">✗ Wrong: Proceed with liver biopsy — it is the gold standard</div>
+    <div class="trap-right">✓ Correct: <strong>Liver biopsy should NOT be the initial procedure in cholestasis. The biliary tree must first be assessed for obstruction with ultrasound (first-line) or MRCP/CT. Only if obstruction is excluded and cause remains unclear should biopsy be considered.</strong></div>
+    <div class="trap-why">💡 Why: Cholestatic pattern with pale stools = possible extrahepatic biliary obstruction (tumor, stone, stricture). Proceeding directly to biopsy risks missing a surgically correctable cause and can be complicated by dilated ducts. Ultrasound first; MRCP/ERCP as needed.</div>
+    <div class="trap-kw">Keyword: cholestatic → image first → biopsy only if obstruction excluded</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 8 — Prognosis Trap (Acute Liver Failure)</div>
+    <div class="trap-q">A 24-year-old woman presents with acute hepatitis A infection. On day 5, she becomes confused and is found to have asterixis and disorientation. INR is 3.0. What is the significance of this finding?</div>
+    <div class="trap-wrong">✗ Wrong: This is expected hepatic encephalopathy in hepatitis — manage conservatively</div>
+    <div class="trap-right">✓ Correct: <strong>The appearance of hepatic encephalopathy during acute hepatitis is the major criterion for diagnosis of ACUTE LIVER FAILURE, which carries a poor prognosis. Urgent evaluation for liver transplantation is required.</strong></div>
+    <div class="trap-why">💡 Why: Hepatic encephalopathy is not a "complication" of acute hepatitis — it redefines the diagnosis to Acute Liver Failure (ALF). ALF in Hep A is rare but occurs. The MELD score + PT uncorrectable by Vitamin K = poor prognostic indicators. Transplantation evaluation should begin immediately.</div>
+    <div class="trap-kw">Keyword: encephalopathy + acute hepatitis = acute liver failure → poor prognosis</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 9 — Population Trap (Hepatitis E)</div>
+    <div class="trap-q">A 70-year-old kidney transplant recipient on tacrolimus and mycophenolate presents with 8 weeks of elevated aminotransferases and bilirubin. Hepatitis B and C serologies are negative. What diagnosis should be considered that is often missed in this population?</div>
+    <div class="trap-wrong">✗ Wrong: Drug-induced liver injury from immunosuppressives — most common assumption</div>
+    <div class="trap-right">✓ Correct: <strong>Chronic Hepatitis E (HEV infection). In immunosuppressed patients (transplant, chemotherapy, HIV), HEV can cause chronic hepatitis presenting as persistently elevated enzymes with negative Hep B/C markers. Check anti-HEV IgM and HEV RNA.</strong></div>
+    <div class="trap-why">💡 Why: HEV typically causes acute self-limited disease but can become CHRONIC in immunosuppressed patients. This is a board favorite — it won't present as the classic "traveler with jaundice" but as an elderly transplant recipient with unexplained chronic liver test abnormalities. HEV testing is specifically indicated here.</div>
+    <div class="trap-kw">Keyword: immunosuppressed + chronic elevated enzymes + negative B/C → check HEV</div>
+  </div>
+
+  <div class="trap">
+    <div class="trap-n">★ Trap 10 — Number Trap (PFIC)</div>
+    <div class="trap-q">A 6-month-old infant presents with severe progressive cholestasis, jaundice, pruritus, and growth retardation. Serum bilirubin and AlkP are markedly elevated. GGT is surprisingly NORMAL. What type of PFIC does this suggest?</div>
+    <div class="trap-wrong">✗ Wrong: PFIC type 3 — "PFIC has high GGT"</div>
+    <div class="trap-right">✓ Correct: <strong>PFIC type 1 (FIC1 mutation) or PFIC type 2 (BSEP mutation) — both present with severe cholestasis and NORMAL or LOW GGT. Only PFIC type 3 (MDR3 mutation) has HIGH GGT.</strong></div>
+    <div class="trap-why">💡 Why: The GGT pattern is the critical distinguishing feature. In PFIC 1 &amp; 2, GGT is normal despite severe cholestasis. This is counterintuitive and is therefore a classic board trap. MDR3 (PFIC3) is the only type with elevated GGT because the phospholipid transport defect causes different bile composition affecting GGT expression.</div>
+    <div class="trap-kw">Keyword: severe cholestasis + normal GGT in infant = PFIC 1 or 2 (NOT PFIC 3)</div>
+  </div>
+
+  <div class="sec-footer">
+    <button class="status-btn" onclick="toggleStatus(this,'s-traps')">✓ Learned</button>
+    <button class="status-btn" onclick="toggleStatus(this,'s-traps','review')">⚑ Review</button>
+  </div>
+</section>
+
+</main>
+<footer class="footer">Harrison's Internal Medicine · Chapters 347–349 · Liver Disease &amp; Hyperbilirubinemias · Boards Study Guide · 2025</footer>
+<script>
+const STORE_KEY = 'liver_boards_guide_v1';
+let activeHL = null;
+let eraseMode = false;
+let noteMode = false;
+let pendingRange = null;
+let pendingRef = '';
+
+function getNotes(){try{return JSON.parse(localStorage.getItem(STORE_KEY+'_notes')||'[]')}catch{return[]}}
+function saveNotes(n){localStorage.setItem(STORE_KEY+'_notes',JSON.stringify(n))}
+
+function setHL(cls,btnId){
+  eraseMode=false;noteMode=false;
+  document.getElementById('erase-btn').style.background='';
+  document.getElementById('note-btn').style.background='';
+  if(activeHL===cls){activeHL=null;document.querySelectorAll('.hbtn').forEach(b=>b.classList.remove('active'));return;}
+  activeHL=cls;
+  document.querySelectorAll('.hbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(btnId).classList.add('active');
+  document.body.style.cursor='text';
+}
+function toggleErase(){
+  activeHL=null;noteMode=false;
+  document.querySelectorAll('.hbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('note-btn').style.background='';
+  eraseMode=!eraseMode;
+  document.getElementById('erase-btn').style.background=eraseMode?'#fde047':'';
+  document.body.style.cursor=eraseMode?'cell':'';
+}
+function toggleNoteMode(){
+  activeHL=null;eraseMode=false;
+  document.querySelectorAll('.hbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('erase-btn').style.background='';
+  noteMode=!noteMode;
+  document.getElementById('note-btn').style.background=noteMode?'var(--pur-l)':'';
+  document.body.style.cursor=noteMode?'crosshair':'';
+}
+function clearAll(){
+  if(!confirm('Clear all highlights and notes from this guide?'))return;
+  document.querySelectorAll('mark').forEach(m=>{
+    const p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();
+  });
+  document.querySelectorAll('.note-anchor').forEach(a=>{
+    const p=a.parentNode;p.replaceChild(document.createTextNode(a.textContent),a);p.normalize();
+  });
+  localStorage.removeItem(STORE_KEY+'_hl');
+  saveNotes([]);
+  renderNotes();
+}
+document.addEventListener('mouseup',function(e){
+  if(e.target.closest('#toolbar')||e.target.closest('#sn-sidebar')||e.target.closest('#note-input-wrap')||e.target.closest('#note-popover'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed)return;
+  const range=sel.getRangeAt(0);
+  if(range.collapsed)return;
+  if(eraseMode){
+    const marks=document.querySelectorAll('mark');
+    marks.forEach(m=>{if(range.intersectsNode&&range.intersectsNode(m)){const p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();}});
+    sel.removeAllRanges();return;
+  }
+  if(activeHL){
+    try{
+      const mark=document.createElement('mark');
+      mark.className=activeHL;
+      range.surroundContents(mark);
+    }catch(err){
+      const frag=range.extractContents();
+      const mark=document.createElement('mark');
+      mark.className=activeHL;
+      mark.appendChild(frag);
+      range.insertNode(mark);
+    }
+    sel.removeAllRanges();return;
+  }
+  if(noteMode){
+    pendingRef=sel.toString().trim().substring(0,120);
+    pendingRange=range.cloneRange();
+    sel.removeAllRanges();
+    const wrap=document.getElementById('note-input-wrap');
+    const ta=document.getElementById('note-textarea');
+    ta.value='';
+    const rect=range.getBoundingClientRect();
+    wrap.style.top=Math.min(rect.bottom+8,window.innerHeight-160)+'px';
+    wrap.style.left=Math.min(rect.left,window.innerWidth-260)+'px';
+    wrap.classList.add('show');
+    ta.focus();
+    return;
+  }
+});
+function saveNote(){
+  const text=document.getElementById('note-textarea').value.trim();
+  if(!text){cancelNote();return;}
+  const nid=Date.now();
+  const notes=getNotes();
+  notes.push({id:nid,ref:pendingRef||'—',text});
+  saveNotes(notes);
+  if(pendingRange){
+    try{
+      const anch=document.createElement('span');
+      anch.className='note-anchor';
+      anch.dataset.noteId=nid;
+      anch.title='Note: '+text.substring(0,60);
+      pendingRange.surroundContents(anch);
+    }catch(err){
+      const frag=pendingRange.extractContents();
+      const anch=document.createElement('span');
+      anch.className='note-anchor';
+      anch.dataset.noteId=nid;
+      frag.childNodes.forEach(n=>anch.appendChild(n.cloneNode(true)));
+      pendingRange.insertNode(anch);
+    }
+  }
+  renderNotes();
+  cancelNote();
+}
+function cancelNote(){
+  document.getElementById('note-input-wrap').classList.remove('show');
+  pendingRange=null;pendingRef='';
+}
+function deleteNote(nid){
+  const notes=getNotes().filter(n=>n.id!==nid);
+  saveNotes(notes);
+  document.querySelectorAll('.note-anchor[data-note-id="'+nid+'"]').forEach(a=>{
+    const p=a.parentNode;
+    while(a.firstChild)p.insertBefore(a.firstChild,a);
+    p.removeChild(a);p.normalize();
+  });
+  renderNotes();
+  closePopover();
+}
+function renderNotes(){
+  const body=document.getElementById('sn-body');
+  const notes=getNotes();
+  if(!notes.length){body.innerHTML='<div id="sn-empty">Select text and click 📝 to add a note</div>';return;}
+  body.innerHTML='';
+  notes.forEach(note=>{
+    const card=document.createElement('div');
+    card.className='sn-card';
+    card.draggable=true;
+    card.innerHTML=`<div class="sn-card-drag">⠿</div><button class="sn-card-del" onclick="deleteNote(${note.id})">×</button><div class="sn-card-ref">${note.ref!=='—'?'"'+note.ref.substring(0,60)+(note.ref.length>60?'…':'')+'"':''}</div><div class="sn-card-text">${note.text.replace(/</g,'&lt;')}</div>`;
+    body.appendChild(card);
+  });
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sn-sidebar');
+  const tab=document.getElementById('sn-tab');
+  sb.classList.toggle('hidden');
+  tab.textContent=sb.classList.contains('hidden')?'📝 Notes':'◀';
+}
+let activePopNoteId=null;
+function showPopover(anchorEl,note){
+  const pop=document.getElementById('note-popover');
+  document.getElementById('np-pop-ref').textContent=note.ref!=='—'?'"'+note.ref.substring(0,55)+(note.ref.length>55?'…':'')+'"':'Your note';
+  document.getElementById('np-pop-text').innerHTML=note.text.replace(/\n/g,'<br>');
+  document.getElementById('pop-del-btn').onclick=()=>deleteNote(note.id);
+  activePopNoteId=note.id;
+  const rect=anchorEl.getBoundingClientRect();
+  pop.style.left=Math.min(rect.left,window.innerWidth-300)+'px';
+  pop.style.top=(rect.bottom+8)+'px';
+  pop.classList.add('show');
+}
+function closePopover(){document.getElementById('note-popover').classList.remove('show');activePopNoteId=null;}
+document.addEventListener('click',function(e){
+  const anchor=e.target.closest('.note-anchor');
+  if(anchor){
+    e.stopPropagation();
+    const nid=parseInt(anchor.dataset.noteId);
+    if(activePopNoteId===nid){closePopover();return;}
+    const note=getNotes().find(n=>n.id===nid);
+    if(note)showPopover(anchor,note);
+    return;
+  }
+  const pop=document.getElementById('note-popover');
+  if(pop&&!pop.contains(e.target))closePopover();
+});
+function toggleStatus(btn,secId,type){
+  const key=STORE_KEY+'_status_'+secId;
+  const cur=localStorage.getItem(key);
+  if(type==='review'){
+    if(cur==='review'){localStorage.removeItem(key);btn.classList.remove('review');}
+    else{localStorage.setItem(key,'review');btn.classList.add('review');
+      const lb=btn.parentElement.querySelector('.status-btn:not(:last-child)');
+      if(lb)lb.classList.remove('learned');}
+  }else{
+    if(cur==='learned'){localStorage.removeItem(key);btn.classList.remove('learned');}
+    else{localStorage.setItem(key,'learned');btn.classList.add('learned');
+      const rb=btn.parentElement.querySelector('.status-btn:last-child');
+      if(rb)rb.classList.remove('review');}
+  }
+}
+// Restore status buttons
+document.querySelectorAll('.status-btn').forEach(btn=>{
+  const secId=btn.closest('.sec').id;
+  const key=STORE_KEY+'_status_'+secId;
+  const status=localStorage.getItem(key);
+  if(status==='learned'&&btn.textContent.includes('Learned'))btn.classList.add('learned');
+  if(status==='review'&&btn.textContent.includes('Review'))btn.classList.add('review');
+});
+// Active nav
+const _sections=document.querySelectorAll('.sec[id]');
+const _navLinks=document.querySelectorAll('.toc-a');
+_sections.forEach(s=>
+  new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){
+      _navLinks.forEach(l=>l.classList.remove('on'));
+      const lnk=document.querySelector('.toc-a[href="#'+s.id+'"]');
+      if(lnk){lnk.classList.add('on');lnk.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}
+    }
+  },{rootMargin:'-15% 0px -75% 0px'}).observe(s)
+);
+renderNotes();
+</script>
+</body>
+</html>
