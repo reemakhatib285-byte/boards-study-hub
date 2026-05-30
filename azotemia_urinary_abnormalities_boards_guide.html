@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Azotemia & Urinary Abnormalities · Boards Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.7}
+:root{
+  --bg:#f8f7f4;--sf:#fff;--sf2:#f0ede8;--bd:#ddd9d2;--bd2:#b8b3aa;
+  --tx:#1c1a17;--t2:#4a4540;--t3:#857f77;
+  --blu:#1e4db7;--blu-l:#eef2fd;--blu-d:#163a8c;
+  --red:#b91c1c;--red-l:#fef2f2;
+  --amb:#b45309;--amb-l:#fffbeb;
+  --grn:#15803d;--grn-l:#f0fdf4;
+  --pur:#6d28d9;--pur-l:#f5f3ff;
+  --tel:#0e7490;--tel-l:#ecfeff;
+  --hy:rgba(253,224,71,.5);--hg:rgba(134,239,172,.5);
+  --hb:rgba(147,197,253,.5);--hpk:rgba(249,168,212,.5);--ho:rgba(253,186,116,.5);
+  --nav:54px;--snw:300px;
+}
+
+/* ── ANNOTATION TOOLBAR ─────────────────── */
+#toolbar{position:fixed;top:10px;left:12px;z-index:999;background:#fff;
+  border:1.5px solid var(--bd2);border-radius:10px;padding:7px 10px;
+  display:flex;align-items:center;gap:5px;box-shadow:0 3px 16px rgba(0,0,0,.12)}
+.albl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-right:2px}
+.hbtn{width:23px;height:23px;border-radius:5px;border:1.5px solid rgba(0,0,0,.1);
+  cursor:pointer;transition:transform .15s,outline .15s;flex-shrink:0}
+.hbtn:hover{transform:scale(1.2)}
+.hbtn.active{outline:2.5px solid var(--blu);outline-offset:1px}
+#h-y{background:#fde047}#h-g{background:#86efac}
+#h-b{background:#93c5fd}#h-p{background:#f9a8d4}#h-o{background:#fdba74}
+.tsep{width:1px;height:22px;background:var(--bd);margin:0 3px}
+.tbtn{width:30px;height:30px;border:1.5px solid var(--bd);border-radius:6px;
+  background:var(--bg);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:13px;color:var(--t2);transition:background .15s}
+.tbtn:hover{background:var(--blu-l);color:var(--blu)}
+.tbtn.wide{width:auto;padding:0 8px;font-family:'JetBrains Mono',monospace;font-size:8.5px}
+
+/* ── STICKY NOTE SIDEBAR ─────────────────── */
+#sn-sidebar{position:fixed;right:0;top:var(--nav);width:var(--snw);
+  height:calc(100vh - var(--nav));background:var(--sf2);border-left:1.5px solid var(--bd2);
+  display:flex;flex-direction:column;z-index:800;transition:transform .25s}
+#sn-sidebar.hidden{transform:translateX(100%)}
+#sn-hd{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-bottom:1px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-hd span{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+#sn-toggle-btn{cursor:pointer;border:none;background:none;font-size:16px;color:var(--t3);padding:0 2px}
+#sn-toggle-btn:hover{color:var(--pur)}
+#sn-body{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+#sn-empty{text-align:center;color:var(--t3);font-size:11px;padding:28px 10px;font-style:italic;line-height:1.6}
+.sn-note{background:#fffde7;border:1.5px solid #f0d060;border-radius:8px;
+  box-shadow:2px 3px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;
+  min-height:100px;position:relative;overflow:hidden}
+.sn-note-hd{background:#fef08a;border-bottom:1px solid #f0d060;padding:6px 10px;
+  display:flex;align-items:center;gap:6px;cursor:grab;user-select:none;flex-shrink:0}
+.sn-note-hd:active{cursor:grabbing}
+.sn-drag-icon{color:#a89a30;font-size:12px;flex-shrink:0}
+.sn-note-ref{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;
+  color:#78610a;text-transform:uppercase;letter-spacing:.08em;flex:1;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sn-del{cursor:pointer;border:none;background:none;font-size:15px;color:#a89a30;line-height:1;padding:0 2px;flex-shrink:0}
+.sn-del:hover{color:var(--red)}
+.sn-note-body{padding:8px 10px;flex:1;font-size:12px;line-height:1.55;color:var(--t2);overflow-y:auto;min-height:60px}
+.sn-resize{position:absolute;bottom:0;right:0;width:16px;height:16px;cursor:se-resize;
+  display:flex;align-items:flex-end;justify-content:flex-end;padding:2px}
+.sn-resize::after{content:'';display:block;width:8px;height:8px;
+  border-right:2px solid #c8a800;border-bottom:2px solid #c8a800;border-radius:1px}
+#sn-tab{position:fixed;right:var(--snw);top:50%;transform:translateY(-50%);
+  z-index:801;background:var(--pur);color:#fff;border:none;border-radius:6px 0 0 6px;
+  padding:12px 6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9px;
+  writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:.1em;text-transform:uppercase;
+  box-shadow:-2px 0 8px rgba(0,0,0,.12);transition:right .25s,background .15s}
+#sn-tab:hover{background:var(--blu)}
+#sn-sidebar.hidden ~ #sn-tab{right:0}
+.note-anchor{cursor:pointer;border-bottom:2px dotted var(--pur);padding-bottom:1px;position:relative;transition:border-color .15s}
+.note-anchor:hover{border-bottom-color:var(--blu);background:rgba(109,40,217,.06);border-radius:2px}
+#note-popover{position:fixed;z-index:2000;background:#fff;border:1.5px solid var(--pur);
+  border-radius:9px;box-shadow:0 6px 28px rgba(109,40,217,.18);padding:12px 14px;
+  max-width:280px;min-width:160px;display:none;font-size:12.5px;line-height:1.55;color:var(--tx)}
+#note-popover.show{display:block}
+#note-popover::before{content:'';position:absolute;width:10px;height:10px;background:#fff;
+  border-left:1.5px solid var(--pur);border-top:1.5px solid var(--pur);transform:rotate(45deg);top:-6px;left:18px}
+#note-popover::after{content:'';position:absolute;background:#fff;width:14px;height:6px;top:0;left:14px}
+#np-pop-ref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--pur);margin-bottom:5px;font-weight:500}
+#np-pop-text{color:var(--t2);line-height:1.5}
+#np-pop-actions{display:flex;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid var(--bd)}
+.pop-btn{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;
+  border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.pop-btn:hover{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+.pop-close{margin-left:auto;background:none;border:none;cursor:pointer;font-size:17px;color:var(--t3);line-height:1}
+.pop-close:hover{color:var(--red)}
+#sn-input{padding:10px;border-top:1.5px solid var(--bd);background:#fff;flex-shrink:0}
+#sn-selref{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+#sn-selref em{color:var(--pur);font-style:normal}
+#sn-ta{width:100%;padding:8px;border:1px solid var(--bd2);border-radius:5px;
+  font-family:'Source Sans 3',sans-serif;font-size:12px;resize:none;height:56px;background:var(--bg);color:var(--tx)}
+#sn-ta:focus{outline:2px solid var(--pur);border-color:transparent}
+#sn-add{margin-top:6px;width:100%;padding:7px;background:var(--pur);color:#fff;
+  border:none;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer}
+#sn-add:hover{background:#5b21b6}
+
+/* ── STATUS BUTTONS ─────────────────────── */
+.sbar{display:flex;gap:7px;margin-top:10px}
+.lbtn,.fbtn{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;
+  border:1.5px solid var(--bd2);cursor:pointer;background:var(--bg);color:var(--t3);transition:all .15s}
+.lbtn.on{background:var(--grn-l);border-color:#86efac;color:var(--grn)}
+.fbtn.on{background:var(--red-l);border-color:#fca5a5;color:var(--red)}
+
+/* ── HERO ─────────────────────────────────── */
+.hero{background:linear-gradient(135deg,#1a2f5c 0%,#1e3a6e 60%,#1a2f5c 100%);
+  color:#fff;padding:44px 52px 36px;border-bottom:4px solid #b91c1c;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px}
+.hero h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1.05;margin-bottom:8px;position:relative}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.45);margin-bottom:12px;letter-spacing:.05em}
+.hero-authors{font-size:13px;color:rgba(255,255,255,.65);font-style:italic;margin-bottom:22px}
+.hero-stats{display:flex;gap:14px;flex-wrap:wrap;position:relative}
+.stat-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 18px;text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fde68a}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:1px}
+
+/* ── NAV ─────────────────────────────────── */
+.toc{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1.5px solid var(--bd);
+  height:var(--nav);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc-inner{display:flex;height:100%;padding:0 52px;min-width:max-content;gap:1px}
+.toc-a{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--t3);text-decoration:none;padding:0 12px;
+  display:flex;align-items:center;white-space:nowrap;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s}
+.toc-a:hover,.toc-a.on{color:var(--blu);border-bottom-color:var(--blu)}
+
+/* ── MAIN LAYOUT ─────────────────────────── */
+.main{max-width:900px;margin:0 auto;padding:44px 52px 88px;transition:padding-right .25s}
+.sec{margin-bottom:60px;scroll-margin-top:calc(var(--nav)+18px)}
+.sec-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;padding-bottom:14px;border-bottom:2.5px solid var(--tx)}
+.sec-n{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--t3)}
+.sec h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--tx);line-height:1.15}
+.sub{margin:20px 0}
+.sub h3{font-family:'Source Sans 3',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--blu);margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--blu-l)}
+.sub h4{font-size:13.5px;font-weight:600;color:var(--tx);margin:14px 0 6px}
+p{margin-bottom:8px;color:var(--t2);font-size:13.5px;line-height:1.65}
+
+/* ── CALLOUT BOXES ───────────────────────── */
+.co{border-radius:7px;padding:13px 16px;margin:12px 0;font-size:13px;line-height:1.65;border-left:3.5px solid}
+.co-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.key{background:var(--blu-l);border-color:var(--blu)}.key .co-t{color:var(--blu)}
+.dan{background:var(--red-l);border-color:var(--red)}.dan .co-t{color:var(--red)}
+.wrn{background:var(--amb-l);border-color:var(--amb)}.wrn .co-t{color:var(--amb)}
+.suc{background:var(--grn-l);border-color:var(--grn)}.suc .co-t{color:var(--grn)}
+.prl{background:var(--pur-l);border-color:var(--pur)}.prl .co-t{color:var(--pur)}
+.tel{background:var(--tel-l);border-color:var(--tel)}.tel .co-t{color:var(--tel)}
+
+/* ── LISTS ───────────────────────────────── */
+.bl{list-style:none;padding:0;margin:6px 0 12px}
+.bl li{position:relative;padding:3px 0 3px 18px;font-size:13.5px;color:var(--t2);line-height:1.6}
+.bl li::before{content:'▸';position:absolute;left:0;top:4px;color:var(--blu);font-size:10px}
+.bl li b,.bl li strong{color:var(--tx);font-weight:600}
+.ol{list-style:none;padding:0;margin:6px 0 12px;counter-reset:n}
+.ol li{counter-increment:n;position:relative;padding:4px 0 4px 30px;font-size:13.5px;color:var(--t2);line-height:1.6}
+.ol li::before{content:counter(n);position:absolute;left:0;top:5px;font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;font-weight:500;background:var(--bd);color:var(--t2);width:19px;height:19px;
+  display:flex;align-items:center;justify-content:center;border-radius:3px}
+.ol li strong{color:var(--tx);font-weight:600}
+
+/* ── TABLES ───────────────────────────────── */
+.tw{overflow-x:auto;margin:12px 0;border:1.5px solid var(--bd);border-radius:7px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead tr{background:var(--sf2)}
+thead th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t2);font-weight:500;padding:9px 13px;text-align:left;border-bottom:1px solid var(--bd)}
+tbody tr{border-bottom:1px solid var(--bd)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#faf9f7}
+tbody td{padding:7px 13px;vertical-align:top;color:var(--t2)}
+tbody td:first-child{color:var(--tx);font-weight:500}
+
+/* ── GRID CARDS ───────────────────────────── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:12px 0}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--sf);border:1.5px solid var(--bd);border-radius:7px;padding:13px 15px;transition:box-shadow .15s}
+.card:hover{box-shadow:0 3px 10px rgba(0,0,0,.07)}
+.clabel{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px}
+.c-b{color:var(--blu)}.c-r{color:var(--red)}.c-g{color:var(--grn)}.c-a{color:var(--amb)}.c-p{color:var(--pur)}.c-t{color:var(--tel)}
+.card p{font-size:12.5px;margin-bottom:0}
+
+/* ── VS COMPARE BOX ───────────────────────── */
+.vs{display:grid;grid-template-columns:1fr 1fr;margin:12px 0;border:1.5px solid var(--bd);border-radius:7px;overflow:hidden}
+.vsh{padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--bd)}
+.vsh.b{background:#e8effe;color:var(--blu);border-right:1px solid var(--bd)}
+.vsh.r{background:var(--red-l);color:var(--red)}
+.vsb{padding:12px 14px}
+.vsb.br{border-right:1px solid var(--bd)}
+
+/* ── TAGS ─────────────────────────────────── */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0}
+.tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;padding:2px 9px;border-radius:4px;letter-spacing:.04em}
+.t-b{background:var(--blu-l);color:var(--blu);border:1px solid #bfdbfe}
+.t-r{background:var(--red-l);color:var(--red);border:1px solid #fca5a5}
+.t-g{background:var(--grn-l);color:var(--grn);border:1px solid #86efac}
+.t-a{background:var(--amb-l);color:var(--amb);border:1px solid #fde68a}
+.t-p{background:var(--pur-l);color:var(--pur);border:1px solid #ddd6fe}
+.t-t{background:var(--tel-l);color:var(--tel);border:1px solid #a5f3fc}
+
+/* ── MNEMONIC BOX ─────────────────────────── */
+.mn{background:#fffbeb;border:1.5px solid #fde68a;border-radius:8px;padding:16px 20px;margin:12px 0}
+.mn-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--amb);margin-bottom:7px}
+.mn-w{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--amb);margin-bottom:10px}
+.mn ul{list-style:none;padding:0}
+.mn ul li{font-size:13px;padding:2px 0;color:var(--t2)}
+.mn ul li b{font-family:'Playfair Display',serif;font-size:18px;color:var(--amb);margin-right:5px;font-style:italic}
+
+/* ── ACCORDION ─────────────────────────────── */
+details{border:1.5px solid var(--bd);border-radius:7px;margin:8px 0;overflow:hidden}
+summary{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;cursor:pointer;
+  background:var(--sf2);font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--t2);list-style:none}
+summary:hover{background:var(--bd)}
+summary::after{content:'▾';font-size:14px}
+details[open] summary::after{content:'▴'}
+details>.db{padding:14px;background:var(--sf)}
+
+/* ── FLOWCHART ─────────────────────────────── */
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:16px 0}
+.fbox{background:var(--sf);border:2px solid var(--blu);border-radius:7px;padding:10px 20px;
+  text-align:center;font-size:12.5px;font-weight:600;color:var(--blu);min-width:220px;position:relative}
+.fbox.red{border-color:var(--red);color:var(--red);background:var(--red-l)}
+.fbox.grn{border-color:var(--grn);color:var(--grn);background:var(--grn-l)}
+.fbox.amb{border-color:var(--amb);color:var(--amb);background:var(--amb-l)}
+.fbox.dia{background:var(--pur-l);border-color:var(--pur);color:var(--pur);transform:rotate(-1deg)}
+.farr{font-size:20px;color:var(--t3);line-height:1;margin:2px 0}
+.frow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;justify-content:center;margin:2px 0}
+.flabel{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--t3);text-align:center;letter-spacing:.08em;margin:2px 0}
+
+/* ── EXAM TRAPS ─────────────────────────────── */
+.trap{background:#fff;border:1.5px solid var(--red);border-radius:8px;margin:12px 0;overflow:hidden}
+.trap-hd{background:var(--red-l);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.trap-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--red)}
+.trap-title{font-weight:600;font-size:13px;color:var(--red)}
+.trap-body{padding:14px 16px}
+.trap-q{font-size:13.5px;color:var(--t2);margin-bottom:12px;line-height:1.65}
+.trap-q em{color:var(--tx);font-style:normal;font-weight:600}
+.trap-a{background:var(--grn-l);border:1px solid #86efac;border-radius:5px;padding:10px 14px;font-size:13px;color:var(--grn);line-height:1.6}
+.trap-a strong{font-weight:700;color:var(--grn)}
+.trap-why{font-size:12px;color:var(--t3);margin-top:8px;font-style:italic;line-height:1.55}
+
+/* ── SEPARATOR ─────────────────────────────── */
+.sep{border:none;border-top:1px solid var(--bd);margin:44px 0}
+
+/* ── HIGHLIGHTS ────────────────────────────── */
+.hl{border-radius:2px;padding:0 1px;cursor:pointer}
+.hl-y{background:var(--hy)}.hl-g{background:var(--hg)}.hl-b{background:var(--hb)}.hl-p{background:var(--hpk)}.hl-o{background:var(--ho)}
+
+/* ── FOOTER ─────────────────────────────────── */
+.footer{text-align:center;padding:26px;border-top:1.5px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.12em}
+
+@media print{#toolbar,#sn-sidebar,#sn-tab,#note-popover,.toc{display:none!important}.main{padding:16px;max-width:100%}.sec{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<!-- ANNOTATION TOOLBAR -->
+<div id="toolbar">
+  <span class="albl">Annotate</span>
+  <button class="hbtn" id="h-y" title="Yellow" onclick="setHL('y')"></button>
+  <button class="hbtn" id="h-g" title="Green"  onclick="setHL('g')"></button>
+  <button class="hbtn" id="h-b" title="Blue"   onclick="setHL('b')"></button>
+  <button class="hbtn" id="h-p" title="Pink"   onclick="setHL('p')"></button>
+  <button class="hbtn" id="h-o" title="Orange" onclick="setHL('o')"></button>
+  <div class="tsep"></div>
+  <button class="tbtn" title="Erase" onclick="setErase()">✕</button>
+  <button class="tbtn wide" title="Clear all" onclick="clearAll()">CLEAR</button>
+</div>
+
+<!-- STICKY NOTE SIDEBAR -->
+<div id="sn-sidebar">
+  <div id="sn-hd">
+    <span>📝 Study Notes</span>
+    <button id="sn-toggle-btn" onclick="toggleSidebar()" title="Hide panel">◀</button>
+  </div>
+  <div id="sn-body">
+    <div id="sn-empty">Select any text in the guide,<br>write a note below,<br>then click + Add Note.<br><br>Notes appear here as sticky cards you can drag &amp; resize.</div>
+  </div>
+  <div id="sn-input">
+    <div id="sn-selref">Selected: <em id="sn-ref-txt">—</em></div>
+    <textarea id="sn-ta" placeholder="Add your note…"></textarea>
+    <button id="sn-add" onclick="addNote()">+ Add Note</button>
+  </div>
+</div>
+<button id="sn-tab" onclick="toggleSidebar()">📝 Notes</button>
+
+<!-- NOTE POPOVER -->
+<div id="note-popover">
+  <div id="np-pop-ref"></div>
+  <div id="np-pop-text"></div>
+  <div id="np-pop-actions">
+    <button class="pop-btn" id="pop-del-btn">Delete</button>
+    <button class="pop-close" onclick="closePopover()">×</button>
+  </div>
+</div>
+
+<!-- HERO HEADER -->
+<header class="hero">
+  <div class="hero-badge">Harrison's Principles of Internal Medicine, 22nd Ed · Part 2 · Chapter 55</div>
+  <h1>Azotemia &amp; Urinary Abnormalities</h1>
+  <div class="hero-sub">Chapter 55 · David B. Mount · Medical Boards Review Edition — Stage A</div>
+  <div class="hero-authors">David B. Mount</div>
+  <div class="hero-stats">
+    <div class="stat-box"><div class="stat-n">40–80%</div><div class="stat-l">Prerenal cause of AKI</div></div>
+    <div class="stat-box"><div class="stat-n">&lt;5%</div><div class="stat-l">Postrenal cause of AKI</div></div>
+    <div class="stat-box"><div class="stat-n">&lt;15</div><div class="stat-l">mL/min GFR → uremic Sx</div></div>
+    <div class="stat-box"><div class="stat-n">&lt;400mL</div><div class="stat-l">= Oliguria threshold/day</div></div>
+    <div class="stat-box"><div class="stat-n">&gt;3L</div><div class="stat-l">= Polyuria threshold/day</div></div>
+  </div>
+</header>
+
+<!-- STICKY NAV -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a class="toc-a" href="#s1">GFR Assessment</a>
+    <a class="toc-a" href="#s2">Azotemia Approach</a>
+    <a class="toc-a" href="#s3">Prerenal Failure</a>
+    <a class="toc-a" href="#s4">Postrenal Failure</a>
+    <a class="toc-a" href="#s5">Intrinsic Renal Disease</a>
+    <a class="toc-a" href="#s6">Oliguria &amp; Anuria</a>
+    <a class="toc-a" href="#s7">Proteinuria</a>
+    <a class="toc-a" href="#s8">Hematuria &amp; Casts</a>
+    <a class="toc-a" href="#s9">Polyuria</a>
+    <a class="toc-a" href="#s10">Quick Reference</a>
+    <a class="toc-a" href="#exam">Exam Traps</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 1 — GFR ASSESSMENT -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s1">
+  <div class="sec-hd">
+    <span class="sec-n">01</span>
+    <h2>Assessment of GFR — The Foundation of Renal Evaluation</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Why GFR is the Primary Metric</h3>
+    <p>GFR is the gold standard measure of kidney "function" — it reflects how many milliliters of plasma the kidneys completely clear of a given substance per minute. Every other lab value (creatinine, urea, cystatin C) is merely a surrogate. Understanding what each surrogate actually measures — and its limitations — is essential for boards.</p>
+    <ul class="bl">
+      <li><b>Direct GFR measurement:</b> Requires IV administration of a radioactive isotope (inulin or iothalamate) that is freely filtered at the glomerulus but <em>neither reabsorbed nor secreted</em> by the tubule. GFR = clearance (mL/min) calculated from urinary appearance rate over several hours. Not feasible in clinical practice.</li>
+      <li><b>Why GFR matters clinically:</b> Failure to account for GFR reduction in drug dosing causes significant morbidity and death — especially digoxin and imipenem. Drug dosing is a classic board trap.</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Plasma Creatinine (PCr) — The Clinical Surrogate</h3>
+    <p>PCr is the most widely used GFR marker. GFR is related inversely to PCr — as GFR falls, PCr rises. However, this relationship has critical limitations that boards love to exploit.</p>
+    <ul class="bl">
+      <li><b>Source of creatinine:</b> Derived from muscle metabolism of creatine — generated at a relatively <em>constant rate</em> day to day (unlike urea, which varies with protein intake).</li>
+      <li><b>Inverse relationship:</b> GFR falls in roughly inverse proportion to rising PCr — so doubling of PCr ≈ halving of GFR (in steady state only).</li>
+      <li><b>Problem 1 — Dietary effect:</b> PCr rises acutely after ingestion of cooked meat (dietary creatine is converted to creatinine during cooking).</li>
+      <li><b>Problem 2 — Tubular secretion:</b> Creatinine is secreted into the proximal tubule via an organic cation pathway, especially in advanced CKD — this <em>overestimates</em> true GFR.</li>
+      <li><b>Problem 3 — Muscle mass confounders:</b> Chronic illness, glucocorticoid use, malnutrition → loss of muscle mass → PCr stays low even as GFR declines significantly. A bedridden elderly patient may have a "normal" creatinine with severely reduced GFR.</li>
+      <li><b>Chronic disease monitoring:</b> In progressive CKD, plot 1/PCr (y-axis) vs. time (x-axis) — the slope is linear and relatively constant per individual. Deviation from the slope signals a superimposed acute process (volume depletion, drug reaction).</li>
+    </ul>
+    <div class="co wrn">
+      <div class="co-t">⚠ Board Trap — Stable PCr ≠ Stable GFR</div>
+      Symptomatic uremia generally does not develop until GFR &lt;15 mL/min. Significant GFR loss can occur with minimal or imperceptible PCr changes if muscle mass is decreasing simultaneously (e.g., elderly frail patient, chronic steroid use).
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Creatinine Clearance (CrCl) — The 24-Hour Urine Method</h3>
+    <p>CrCl approximates GFR using the clearance formula applied to a timed (usually 24-h) urine collection:</p>
+    <div class="co key">
+      <div class="co-t">📐 Formula</div>
+      <strong>CrCl (mL/min) = (U<sub>vol</sub> × U<sub>Cr</sub>) / (P<sub>Cr</sub> × T<sub>min</sub>)</strong><br>
+      Where U<sub>vol</sub> = urine volume, U<sub>Cr</sub> = urine creatinine concentration, P<sub>Cr</sub> = plasma creatinine, T<sub>min</sub> = collection time in minutes.
+    </div>
+    <p><strong>Adequacy of collection</strong> — verified by expected creatinine excretion per kg body weight:</p>
+    <div class="g2">
+      <div class="card">
+        <div class="clabel c-b">Males (20–50 years)</div>
+        <p>18.5–25.0 mg/kg body weight per 24 h<br>
+        Example: 80 kg man → 1,500–2,000 mg/day expected</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-p">Females (20–50 years)</div>
+        <p>16.5–22.4 mg/kg body weight per 24 h<br>
+        (Less muscle mass → less creatinine production)</p>
+      </div>
+    </div>
+    <div class="co dan">
+      <div class="co-t">🚨 Limitation — Not Applicable in Unstable GFR</div>
+      Every creatinine-based GFR estimation (CrCl, MDRD, CKD-EPI) assumes <strong>steady state</strong> — no daily increases or decreases in PCr. In rapidly changing AKI, these formulas are unreliable and should not be used for drug dosing decisions.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>GFR Estimation Equations — Cockcroft-Gault, MDRD, and CKD-EPI</h3>
+    <p>When 24-h urine is not available, two equations estimate GFR from PCr alone. Know which is more accurate at which range:</p>
+
+    <div class="g3">
+      <div class="card">
+        <div class="clabel c-b">Cockcroft-Gault</div>
+        <h4>Formula</h4>
+        <p style="font-size:11px;"><strong>CrCl = [(140−age) × LBW(kg)] / [PCr × 72]</strong><br>× 0.85 if female</p>
+        <h4>Use</h4>
+        <p>Drug dosing calculations — still used by pharmacy for renal drug adjustments</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-t">MDRD (4-variable)</div>
+        <h4>Formula</h4>
+        <p style="font-size:11px;"><strong>eGFR = 186.3 × PCr<sup>−1.154</sup> × age<sup>−0.203</sup> × (0.742 if female) × (1.21 if Black)</strong></p>
+        <h4>Best for</h4>
+        <p>GFR &lt;60 mL/min/1.73m² — more accurate than CG at lower GFRs</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-g">CKD-EPI</div>
+        <h4>Formula</h4>
+        <p style="font-size:11px;">Uses min/max of PCr/κ with age, sex modifiers. More complex.</p>
+        <h4>Best for</h4>
+        <p>Higher GFRs — most accurate overall. Developed from pooled cohorts with directly measured GFR.</p>
+      </div>
+    </div>
+
+    <div class="co prl">
+      <div class="co-t">💜 Race Modifier Controversy — High Yield</div>
+      The CKD-EPI coefficient of 1.159 for self-reported Black race reflects that measured GFR was 16% higher in Black vs. non-Black individuals with similar age, sex, and creatinine in the development dataset. Race is a <strong>social</strong>, not biological, construct. Many medical centers have stopped reporting race-modified eGFRs. The key consequence: removing the modifier → lower reported eGFR in Black patients → <strong>improved access to transplant waitlisting</strong> at an earlier CKD stage. Potential risks: overdiagnosis of CKD, altered drug dosing (metformin), reduced imaging access.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Cystatin C — The Alternative GFR Marker</h3>
+    <ul class="bl">
+      <li><b>Source:</b> Produced at a constant rate from all nucleated cells — not affected by muscle mass (unlike creatinine).</li>
+      <li><b>Advantage:</b> More sensitive marker for early GFR decline; less influenced by race and muscle mass.</li>
+      <li><b>Disadvantage:</b> Levels influenced by sex, diabetes mellitus, smoking, and inflammation — limiting its universal applicability.</li>
+      <li><b>Current best practice:</b> Combined creatinine + cystatin C eGFR equations are <em>more accurate</em> than either alone and are increasingly recommended, especially when creatinine-based estimates are unreliable (e.g., bodybuilder with elevated creatinine from muscle mass).</li>
+    </ul>
+    <div class="co suc">
+      <div class="co-t">✅ Clinical Pearl — Bodybuilder Trap</div>
+      A bodybuilder may have elevated PCr from increased muscle mass, leading to underestimation of GFR by creatinine-based equations. In this case, cystatin C eGFR is more accurate.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 2 — APPROACH TO AZOTEMIA -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s2">
+  <div class="sec-hd">
+    <span class="sec-n">02</span>
+    <h2>Approach to the Patient with Azotemia</h2>
+  </div>
+
+  <p><strong>Azotemia</strong> = retention of nitrogenous waste products (urea, creatinine) due to reduced GFR. It results from:</p>
+  <div class="g3">
+    <div class="card">
+      <div class="clabel c-b">Prerenal</div>
+      <p>Reduced renal perfusion — 40–80% of AKI cases. Tubules intact. Rapidly reversible if treated.</p>
+    </div>
+    <div class="card">
+      <div class="clabel c-r">Intrinsic Renal</div>
+      <p>Structural damage to glomeruli, tubules, interstitium, or vessels. Most commonly ATN (~90% of intrinsic AKI).</p>
+    </div>
+    <div class="card">
+      <div class="clabel c-a">Postrenal</div>
+      <p>Obstruction of urine flow — ureters, bladder outlet, urethra. &lt;5% of AKI. Must rule out early — reversible.</p>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Acute vs. Chronic Renal Failure — Key Distinguishing Features</h3>
+    <p>Once elevated creatinine is identified, first determine: is this acute or chronic? The history and labs often clarify this, but these specific findings help:</p>
+    <div class="vs">
+      <div>
+        <div class="vsh b">Acute Renal Failure</div>
+        <div class="vsb br">
+          <ul class="bl">
+            <li>Recent documented decline in GFR</li>
+            <li>Normal-sized kidneys on ultrasound</li>
+            <li>Intact renal parenchyma on ultrasound</li>
+            <li>Anemia, hypocalcemia, hyperphosphatemia may also be present (do not exclude AKI)</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="vsh r">Chronic Renal Failure</div>
+        <div class="vsb">
+          <ul class="bl">
+            <li>Azotemia &gt;3 months</li>
+            <li><b>Small kidneys bilaterally</b> — increased echogenicity, cortical thinning on US</li>
+            <li>Isosthenuria (non-concentrated urine, isosmotic with plasma)</li>
+            <li>Broad casts in urine sediment</li>
+            <li>Renal osteodystrophy (very late — ESRD on dialysis)</li>
+            <li>Proteinuria, polyuria, nocturia, edema, hypertension</li>
+            <li>Hyperkalemia, metabolic acidosis, hypocalcemia, hyperphosphatemia, hyperparathyroidism</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="co wrn">
+      <div class="co-t">⚠ Critical Point — Labs Don't Separate Acute from Chronic</div>
+      Anemia, hypocalcemia, and hyperphosphatemia are <strong>characteristic of CKD</strong> but are also frequently present in AKI. <strong>Do not use these labs alone to distinguish acute from chronic</strong>. Use history, renal ultrasound, and urinalysis instead.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Diagnostic Flowchart — Azotemia Workup (Fig. 55-1)</h3>
+    <div class="flow">
+      <div class="fbox">AZOTEMIA identified<br><span style="font-size:11px;font-weight:400">↑ creatinine / ↓ GFR</span></div>
+      <div class="farr">↓</div>
+      <div class="fbox">Step 1: Urinalysis + Renal Ultrasound</div>
+      <div class="farr">↓</div>
+      <div class="frow">
+        <div style="text-align:center">
+          <div class="fbox red" style="min-width:160px">Hydronephrosis<br><span style="font-size:10px">on US</span></div>
+          <div class="flabel">→ Urologic evaluation<br>Relieve obstruction<br><strong>POSTRENAL</strong></div>
+        </div>
+        <div style="text-align:center">
+          <div class="fbox amb" style="min-width:160px">Small kidneys<br>Thin cortex<br>Bland sediment<br>Isosthenuria</div>
+          <div class="flabel">→ Symptomatic tx<br>Delay progression<br><strong>CHRONIC RF</strong></div>
+        </div>
+        <div style="text-align:center">
+          <div class="fbox" style="min-width:160px;border-color:var(--grn);color:var(--grn);background:var(--grn-l)">Normal UA<br>with oliguria</div>
+          <div class="flabel">→ Urine electrolytes</div>
+        </div>
+        <div style="text-align:center">
+          <div class="fbox" style="min-width:160px;border-color:var(--pur);color:var(--pur);background:var(--pur-l)">Abnormal UA:<br>WBC, casts, eos</div>
+          <div class="flabel">→ Interstitial nephritis</div>
+        </div>
+      </div>
+      <div class="farr">↓</div>
+      <div class="flabel" style="font-size:11px">For normal UA + oliguria:</div>
+      <div class="frow">
+        <div style="text-align:center">
+          <div class="fbox grn" style="min-width:180px">FeNa &lt;1%<br>Uosm &gt;500 mosmol</div>
+          <div class="flabel">PRERENAL AZOTEMIA</div>
+        </div>
+        <div style="text-align:center">
+          <div class="fbox red" style="min-width:180px">FeNa &gt;1%<br>Uosm &lt;350 mosmol<br>Muddy brown casts</div>
+          <div class="flabel">ACUTE TUBULAR NECROSIS</div>
+        </div>
+        <div style="text-align:center">
+          <div class="fbox" style="min-width:180px;border-color:var(--tel);color:var(--tel);background:var(--tel-l)">RBC casts<br>+ Proteinuria</div>
+          <div class="flabel">GLOMERULONEPHRITIS<br>→ Renal biopsy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 3 — PRERENAL FAILURE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s3">
+  <div class="sec-hd">
+    <span class="sec-n">03</span>
+    <h2>Prerenal Failure — The Most Common Cause of AKI</h2>
+  </div>
+
+  <p><strong>Decreased renal perfusion</strong> accounts for <strong>40–80% of acute renal failure</strong>. Tubules are structurally intact — the kidney responds appropriately to perceived hypovolemia by conserving sodium and water. If appropriately treated, it is rapidly reversible.</p>
+
+  <div class="sub">
+    <h3>Etiologies of Prerenal Azotemia</h3>
+    <div class="g3">
+      <div class="card">
+        <div class="clabel c-r">Decreased Circulating Volume</div>
+        <ul class="bl">
+          <li>GI hemorrhage</li>
+          <li>Burns</li>
+          <li>Diarrhea</li>
+          <li>Diuretics</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="clabel c-a">Volume Sequestration</div>
+        <ul class="bl">
+          <li>Pancreatitis</li>
+          <li>Peritonitis</li>
+          <li>Rhabdomyolysis</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="clabel c-p">Reduced Effective Arterial Volume</div>
+        <ul class="bl">
+          <li>Cardiogenic shock</li>
+          <li>Sepsis (peripheral vasodilation)</li>
+          <li>Severe heart failure (hepatorenal)</li>
+          <li>NSAIDs, ACE inhibitors/ARBs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Pathophysiology — The Autoregulatory Response</h3>
+    <p>True or "effective" arterial hypovolemia → fall in mean arterial pressure → triggers a cascade:</p>
+    <ol class="ol">
+      <li><strong>Sympathetic nervous system activation</strong> — renal vasoconstriction</li>
+      <li><strong>Renin-angiotensin-aldosterone activation</strong> — angiotensin II mediates efferent arteriolar constriction (maintains glomerular filtration pressure)</li>
+      <li><strong>AVP (vasopressin) release</strong> — promotes tubular water reabsorption → concentrated urine</li>
+      <li><strong>Prostaglandin-mediated afferent arteriolar dilation</strong> — preserves GFR by increasing glomerular blood flow</li>
+    </ol>
+    <div class="co key">
+      <div class="co-t">🔑 Critical Threshold</div>
+      Once mean arterial pressure falls below <strong>80 mmHg</strong>, GFR declines steeply — autoregulation fails below this point.
+    </div>
+    <p>GFR in the prerenal state is thus maintained by a <strong>balance between two autoregulatory mechanisms</strong>:</p>
+    <div class="vs">
+      <div>
+        <div class="vsh b">Afferent Dilation (PGE₂)</div>
+        <div class="vsb br">
+          Prostaglandins dilate afferent arterioles → increase glomerular blood flow<br><br>
+          <strong>NSAIDs block this</strong> → severe vasoconstriction → AKI risk
+        </div>
+      </div>
+      <div>
+        <div class="vsh r">Efferent Constriction (AngII)</div>
+        <div class="vsb">
+          Angiotensin II constricts efferent arterioles → increases glomerular capillary filtration pressure<br><br>
+          <strong>ACE inhibitors/ARBs block this</strong> → decreased filtration pressure → AKI risk
+        </div>
+      </div>
+    </div>
+    <div class="co dan">
+      <div class="co-t">🚨 High-Yield Drug Interaction — NSAIDs + ACEi/ARBs</div>
+      Patients taking NSAIDs and/or ACE inhibitors/ARBs are <strong>most susceptible to hemodynamically mediated AKI</strong> when blood volume or arterial perfusion pressure is reduced. In this scenario, GFR is entirely dependent on afferent PG-mediated vasodilation AND efferent Ang-II-mediated vasoconstriction simultaneously — blocking either arm precipitates AKI.
+    </div>
+    <div class="co dan">
+      <div class="co-t">🚨 Bilateral Renal Artery Stenosis Trap</div>
+      Patients with <strong>bilateral renal artery stenosis</strong> (or stenosis in a solitary kidney) are dependent on efferent arteriolar vasoconstriction for maintaining glomerular filtration pressure. ACE inhibitors or ARBs → precipitous GFR decline. This is a classic board scenario.
+    </div>
+    <div class="co wrn">
+      <div class="co-t">⚠ Prerenal → ATN Continuum</div>
+      Prolonged renal hypoperfusion may lead to acute tubular necrosis (ATN) — structural tubular injury superimposed on prerenal state. ATN occurs when hypoperfusion persists long enough to cause ischemic damage.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Urinary Indices — Distinguishing Prerenal from ATN</h3>
+    <p>These indices reflect the functional state of the tubule. In prerenal azotemia, tubules are intact and respond normally. In ATN, tubular function is lost.</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th>Prerenal Azotemia</th>
+            <th>Oliguric ATN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>BUN:PCr ratio</td><td>&gt;20:1</td><td>10–15:1</td></tr>
+          <tr><td>Urine Na (U<sub>Na</sub>)</td><td>&lt;20 mEq/L</td><td>&gt;40 mEq/L</td></tr>
+          <tr><td>Urine Osmolality</td><td>&gt;500 mosmol/L</td><td>&lt;350 mosmol/L</td></tr>
+          <tr><td>Fractional Excretion of Na (FE<sub>Na</sub>)</td><td>&lt;1%</td><td>&gt;2%</td></tr>
+          <tr><td>U<sub>Cr</sub>/P<sub>Cr</sub> ratio</td><td>&gt;40</td><td>&lt;20</td></tr>
+          <tr><td>Urinalysis (casts)</td><td>None or hyaline/granular</td><td><strong>Muddy brown granular casts</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="co key">
+      <div class="co-t">📐 FE<sub>Na</sub> Formula</div>
+      <strong>FE<sub>Na</sub> = (U<sub>Na</sub> × P<sub>Cr</sub>) / (P<sub>Na</sub> × U<sub>Cr</sub>) × 100</strong><br>
+      FE<sub>Na</sub> &lt;1% = avid Na retention = tubules intact = prerenal<br>
+      FE<sub>Na</sub> &gt;2% = Na wasting = tubular dysfunction = ATN
+    </div>
+
+    <div class="co wrn">
+      <div class="co-t">⚠ FE<sub>Na</sub> Exceptions — When &lt;1% Doesn't Mean Prerenal</div>
+      FE<sub>Na</sub> may be &lt;1% even in ATN in these situations:
+      <ul class="bl">
+        <li><b>Milder, nonoliguric ATN</b> — e.g., rhabdomyolysis — tubular function partially preserved</li>
+        <li><b>Underlying "prerenal" disorders</b> — CHF, cirrhosis, hepatorenal syndrome — avid Na retention persists even with tubular injury</li>
+        <li><b>Contrast nephropathy</b> — early</li>
+      </ul>
+    </div>
+
+    <div class="co prl">
+      <div class="co-t">💜 Pearl — Urine Microscopy is King</div>
+      <strong>Muddy brown casts and/or tubular epithelial cells in the urine = highly predictive of ATN.</strong> Microscopic examination of urine sediment is a key diagnostic test in AKI — more specific than any single laboratory value. Prerenal sediment = normal or hyaline/granular casts only.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 4 — POSTRENAL FAILURE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s4">
+  <div class="sec-hd">
+    <span class="sec-n">04</span>
+    <h2>Postrenal Azotemia — Always Rule Out First</h2>
+  </div>
+
+  <p>Urinary tract obstruction accounts for <strong>&lt;5% of acute renal failure</strong>, but is usually reversible and must be ruled out early in the evaluation. Even though it is uncommon, the reversibility makes early identification critical.</p>
+
+  <div class="sub">
+    <h3>When Does Obstruction Cause Bilateral Renal Failure?</h3>
+    <p>Since a <strong>single kidney can maintain adequate clearance</strong>, complete obstructive AKI requires one of the following:</p>
+    <ul class="bl">
+      <li><b>Obstruction at the urethra or bladder outlet</b> — most common in men (BPH, prostate cancer)</li>
+      <li><b>Bilateral ureteral obstruction</b> — pelvic tumor, retroperitoneal fibrosis, bilateral calculi</li>
+      <li><b>Unilateral obstruction in a patient with a single functioning kidney</b></li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Diagnosis</h3>
+    <ul class="bl">
+      <li><b>First-line: Renal ultrasound</b> — looks for ureteral and renal pelvic dilation (hydronephrosis)</li>
+      <li><b>Ultrasound may be negative even with obstruction when:</b>
+        <ul class="bl" style="margin-left:16px;margin-top:4px">
+          <li>Very early in the course of obstruction</li>
+          <li>Ureters cannot dilate — encased by pelvic/periureteral tumors or retroperitoneal fibrosis</li>
+        </ul>
+      </li>
+      <li><b>Alternative: Furosemide renogram (MAG3 nuclear medicine study)</b> — better defines presence or absence of obstructive uropathy when ultrasound is negative but clinical suspicion remains high</li>
+    </ul>
+    <div class="co wrn">
+      <div class="co-t">⚠ Board Trap — Normal Ultrasound Does Not Exclude Obstruction</div>
+      In retroperitoneal fibrosis or tumor encasement, ureters may be obstructed without dilation. A normal ultrasound does not rule out obstruction — proceed to MAG3 renogram if clinical suspicion persists.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 5 — INTRINSIC RENAL DISEASE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s5">
+  <div class="sec-hd">
+    <span class="sec-n">05</span>
+    <h2>Intrinsic Renal Disease — When Prerenal and Postrenal Are Excluded</h2>
+  </div>
+
+  <p>When prerenal and postrenal etiologies are excluded, intrinsic parenchymal renal disease is present. The clinical setting and urinalysis are critical for differentiating among the subtypes.</p>
+
+  <div class="sub">
+    <h3>Categories of Intrinsic Renal Disease</h3>
+    <div class="g2">
+      <div class="card">
+        <div class="clabel c-r">Ischemic ATN (~90% of intrinsic AKI)</div>
+        <p>Most frequent in: major surgery, trauma, severe hypovolemia, overwhelming sepsis, extensive burns.</p>
+        <p>Part of the prerenal → ATN continuum: prerenal that persists long enough causes structural tubular injury.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-a">Nephrotoxic ATN (~90% of intrinsic AKI with ischemic)</div>
+        <p>Complicates many common medications via: intrarenal vasoconstriction, direct tubule toxicity, and/or tubular obstruction.</p>
+        <p>The kidney is vulnerable due to: rich blood supply (25% of cardiac output) and concentration/metabolism of toxins in tubular fluid.</p>
+      </div>
+    </div>
+
+    <div class="co key">
+      <div class="co-t">🔑 Ischemic ATN — Clinical Setting</div>
+      <strong>Ischemic + nephrotoxic ATN = ~90% of intrinsic renal failure.</strong><br>
+      Always search for: hypotension episodes + nephrotoxin exposure. Discontinuation of nephrotoxins + stabilization of blood pressure often suffice without dialysis — ongoing tubular cell regeneration occurs.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Tubulointerstitial Processes — Acute Kidney Injury Subtype</h3>
+    <p>Processes involving the tubules and interstitium:</p>
+    <ul class="bl">
+      <li><b>Drug-induced interstitial nephritis</b> — especially antibiotics, NSAIDs, proton pump inhibitors (PPIs)</li>
+      <li><b>Severe infections</b> — bacterial and viral</li>
+      <li><b>Systemic diseases</b> — SLE, sarcoidosis, Sjögren's syndrome, lymphoma, leukemia</li>
+    </ul>
+    <h4>Urinalysis in Interstitial Nephritis</h4>
+    <ul class="bl">
+      <li>Mild to moderate <b>proteinuria</b></li>
+      <li><b>Hematuria</b></li>
+      <li><b>Pyuria</b> (~75% of cases)</li>
+      <li>Occasionally <b>WBC casts</b></li>
+    </ul>
+    <div class="co wrn">
+      <div class="co-t">⚠ Board Trap — Eosinophiluria Is No Longer Recommended</div>
+      The classic teaching was that &gt;10% urinary eosinophils (Wright's or Hansel's stain) = allergic interstitial nephritis. However, urine eosinophils can be increased in several other causes of AKI (no diagnostic utility). <strong>This test is no longer recommended in the workup of AKI.</strong>
+    </div>
+    <div class="co wrn">
+      <div class="co-t">⚠ RBC Casts in Interstitial Nephritis → Think Glomerular Disease</div>
+      The finding of RBC casts has been reported in interstitial nephritis but should always prompt a search for glomerular diseases. RBC casts = glomerulonephritis until proven otherwise.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Large Renal Vessel Occlusion</h3>
+    <ul class="bl">
+      <li><b>Uncommon</b> cause of AKI. Significant GFR reduction suggests bilateral processes or unilateral in a single-kidney patient.</li>
+      <li><b>Renal arteries can be occluded by:</b> atheroemboli, thromboemboli, in situ thrombosis, aortic dissection, vasculitis</li>
+      <li><b>Atheroembolic AKI:</b> Often associated with recent aortic instrumentation. Cholesterol-rich emboli lodge in medium/small renal arteries → eosinophil-rich inflammatory reaction. May occur spontaneously.</li>
+    </ul>
+    <div class="co prl">
+      <div class="co-t">💜 Atheroembolic AKI — Classic Triad</div>
+      Normal urinalysis + livedo reticularis + distal peripheral infarcts + eosinophilia after aortic instrumentation → atheroembolic AKI. Biopsy confirmatory but often unnecessary when this triad is present.
+    </div>
+    <div class="vs">
+      <div>
+        <div class="vsh b">Renal Artery Thrombosis</div>
+        <div class="vsb br">
+          <ul class="bl">
+            <li>Mild proteinuria + hematuria</li>
+            <li>Confirm with angiogram</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="vsh r">Renal Vein Thrombosis</div>
+        <div class="vsb">
+          <ul class="bl">
+            <li>Heavy proteinuria + hematuria</li>
+            <li>Occurs in context of nephrotic syndrome</li>
+            <li>Confirm with angiogram</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Glomerular and Microvascular Disease — Acute Nephritic Syndrome</h3>
+    <p>Diseases of glomeruli (glomerulonephritis, vasculitis) and renal microvasculature (HUS, TTP, malignant hypertension) present with glomerular injury:</p>
+    <ul class="bl">
+      <li>Proteinuria</li>
+      <li>Hematuria</li>
+      <li>Reduced GFR</li>
+      <li>Altered sodium excretion → hypertension, edema, circulatory congestion</li>
+    </ul>
+    <div class="co dan">
+      <div class="co-t">🚨 RBC Casts = Indication for Renal Biopsy</div>
+      The finding of RBC casts in the urine is an indication for <strong>early renal biopsy</strong> — the pathologic pattern has important implications for diagnosis, prognosis, and treatment. Even in the absence of azotemia, serologic evaluation and biopsy should be done.
+    </div>
+    <div class="co key">
+      <div class="co-t">🔑 Hematuria Without RBC Casts</div>
+      RBC casts are <strong>highly specific but insensitive</strong> for glomerulonephritis. Hematuria without RBC casts can also indicate glomerular disease. To enhance specificity: examine urine with phase-contrast microscopy for <strong>dysmorphic RBCs ("acanthocytes")</strong> — associated with glomerular disease.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 6 — OLIGURIA & ANURIA -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s6">
+  <div class="sec-hd">
+    <span class="sec-n">06</span>
+    <h2>Oliguria, Anuria, and Urine Volume Abnormalities</h2>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="clabel c-b">Oliguria</div>
+      <p>24-h urine output <strong>&lt;400 mL</strong></p>
+      <p>Oliguria is <strong>never normal</strong> — at least 400 mL of maximally concentrated urine must be produced to excrete the obligate daily osmolar load.</p>
+    </div>
+    <div class="card">
+      <div class="clabel c-r">Anuria</div>
+      <p>24-h urine output <strong>&lt;100 mL</strong></p>
+      <p>Complete absence of urine formation.</p>
+    </div>
+    <div class="card">
+      <div class="clabel c-g">Nonoliguria</div>
+      <p>Urine output <strong>&gt;400 mL/d</strong> in a patient with acute or chronic azotemia.</p>
+      <p>Nonoliguric ATN: less severe K⁺ and H⁺ disturbances; faster recovery to normal renal function.</p>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Causes of Anuria</h3>
+    <ul class="bl">
+      <li><b>Complete bilateral urinary tract obstruction</b></li>
+      <li><b>Vascular catastrophe</b> — aortic dissection or arterial occlusion</li>
+      <li><b>Renal vein thrombosis</b></li>
+      <li><b>Acute cast nephropathy</b> in myeloma</li>
+      <li><b>Renal cortical necrosis</b></li>
+      <li><b>Severe ATN</b></li>
+      <li><b>Severe rapidly progressive glomerulonephritis</b></li>
+      <li><b>Combined therapy with NSAIDs + ACE inhibitors/ARBs</b></li>
+      <li><b>Hypovolemic, cardiogenic, or septic shock</b></li>
+    </ul>
+    <div class="co prl">
+      <div class="co-t">💜 Pearl — Triple Whammy Drug Combination</div>
+      NSAIDs + ACE inhibitors/ARBs + diuretics = "triple whammy" = very high risk of AKI and even anuria, especially in volume-depleted patients. Classic board question setup.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 7 — PROTEINURIA -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s7">
+  <div class="sec-hd">
+    <span class="sec-n">07</span>
+    <h2>Proteinuria — Mechanisms, Types, and Clinical Significance</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Normal Protein Excretion</h3>
+    <ul class="bl">
+      <li><b>Total urinary protein:</b> &lt;150 mg/day</li>
+      <li><b>Albumin:</b> &lt;30 mg/day</li>
+      <li>Even at albuminuria &lt;30 mg/day, risk for progression to overt nephropathy and cardiovascular disease is increased</li>
+      <li>Normal urine protein includes: Tamm-Horsfall protein (secreted by tubules), IgA, urokinase, small amounts of β₂-microglobulin, apoproteins, enzymes, peptide hormones</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>The Glomerular Filtration Barrier — Structure and Function</h3>
+    <ol class="ol">
+      <li><strong>Glomerular endothelial cells</strong> — form pores of ~100 nm; retain blood cells but offer little impediment to most proteins</li>
+      <li><strong>Glomerular basement membrane (GBM)</strong> — traps most large proteins (&gt;100 kDa)</li>
+      <li><strong>Podocyte foot processes</strong> — cover the urinary side of GBM; produce narrow slit diaphragm channels — allow small solutes and water, but NOT proteins</li>
+    </ol>
+    <p>Both <strong>charge selectivity</strong> (albumin is negatively charged; GBM also negatively charged → repulsion) and <strong>size selectivity</strong> normally prevent virtually all plasma albumin, globulins, and high-molecular-weight proteins from crossing.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Mechanisms of Proteinuria</h3>
+    <div class="g2">
+      <div class="card">
+        <div class="clabel c-blu" style="color:var(--blu)">Glomerular Proteinuria</div>
+        <p>Disruption of the filtration barrier — charge or size selectivity lost. Leads to albumin and/or other plasma protein leakage.</p>
+        <h4>Selective (minimal change disease)</h4>
+        <p>Fusion of foot processes → loss predominantly of <strong>albumin</strong> only (charge selectivity lost, size selectivity relatively preserved).</p>
+        <h4>Nonselective (immune complex disease)</h4>
+        <p>Disruption of both GBM and slit diaphragms → loss of albumin AND other plasma proteins. Foot process fusion also increases pressure across capillary basement membrane → larger pores → more severe proteinuria.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-a">Tubular Proteinuria</div>
+        <p>Small proteins (&lt;20 kDa) are freely filtered but normally reabsorbed by proximal tubule. Tubular damage impairs reabsorption → low-level proteinuria (&lt;1 g/24 h) of small proteins.</p>
+        <p><strong>Examples:</strong> β₂-microglobulin, lysozyme in CMML</p>
+      </div>
+    </div>
+    <div class="card" style="margin:10px 0">
+      <div class="clabel c-r">Overflow Proteinuria</div>
+      <p>Excessive production of an abnormal protein that exceeds the reabsorptive capacity of the proximal tubule.</p>
+      <ul class="bl">
+        <li><b>Plasma cell dyscrasias:</b> Multiple myeloma, amyloidosis, lymphomas → monoclonal immunoglobulin light chain production → filtered by glomerulus → overwhelms proximal tubule reabsorption → light chains in urine (Bence-Jones proteins)</li>
+        <li><b>NOT detected by dipstick</b> — dipstick detects albumin only, not light chains. Must use sulfosalicylic acid or urine protein electrophoresis (UPEP).</li>
+        <li><b>Renal failure mechanisms in myeloma:</b> proximal tubule injury, cast nephropathy, amyloid deposition, light chain deposition — dictated by the structural characteristics of the specific monoclonal light chain. Not all excreted light chains are nephrotoxic.</li>
+        <li><b>CMML + lysozyme nephropathy:</b> Overproduction of lysozyme → excessive proximal tubule reabsorption → severe tubulopathy with intracytoplasmic membrane-bound vacuoles on EM</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Quantification of Proteinuria</h3>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Excretion Rate</th><th>Spot Ratio</th><th>Old Term</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Normal</td><td>&lt;30 mg/day</td><td>&lt;30 mg/g Cr</td><td>Normoalbuminuria</td></tr>
+          <tr><td>Moderately increased albuminuria</td><td>30–300 mg/day</td><td>30–300 mg/g Cr</td><td>"Microalbuminuria"*</td></tr>
+          <tr><td>Severely increased albuminuria</td><td>300–3,500 mg/day</td><td>300–3,500 mg/g Cr</td><td>"Macroalbuminuria"*</td></tr>
+          <tr><td>Nephrotic range</td><td>&gt;3,500 mg/day</td><td>&gt;3,500 mg/g Cr</td><td>Nephrotic proteinuria</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>*The terms "microalbuminuria" and "macroalbuminuria" are now replaced by "moderately increased" and "severely increased" albuminuria.</p>
+    <div class="co key">
+      <div class="co-t">🔑 Dipstick Limitations — Critical</div>
+      Dipstick detects <strong>albumin only</strong>.<br>
+      False positives: pH &gt;7.0, very concentrated urine, urine contaminated with blood.<br>
+      False negatives: very dilute urine (concentration effect), non-albumin proteinuria (light chains in myeloma).<br>
+      For all-protein quantification: sulfosalicylic acid or trichloroacetic acid precipitation. For albumin: spot albumin-to-creatinine ratio (ACR) from first morning void.
+    </div>
+    <div class="co key">
+      <div class="co-t">🔑 Spot Protein:Creatinine Ratio</div>
+      A protein/creatinine ratio of 3.0 in a random spot urine ≈ 3.0 g of proteinuria per day. Quick bedside estimate without 24-h collection.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Nephrotic Syndrome — Mechanism and Consequences</h3>
+    <p>When total daily urinary protein &gt;3.5 g, the nephrotic syndrome usually includes:</p>
+    <div class="g4">
+      <div class="card">
+        <div class="clabel c-r">Hypoalbuminemia</div>
+        <p>Excessive urinary losses + increased proximal tubule catabolism of filtered albumin</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-b">Edema</div>
+        <p>Renal Na retention + reduced plasma oncotic pressure → fluid movement to interstitium</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-a">Hyperlipidemia</div>
+        <p>Increased hepatic lipoprotein synthesis (may be severe); compensatory hepatic production</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-p">Hypercoagulability</div>
+        <p>Urinary loss of antithrombin III, reduced proteins S and C, hyperfibrinogenemia, enhanced platelet aggregation → risk of venous thrombosis, especially renal vein thrombosis</p>
+      </div>
+    </div>
+
+    <div class="co prl">
+      <div class="co-t">💜 Edema Mechanism in Nephrotic Syndrome — Two Pathways</div>
+      <strong>Pathway 1 (Classic):</strong> ↓ oncotic pressure → fluid leaks to interstitium → "underfilling" → activates RAAS + SNS + AVP → Na/water retention → more edema<br>
+      <strong>Pathway 2 (Modern):</strong> Filtered proteases from plasma (normally retained by the filtration barrier) directly activate ENaC (epithelial Na channels) in collecting duct principal cells → primary renal Na retention, independent of oncotic pressure.
+    </div>
+
+    <div class="co wrn">
+      <div class="co-t">⚠ Hypertension in Nephrotic Syndrome</div>
+      <strong>Hypertension is uncommon in primary kidney diseases causing nephrotic syndrome</strong> — unlike nephritic syndrome where hypertension is characteristic. This is a classic distinguishing feature.
+    </div>
+
+    <div class="co key">
+      <div class="co-t">🔑 Increased Infection Risk in Nephrotic Syndrome</div>
+      Loss of immunoglobulins in urine → increased infection risk (especially encapsulated organisms). This is why nephrotic patients are particularly susceptible to Streptococcus pneumoniae.
+    </div>
+
+    <h4>Transient (Non-Pathologic) Causes of Proteinuria</h4>
+    <p>These do not indicate kidney disease and resolve with removal of trigger:</p>
+    <div class="tags">
+      <span class="tag t-b">Orthostatic / Postural proteinuria</span>
+      <span class="tag t-b">Exercise</span>
+      <span class="tag t-b">Fever</span>
+      <span class="tag t-b">Congestive heart failure</span>
+      <span class="tag t-b">Intermittent proteinuria</span>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 8 — HEMATURIA, PYURIA, CASTS -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s8">
+  <div class="sec-hd">
+    <span class="sec-n">08</span>
+    <h2>Hematuria, Pyuria, and Urinary Casts</h2>
+  </div>
+
+  <div class="sub">
+    <h3>Hematuria — Definition and Basic Approach</h3>
+    <ul class="bl">
+      <li><b>Definition:</b> ≥2–5 RBCs per high-power field (HPF) on urine microscopy</li>
+      <li><b>Detected by:</b> dipstick (detects myoglobin too — false positive in rhabdomyolysis)</li>
+      <li><b>Isolated hematuria</b> without proteinuria, other cells, or casts → suggests bleeding from the urinary tract (not a glomerular process)</li>
+    </ul>
+
+    <h4>Causes of Isolated (Non-Glomerular) Hematuria</h4>
+    <div class="tags">
+      <span class="tag t-r">Stones (nephrolithiasis)</span>
+      <span class="tag t-r">Neoplasms</span>
+      <span class="tag t-r">Tuberculosis</span>
+      <span class="tag t-r">Trauma</span>
+      <span class="tag t-r">Prostatitis</span>
+    </div>
+
+    <div class="co wrn">
+      <div class="co-t">⚠ Gross Hematuria with Blood Clots</div>
+      Gross hematuria with blood clots is <strong>usually NOT an intrinsic renal process</strong> — suggests a postrenal source in the urinary collecting system. Blood clots require large-vessel bleeding; glomerular hematuria does not produce clots.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Clinical Significance by Pattern</h3>
+    <ul class="bl">
+      <li><b>Single urinalysis with hematuria:</b> Common; may result from menstruation, viral illness, allergy, exercise, mild trauma. Usually benign.</li>
+      <li><b>Persistent/significant hematuria</b> — defined as ANY of:
+        <ul class="bl" style="margin-left:16px">
+          <li>&gt;3 RBCs/HPF on three separate urinalyses, OR</li>
+          <li>A single UA with &gt;100 RBCs/HPF, OR</li>
+          <li>Gross hematuria</li>
+        </ul>
+        → Associated with significant renal or urologic lesions in 9.1% of cases.
+      </li>
+      <li><b>Isolated painless hematuria + nondysmorphic RBCs + increasing age</b> → raises suspicion for urogenital neoplasm</li>
+      <li><b>Hematuria + pyuria + bacteriuria</b> → infection — treat with antibiotics after cultures</li>
+      <li><b>Hypercalciuria and hyperuricosuria</b> — also risk factors for unexplained hematuria in children and adults. In 50–60%, dietary intervention to reduce calcium and uric acid excretion eliminates microscopic hematuria.</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Glomerular Hematuria — Distinctive Features</h3>
+    <ul class="bl">
+      <li><b>Dysmorphic RBCs</b> — irregular shapes from pH and osmolarity changes along the distal nephron. Best detected by phase-contrast microscopy ("acanthocytes").</li>
+      <li><b>Hematuria + dysmorphic RBCs + RBC casts + protein &gt;500 mg/day</b> = virtually diagnostic of glomerulonephritis</li>
+    </ul>
+    <h4>Most Common Causes of Isolated Glomerular Hematuria</h4>
+    <div class="g3">
+      <div class="card">
+        <div class="clabel c-b">IgA Nephropathy</div>
+        <p>Most common glomerular hematuria cause. Episodic gross hematuria (often with upper respiratory infections). Need biopsy for definitive diagnosis.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-p">Hereditary Nephritis (Alport)</div>
+        <p>Family history of renal failure. Episodic gross hematuria. X-linked (COL4A5 mutation) or autosomal. Need biopsy.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-t">Thin Basement Membrane Disease</div>
+        <p>Family members with microscopic hematuria. "Benign familial hematuria." Usually good prognosis.</p>
+      </div>
+    </div>
+    <div class="co dan">
+      <div class="co-t">🚨 RBC Casts — Diagnostic and Action Threshold</div>
+      RBC casts = RBCs that enter the tubule fluid and become trapped in a cylindrical mold of gelled Tamm-Horsfall protein.<br>
+      <strong>RBC casts = highly specific for glomerulonephritis → early renal biopsy indicated</strong> — even in the absence of azotemia. The pathologic pattern determines diagnosis, prognosis, and treatment. Do not wait for azotemia to develop.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Pyuria and WBC Casts</h3>
+    <ul class="bl">
+      <li><b>Isolated pyuria is unusual</b> — inflammatory reactions usually cause both hematuria and pyuria together</li>
+      <li><b>Bacteria + pyuria</b> = infection</li>
+      <li><b>WBC casts + bacteria</b> = pyelonephritis</li>
+      <li><b>Sterile pyuria</b> (negative bacterial cultures) → think urogenital tuberculosis</li>
+      <li><b>WBCs and/or WBC casts</b> also seen in: acute glomerulonephritis, tubulointerstitial processes (interstitial nephritis, transplant rejection)</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Waxy and Broad Casts — Chronic Renal Disease</h3>
+    <ul class="bl">
+      <li><b>Waxy casts:</b> Degenerated cellular casts — seen in chronic renal diseases</li>
+      <li><b>Broad casts:</b> Arise in dilated tubules that have undergone compensatory hypertrophy in response to reduced renal mass — indicates advanced CKD with significant nephron loss</li>
+    </ul>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 9 — POLYURIA -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s9">
+  <div class="sec-hd">
+    <span class="sec-n">09</span>
+    <h2>Polyuria — Differential Diagnosis and Diagnostic Approach</h2>
+  </div>
+
+  <p>Polyuria = urine output &gt;3 L/day. Patients often cannot distinguish urinary frequency (small volumes) from true polyuria — a 24-h urine collection is often needed for quantification.</p>
+
+  <div class="sub">
+    <h3>Two Mechanisms of Polyuria</h3>
+    <div class="vs">
+      <div>
+        <div class="vsh b">Solute Diuresis</div>
+        <div class="vsb br">
+          <p>Excretion of non-absorbable solutes suppresses proximal NaCl and water reabsorption.</p>
+          <p><strong>Diagnostic: Urine osmolality &gt;300 mosmol/L</strong></p>
+          <ul class="bl">
+            <li><b>Glucose</b> — poorly controlled DM with glucosuria (most common)</li>
+            <li><b>Mannitol</b> — iatrogenic</li>
+            <li><b>Radiocontrast media</b></li>
+            <li><b>High-protein feeding</b> — enteral/parenteral → increased urea production</li>
+            <li><b>Resolving ATN or post-obstructive diuresis</b> — tubule damage → impaired Na reabsorption + reduced aldosterone responsiveness → significant natriuresis and polyuria</li>
+            <li><b>Cystic renal diseases, Bartter syndrome</b></li>
+          </ul>
+          <div class="co wrn" style="margin-top:8px">
+            <div class="co-t">⚠ DM Solute Diuresis Trap</div>
+            In hyperglycemic solute diuresis: urine Na concentration &lt; blood Na → <strong>more water than sodium is lost → hypernatremia and hypertonicity</strong>. The patient becomes hyperosmolar.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="vsh r">Water Diuresis</div>
+        <div class="vsb">
+          <p>Defect in AVP production or renal responsiveness to AVP.</p>
+          <p><strong>Diagnostic: Urine osmolality &lt;250 mosmol/L with urine output &gt;3 L/day</strong></p>
+          <ul class="bl">
+            <li><b>Primary polydipsia</b> — habit, psychiatric disorders, neurologic lesions, medications (thioridazine, chlorpromazine, anticholinergics)</li>
+            <li><b>Central DI</b> — AVP production defect</li>
+            <li><b>Nephrogenic DI</b> — renal tubule unresponsive to AVP</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Primary Polydipsia — Mechanism</h3>
+    <ul class="bl">
+      <li>Extracellular fluid volume is normal or expanded</li>
+      <li>Plasma AVP levels are reduced (serum osmolality tends toward the lower limits of normal)</li>
+      <li>Urine osmolality maximally dilute at <strong>50 mosmol/L</strong></li>
+      <li>Low serum sodium is a clue (contrasts with DI where Na is often high or normal-high)</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Central Diabetes Insipidus (DI)</h3>
+    <p>Defective AVP secretion from the posterior pituitary. Causes:</p>
+    <ul class="bl">
+      <li><b>Idiopathic</b> — selective destruction of AVP-secreting neurons in supraoptic and paraventricular nuclei; can be autosomal dominant or sporadic</li>
+      <li><b>Secondary:</b> Posthypophysectomy, trauma, neoplastic, inflammatory, vascular, or infectious hypothalamic disease</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Nephrogenic Diabetes Insipidus</h3>
+    <p>Renal tubule fails to respond to AVP. Acquired causes:</p>
+    <ul class="bl">
+      <li>Acquired tubular diseases: pyelonephritis, analgesic nephropathy, multiple myeloma, amyloidosis, obstruction, sarcoidosis</li>
+      <li>Metabolic: <b>hypercalcemia</b>, <b>hypokalemia</b></li>
+      <li>Autoimmune: Sjögren's syndrome, sickle cell anemia</li>
+      <li><b>Drugs/toxins:</b> lithium (classic), demeclocycline, methoxyflurane, ethanol, diphenylhydantoin, propoxyphene, amphotericin</li>
+      <li>Congenital: hereditary, polycystic or medullary cystic disease</li>
+    </ul>
+    <div class="co prl">
+      <div class="co-t">💜 Lithium — Classic Nephrogenic DI</div>
+      Lithium is the most common drug cause of nephrogenic DI. It inserts into collecting duct principal cells via ENaC and inhibits the aquaporin-2 (AQP2) response to AVP. Boards love this association.
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Distinguishing Central vs. Nephrogenic DI vs. Primary Polydipsia</h3>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Primary Polydipsia</th><th>Central DI</th><th>Nephrogenic DI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Plasma AVP</td><td>Low (appropriate)</td><td>Low (deficient)</td><td>High (produced, unheeded)</td></tr>
+          <tr><td>Serum Na</td><td>Low-normal</td><td>Normal-high</td><td>Normal-high</td></tr>
+          <tr><td>Response to DDAVP</td><td>Partial (kidneys respond)</td><td>Yes — urine concentrates</td><td>No response</td></tr>
+          <tr><td>Urine osmolality at baseline</td><td>Very low (~50 mosmol)</td><td>Low (&lt;250 mosmol)</td><td>Low (&lt;250 mosmol)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="co key">
+      <div class="co-t">🔑 Best Diagnostic Method</div>
+      <strong>Plasma AVP level</strong> is the best method for distinguishing central from nephrogenic DI.<br>
+      Alternatively: assays for <strong>copeptin</strong> (cleaved from pre-pro-AVP during axonal transport in the posterior pituitary) — increasingly available in many centers.<br>
+      Measurement of hypertonic saline-stimulated plasma copeptin can substitute for the water deprivation test if available.<br>
+      Classical approach: <strong>water deprivation test + exogenous DDAVP</strong> — distinguishes primary polydipsia from central and nephrogenic DI.
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 10 — QUICK REFERENCE TABLE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="s10">
+  <div class="sec-hd">
+    <span class="sec-n">10</span>
+    <h2>Quick-Reference Master Table</h2>
+  </div>
+
+  <div class="sub">
+    <h3>GFR and Urinary Thresholds</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Value</th><th>Threshold</th><th>Significance</th></tr></thead>
+        <tbody>
+          <tr><td>GFR symptomatic uremia</td><td>&lt;15 mL/min</td><td>Uremic symptoms begin; prepare for RRT</td></tr>
+          <tr><td>MDRD accuracy</td><td>&lt;60 mL/min/1.73m²</td><td>Better correlated with true GFR at this range</td></tr>
+          <tr><td>MAP → GFR decline</td><td>&lt;80 mmHg</td><td>GFR declines steeply below this pressure</td></tr>
+          <tr><td>Normal total protein</td><td>&lt;150 mg/day</td><td>Any excess warrants investigation</td></tr>
+          <tr><td>Normal albumin excretion</td><td>&lt;30 mg/day</td><td>Even below this, CV and CKD risk is elevated</td></tr>
+          <tr><td>Nephrotic range</td><td>&gt;3,500 mg/day</td><td>Full nephrotic syndrome (hypoalbuminemia, edema, hyperlipidemia, hypercoagulability)</td></tr>
+          <tr><td>Oliguria</td><td>&lt;400 mL/day</td><td>Cannot excrete obligate daily osmolar load</td></tr>
+          <tr><td>Anuria</td><td>&lt;100 mL/day</td><td>Complete or near-complete cessation</td></tr>
+          <tr><td>Polyuria</td><td>&gt;3 L/day</td><td>May be solute or water diuresis</td></tr>
+          <tr><td>Hematuria (definition)</td><td>≥2–5 RBC/HPF</td><td>On urine microscopy</td></tr>
+          <tr><td>Significant hematuria</td><td>&gt;3 RBC/HPF on 3 UA, or &gt;100 RBC on 1 UA</td><td>9.1% associated with renal/urologic lesion</td></tr>
+          <tr><td>Creatinine excretion (M 20–50yr)</td><td>18.5–25 mg/kg/day</td><td>Validates 24-h collection adequacy</td></tr>
+          <tr><td>Creatinine excretion (F 20–50yr)</td><td>16.5–22.4 mg/kg/day</td><td>Validates 24-h collection adequacy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Urinary Indices — Prerenal vs ATN</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Index</th><th>Prerenal</th><th>Oliguric ATN</th></tr></thead>
+        <tbody>
+          <tr><td>BUN:Creatinine</td><td>&gt;20:1</td><td>10–15:1</td></tr>
+          <tr><td>Urine Na (U<sub>Na</sub>)</td><td>&lt;20 mEq/L</td><td>&gt;40 mEq/L</td></tr>
+          <tr><td>Urine Osmolality</td><td>&gt;500 mosmol/L</td><td>&lt;350 mosmol/L</td></tr>
+          <tr><td>FE<sub>Na</sub></td><td>&lt;1%</td><td>&gt;2%</td></tr>
+          <tr><td>U<sub>Cr</sub>/P<sub>Cr</sub></td><td>&gt;40</td><td>&lt;20</td></tr>
+          <tr><td>Sediment</td><td>Normal or hyaline/granular casts</td><td>Muddy brown granular casts; tubular epithelial cells</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Urine Sediment — Cast Types and Their Significance</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Cast Type</th><th>Significance</th></tr></thead>
+        <tbody>
+          <tr><td>Hyaline casts</td><td>Normal, or with mild prerenal state / dehydration / exercise</td></tr>
+          <tr><td>Granular casts (muddy brown)</td><td>ATN — tubular epithelial cell debris</td></tr>
+          <tr><td>RBC casts</td><td>Glomerulonephritis — highly specific, insensitive</td></tr>
+          <tr><td>WBC casts</td><td>Pyelonephritis or interstitial nephritis</td></tr>
+          <tr><td>Tubular epithelial cell casts</td><td>ATN</td></tr>
+          <tr><td>Waxy / broad casts</td><td>Advanced CKD — compensatory tubular hypertrophy</td></tr>
+          <tr><td>Fatty casts / oval fat bodies</td><td>Nephrotic syndrome — lipiduria</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>High-Yield Clinical Distinctions</h3>
+    <div class="g2">
+      <div class="card">
+        <div class="clabel c-r">Nephrotic vs Nephritic Hypertension</div>
+        <p><strong>Nephrotic syndrome:</strong> Hypertension is uncommon in primary kidney diseases causing nephrotic syndrome.</p>
+        <p><strong>Nephritic syndrome:</strong> Hypertension, edema, and circulatory congestion are characteristic features.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-p">Dipstick vs Sulfosalicylic Acid</div>
+        <p>Dipstick → detects albumin only.</p>
+        <p>Sulfosalicylic acid / trichloroacetic acid → detects all proteins including Bence-Jones (light chains).</p>
+        <p>In suspected myeloma: use UPEP (urine protein electrophoresis), not dipstick.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-b">FE<sub>Na</sub> Pitfalls</div>
+        <p>FE<sub>Na</sub> &lt;1% with ATN occurs in: rhabdomyolysis, CHF, cirrhosis, hepatorenal syndrome, contrast nephropathy.</p>
+        <p>FE<sub>Na</sub> is not reliable in non-oliguric ATN.</p>
+      </div>
+      <div class="card">
+        <div class="clabel c-a">Solute vs Water Diuresis Cutoff</div>
+        <p>Urine osmolality &gt;300 mosmol/L with &gt;3 L/day = <strong>solute diuresis</strong> → find the solute.</p>
+        <p>Urine osmolality &lt;250 mosmol/L with &gt;3 L/day = <strong>water diuresis</strong> → DI or polydipsia.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ Learned</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Review</button>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 11 — EXAM TRAPS -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec" id="exam">
+  <div class="sec-hd">
+    <span class="sec-n">★</span>
+    <h2>Exam Traps — Stage A Internal Medicine Board Coach</h2>
+  </div>
+  <p>Each trap below shows exactly how the question will be framed, what the wrong answer looks like and why it's tempting, and the mechanism behind the correct answer.</p>
+
+  <!-- TRAP 1 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 01</span>
+      <span class="trap-title">The "Normal" Creatinine in an Elderly Woman</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        An 84-year-old frail woman is admitted with confusion. Her serum creatinine is 0.8 mg/dL. She weighs 42 kg and has been bedridden for 6 months. <em>Her eGFR based on creatinine alone is calculated as 65 mL/min/1.73m². What does this actually tell you?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Creatinine-based eGFR significantly overestimates true GFR in this patient.</strong><br>
+        A "normal" creatinine in a frail, low-muscle-mass elderly woman does NOT indicate normal kidney function. Creatinine is derived from muscle metabolism — severe sarcopenia from chronic illness + bedrest reduces daily creatinine production, so PCr stays low even as GFR is markedly reduced. True GFR may be &lt;30 mL/min. Cystatin C eGFR or a 24-h urine collection would give a more accurate picture.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Most students accept PCr 0.8 as "normal kidney function." The key board keyword is <strong>sarcopenia / low muscle mass</strong> — which always signals creatinine underestimates renal impairment. Drug dosing adjustments are critical in this population.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 2 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 02</span>
+      <span class="trap-title">NSAIDs + ACEi in a Volume-Depleted Patient</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 72-year-old man with hypertension, CKD (baseline creatinine 1.4), and osteoarthritis is on lisinopril 10 mg/day and ibuprofen 400 mg TID for joint pain. He develops gastroenteritis with 3 days of vomiting and diarrhea. He presents with creatinine 3.8 mg/dL, oliguria, and no hematuria or casts. His urine Na is 14 mEq/L and urine osmolality is 520 mosmol/L. <em>What is the most likely cause and best next step?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Hemodynamically mediated AKI from NSAIDs + ACEi in the setting of volume depletion — stop both drugs and volume resuscitate.</strong><br>
+        The urine indices (U<sub>Na</sub> &lt;20, Uosm &gt;500, FE<sub>Na</sub> &lt;1%) indicate the tubules are intact and avid Na conservation is ongoing — this is either prerenal or hemodynamically mediated AKI mimicking prerenal. NSAIDs blocked prostaglandin-mediated afferent dilation; ACEi blocked angiotensin II-mediated efferent constriction — both autoregulatory mechanisms are gone simultaneously, causing GFR to collapse with any degree of volume loss.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Students may diagnose "prerenal azotemia" and simply give fluids without stopping the offending drugs — the AKI will not resolve (and may worsen) if the pharmacologic insult is maintained. The board keyword is <strong>dual blockade + volume depletion</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 3 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 03</span>
+      <span class="trap-title">Bilateral Renal Artery Stenosis + ACE Inhibitor</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 65-year-old woman with known peripheral artery disease and longstanding hypertension is started on ramipril for blood pressure control. One week later, her creatinine has risen from 1.0 to 2.4 mg/dL. She has no edema, no hematuria, and normal urinalysis. <em>What is the most likely mechanism of her acute kidney injury?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Bilateral renal artery stenosis — ACE inhibitor reduced efferent arteriolar tone, precipitating a fall in glomerular filtration pressure.</strong><br>
+        In bilateral RAS, glomerular filtration pressure is maintained by angiotensin II–mediated efferent arteriolar vasoconstriction — the only remaining compensatory mechanism given reduced afferent perfusion. ACE inhibitors/ARBs eliminate this, causing the GFR to plummet. The blank urinalysis with no hematuria or casts points away from glomerulonephritis.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Students may identify the ACEi as the culprit but think it should be continued because "the creatinine will plateau." The board keyword is <strong>bilateral RAS / PAD / peripheral vascular disease + ACEi = acute ischemic nephropathy</strong>. Stop the drug immediately.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 4 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 04</span>
+      <span class="trap-title">FE<sub>Na</sub> &lt;1% in ATN — Rhabdomyolysis Trap</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 28-year-old man is brought in after a seizure with prolonged postictal state. His CK is 48,000 IU/L, creatinine 3.2 mg/dL, and urine is dark ("tea-colored"). Urine dipstick is positive for blood with no RBCs seen on microscopy. His FE<sub>Na</sub> = 0.6%. <em>What type of AKI is this?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Acute tubular necrosis from rhabdomyolysis — despite FE<sub>Na</sub> &lt;1%.</strong><br>
+        Rhabdomyolysis causes myoglobinuria — myoglobin tests positive on dipstick for "blood" but no RBCs are seen on microscopy (false positive for hematuria). The ATN from rhabdomyolysis is often nonoliguric (milder injury), where residual tubular function allows some Na conservation, keeping FE<sub>Na</sub> &lt;1%. This is one of the exceptions to the FE<sub>Na</sub> rule.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: FE<sub>Na</sub> &lt;1% leads students to diagnose prerenal AKI and give aggressive fluids without considering ATN from rhabdomyolysis. The board keyword is <strong>dipstick blood positive + zero RBCs on microscopy = myoglobinuria</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 5 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 05</span>
+      <span class="trap-title">Dipstick Negative = No Proteinuria? Not in Myeloma.</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 67-year-old man presents with fatigue, back pain, and a creatinine of 3.0 mg/dL. Urine dipstick shows trace protein. His serum calcium is 11.8 mg/dL and total protein is 9.2 g/dL while albumin is 3.1 g/dL. <em>What is the most appropriate next step to evaluate his proteinuria?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Urine protein electrophoresis (UPEP) — to detect Bence-Jones proteins (monoclonal light chains) not detected by dipstick.</strong><br>
+        The dipstick detects albumin only. Light chains from plasma cell dyscrasias (multiple myeloma) pass through the glomerulus and overwhelm proximal tubule reabsorption, resulting in massive proteinuria — which is entirely missed by dipstick. The clue here is elevated total protein with relatively normal albumin (=high globulin gap), hypercalcemia, and renal failure in a middle-aged/older male.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Trusting the dipstick as the gold standard for proteinuria screening. Board keyword: <strong>elevated protein-albumin gap + normal dipstick + AKI = UPEP for Bence-Jones proteins</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 6 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 06</span>
+      <span class="trap-title">Obstruction Without Hydronephrosis</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 58-year-old woman with known retroperitoneal fibrosis develops oliguria and rising creatinine over 5 days. Renal ultrasound shows no hydronephrosis and normal-appearing kidneys. <em>Has obstruction been ruled out?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: No — obstruction has NOT been ruled out. A MAG3 furosemide renogram is required.</strong><br>
+        In retroperitoneal fibrosis (and tumor encasement of the ureters), the ureters cannot dilate in response to obstruction — so the classic sign of hydronephrosis is absent even with complete obstruction. Normal renal ultrasound in this clinical context is falsely reassuring. The next step is a MAG3 nuclear medicine renogram to look for obstructive uropathy.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Accepting the normal ultrasound as proof of no obstruction. Board keyword: <strong>retroperitoneal fibrosis / encasing tumor = ultrasound cannot rule out obstruction → MAG3 renogram</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 7 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 07</span>
+      <span class="trap-title">Eosinophiluria — No Longer Recommended</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 45-year-old woman on amoxicillin for a urinary tract infection develops rising creatinine, mild proteinuria, hematuria, and pyuria 2 weeks into treatment. You suspect allergic interstitial nephritis. <em>Which diagnostic test should you order to confirm?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Renal biopsy — NOT urine eosinophils.</strong><br>
+        Urine eosinophiluria (&gt;10% eosinophils on Wright's or Hansel's stain) was classically taught as diagnostic for allergic interstitial nephritis. However, urinary eosinophils can be elevated in many other causes of AKI (including cholesterol emboli, UTI, pyelonephritis). The test has <strong>no diagnostic utility</strong> and is <strong>no longer recommended</strong> in the workup of AKI. Renal biopsy remains the gold standard.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Ordering urine eosinophils as a confirmatory test for interstitial nephritis. Board keyword: <strong>eosinophiluria is NOT useful or recommended for AKI workup</strong> — biopsy is needed.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 8 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 08</span>
+      <span class="trap-title">Water Diuresis vs Solute Diuresis — The Osmolality Pivot</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        Two patients both have urine output of 4 L/day. Patient A has urine osmolality of 80 mosmol/L. Patient B has urine osmolality of 380 mosmol/L. Patient B's primary diagnosis is <em>__?</em> and the most important next diagnostic step is <em>__?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Patient B has a solute diuresis. The next step is to identify the responsible solute (glucose/urea/mannitol/Na).</strong><br>
+        A urine osmolality &gt;300 mosmol/L with &gt;3 L/day = solute diuresis — the diluting capacity of the kidney is overwhelmed by the osmotic load. The most common cause is poorly controlled diabetes with glucosuria. With solute diuresis, more water than sodium may be lost (if the solute is non-electrolyte, e.g., glucose) → hypernatremia. Patient A (Uosm 80) = water diuresis → AVP axis problem.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Treating all polyuria as DI without checking urine osmolality first. Board keyword: <strong>urine osmolality is the pivot point — always check it before ordering AVP/copeptin tests</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 9 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 09</span>
+      <span class="trap-title">RBC Casts with No Azotemia — Biopsy Still Indicated</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 24-year-old woman presents with gross hematuria and mild periorbital edema 2 weeks after a pharyngeal infection. Her creatinine is 0.9 mg/dL (normal), but urine microscopy shows dysmorphic RBCs and RBC casts. Urine protein:creatinine ratio is 1.4. <em>What is the most appropriate next step?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: Serologic evaluation + renal biopsy — even though the creatinine is currently normal.</strong><br>
+        RBC casts indicate active glomerular disease regardless of current GFR. The pathologic pattern (e.g., poststreptococcal GN, IgA nephropathy, rapidly progressive GN) has critical implications for prognosis and treatment. Waiting for azotemia to develop before pursuing biopsy is a critical error — by that time, irreversible scarring may have occurred.
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Reassurance because creatinine is "normal." Board keyword: <strong>RBC casts = indication for biopsy regardless of creatinine level</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAP 10 -->
+  <div class="trap">
+    <div class="trap-hd">
+      <span class="trap-num">Trap 10</span>
+      <span class="trap-title">Anemia + Hypocalcemia Alone Cannot Diagnose CKD vs AKI</span>
+    </div>
+    <div class="trap-body">
+      <div class="trap-q">
+        A 52-year-old man presents with creatinine 5.2 mg/dL. He has hemoglobin 9.1, calcium 7.4, and phosphorus 6.8 mg/dL. A colleague says: "These labs confirm chronic kidney disease — he has anemia of CKD and renal osteodystrophy." <em>Is this interpretation correct?</em>
+      </div>
+      <div class="trap-a">
+        <strong>Correct Answer: No — anemia, hypocalcemia, and hyperphosphatemia are also frequently present in AKI and cannot distinguish acute from chronic kidney disease.</strong><br>
+        These metabolic abnormalities reflect the degree of GFR reduction and can develop rapidly in severe AKI. The correct approach: use history (prior creatinine values), urinalysis, and renal ultrasound. Small kidneys with increased echogenicity + cortical thinning = chronic. Normal-sized kidneys with intact parenchyma + recent creatinine rise = acute or acute-on-chronic. Renal osteodystrophy on x-ray is the only truly specific late finding for CKD (but requires ESRD on dialysis).
+      </div>
+      <div class="trap-why">
+        ⚠ Trap: Using metabolic labs alone to stage acute vs chronic. Board keyword: <strong>small kidneys on ultrasound = the best single indicator of chronicity</strong>. Anemia and hypocalcemia do NOT distinguish.
+      </div>
+    </div>
+  </div>
+
+  <div class="sbar">
+    <button class="lbtn" onclick="this.classList.toggle('on')">✓ All Traps Reviewed</button>
+    <button class="fbtn" onclick="this.classList.toggle('on')">⚑ Need More Review</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">Chapter 55 · Azotemia &amp; Urinary Abnormalities · Harrison's 22nd Ed · Stage A Boards Review · 2026</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   BOARD STAGE A — ANNOTATION SYSTEM v2
+   Sticky note sidebar: draggable + resizable
+═══════════════════════════════════════ */
+let curColor  = null;
+let eraseMode = false;
+let selText   = '';
+let savedRange = null;
+
+/* ── HIGHLIGHT COLORS ──────────────── */
+function setHL(c) {
+  curColor  = c;
+  eraseMode = false;
+  document.body.style.cursor = 'crosshair';
+  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+  const map = {y:'h-y', g:'h-g', b:'h-b', p:'h-p', o:'h-o'};
+  document.getElementById(map[c]).classList.add('active');
+}
+
+function setErase() {
+  eraseMode = true; curColor = null;
+  document.body.style.cursor = 'cell';
+  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+}
+
+function clearAll() {
+  if (!confirm('Clear ALL highlights and notes?')) return;
+  document.querySelectorAll('.hl').forEach(el => {
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+    el.parentNode.normalize();
+  });
+  document.querySelectorAll('.note-anchor').forEach(el => {
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+    el.parentNode.normalize();
+  });
+  try { localStorage.removeItem('bsa_azotemia_notes'); } catch(e) {}
+  renderNotes();
+  document.body.style.cursor = '';
+  document.querySelectorAll('.hbtn').forEach(b => b.classList.remove('active'));
+  curColor = null; eraseMode = false;
+}
+
+/* ── MOUSE-UP: capture selection ───── */
+document.addEventListener('mouseup', function(e) {
+  const tb = document.getElementById('toolbar');
+  const sb = document.getElementById('sn-sidebar');
+  const np = document.getElementById('note-popover');
+  if (tb.contains(e.target) || sb.contains(e.target) || np.contains(e.target)) return;
+
+  if (eraseMode && e.target.classList.contains('hl')) {
+    const el = e.target;
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+    return;
+  }
+
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  const txt = sel.toString().trim();
+  if (!txt) return;
+
+  selText    = txt;
+  savedRange = sel.getRangeAt(0).cloneRange();
+  document.getElementById('sn-ref-txt').textContent =
+    txt.length > 48 ? txt.substring(0, 48) + '…' : txt;
+
+  if (curColor) {
+    try {
+      const range = sel.getRangeAt(0);
+      const span  = document.createElement('span');
+      span.className = 'hl hl-' + curColor;
+      span.title     = 'Click in erase mode to remove';
+      range.surroundContents(span);
+      sel.removeAllRanges();
+    } catch(err) {}
+  }
+});
+
+/* ══ STICKY NOTE SYSTEM ════════════ */
+const STORE_KEY = 'bsa_azotemia_notes';
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveNotes(n) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(n)); } catch(e) {}
+}
+
+function addNote() {
+  const txt = document.getElementById('sn-ta').value.trim();
+  if (!txt) return;
+  const id    = Date.now();
+  const notes = getNotes();
+  notes.unshift({ id, ref: selText.substring(0, 80) || '—', text: txt });
+  saveNotes(notes);
+
+  if (savedRange) {
+    try {
+      const span = document.createElement('span');
+      span.className      = 'note-anchor';
+      span.dataset.noteId = id;
+      span.title          = 'Click to see your note';
+      savedRange.surroundContents(span);
+    } catch(e) {}
+    savedRange = null;
+  }
+
+  document.getElementById('sn-ta').value = '';
+  selText = '';
+  document.getElementById('sn-ref-txt').textContent = '—';
+  renderNotes();
+}
+
+function deleteNote(id) {
+  saveNotes(getNotes().filter(n => n.id !== id));
+  document.querySelectorAll('.note-anchor[data-note-id="' + id + '"]').forEach(el => {
+    el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+  });
+  closePopover();
+  renderNotes();
+}
+
+function renderNotes() {
+  const body  = document.getElementById('sn-body');
+  const empty = document.getElementById('sn-empty');
+  const notes = getNotes();
+  body.querySelectorAll('.sn-note').forEach(el => el.remove());
+  if (!notes.length) { if (empty) empty.style.display = ''; return; }
+  if (empty) empty.style.display = 'none';
+
+  notes.forEach(note => {
+    const card = document.createElement('div');
+    card.className       = 'sn-note';
+    card.dataset.noteId  = note.id;
+    const savedH = localStorage.getItem('bsa_h_' + note.id);
+    if (savedH) card.style.height = savedH + 'px';
+
+    card.innerHTML = `
+      <div class="sn-note-hd">
+        <span class="sn-drag-icon">⠿</span>
+        <span class="sn-note-ref">${note.ref !== '—' ? '"' + note.ref + '"' : 'General note'}</span>
+        <button class="sn-del" onclick="deleteNote(${note.id})">×</button>
+      </div>
+      <div class="sn-note-body">${note.text.replace(/\n/g,'<br>')}</div>
+      <div class="sn-resize" title="Drag to resize"></div>
+    `;
+
+    body.appendChild(card);
+    makeDraggable(card);
+    makeResizable(card, note.id);
+  });
+}
+
+function makeDraggable(card) {
+  const handle = card.querySelector('.sn-note-hd');
+  let startY = 0;
+
+  handle.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('sn-del')) return;
+    e.preventDefault();
+    startY   = e.clientY;
+    card.style.opacity  = '.7';
+    card.style.zIndex   = '9999';
+    card.style.position = 'relative';
+
+    function onMove(ev) {
+      const dy    = ev.clientY - startY;
+      const body  = document.getElementById('sn-body');
+      const cards = [...body.querySelectorAll('.sn-note')];
+      const myIdx = cards.indexOf(card);
+      if (dy < -30 && myIdx > 0) { body.insertBefore(card, cards[myIdx - 1]); startY = ev.clientY; }
+      else if (dy > 30 && myIdx < cards.length - 1) { body.insertBefore(cards[myIdx + 1], card); startY = ev.clientY; }
+    }
+
+    function onUp() {
+      card.style.opacity  = '';
+      card.style.zIndex   = '';
+      card.style.position = '';
+      const body  = document.getElementById('sn-body');
+      const ids   = [...body.querySelectorAll('.sn-note')].map(c => parseInt(c.dataset.noteId));
+      const notes = getNotes();
+      const reordered = ids.map(id => notes.find(n => n.id === id)).filter(Boolean);
+      saveNotes(reordered);
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  });
+}
+
+function makeResizable(card, noteId) {
+  const handle = card.querySelector('.sn-resize');
+  let startY = 0, startH = 0;
+
+  handle.addEventListener('mousedown', function(e) {
+    e.preventDefault(); e.stopPropagation();
+    startY = e.clientY; startH = card.offsetHeight;
+
+    function onMove(ev) { card.style.height = Math.max(80, startH + (ev.clientY - startY)) + 'px'; }
+    function onUp() {
+      try { localStorage.setItem('bsa_h_' + noteId, card.offsetHeight); } catch(e) {}
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  });
+}
+
+function toggleSidebar() {
+  const sb  = document.getElementById('sn-sidebar');
+  const tab = document.getElementById('sn-tab');
+  sb.classList.toggle('hidden');
+  tab.textContent = sb.classList.contains('hidden') ? '📝 Notes' : '◀';
+}
+
+let activePopNoteId = null;
+
+function showPopover(anchorEl, note) {
+  const pop = document.getElementById('note-popover');
+  document.getElementById('np-pop-ref').textContent =
+    note.ref !== '—' ? '"' + note.ref.substring(0,55) + (note.ref.length>55?'…':'') + '"' : 'Your note';
+  document.getElementById('np-pop-text').innerHTML = note.text.replace(/\n/g,'<br>');
+  document.getElementById('pop-del-btn').onclick = () => deleteNote(note.id);
+  activePopNoteId = note.id;
+  const rect = anchorEl.getBoundingClientRect();
+  pop.style.left = Math.min(rect.left, window.innerWidth - 300) + 'px';
+  pop.style.top  = (rect.bottom + 8) + 'px';
+  pop.classList.add('show');
+}
+
+function closePopover() {
+  document.getElementById('note-popover').classList.remove('show');
+  activePopNoteId = null;
+}
+
+document.addEventListener('click', function(e) {
+  const anchor = e.target.closest('.note-anchor');
+  if (anchor) {
+    e.stopPropagation();
+    const nid  = parseInt(anchor.dataset.noteId);
+    if (activePopNoteId === nid) { closePopover(); return; }
+    const note = getNotes().find(n => n.id === nid);
+    if (note) showPopover(anchor, note);
+    return;
+  }
+  const pop = document.getElementById('note-popover');
+  if (pop && !pop.contains(e.target)) closePopover();
+});
+
+/* ── ACTIVE NAV LINK ────────────────── */
+const _sections = document.querySelectorAll('.sec[id]');
+const _navLinks = document.querySelectorAll('.toc-a');
+_sections.forEach(s =>
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      _navLinks.forEach(l => l.classList.remove('on'));
+      const lnk = document.querySelector('.toc-a[href="#' + s.id + '"]');
+      if (lnk) { lnk.classList.add('on');
+        lnk.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' }); }
+    }
+  }, { rootMargin:'-15% 0px -75% 0px' }).observe(s)
+);
+
+renderNotes();
+</script>
+</body>
+</html>
