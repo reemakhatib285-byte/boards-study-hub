@@ -1,421 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Boards Study Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <style>
-    /* ── LIGHT MODE (default) ── */
-    :root {
-      --bg: #f4f6fb;
-      --surface: #ffffff;
-      --surface2: #f8f9fc;
-      --border: #e2e6f0;
-      --border-h: #c8cfe0;
-      --text-1: #1a1d2e;
-      --text-2: #5a6180;
-      --text-3: #9aa0b8;
-      --hero-bg: linear-gradient(160deg, #fdf6ff 0%, #f0f5ff 50%, #f0fff8 100%);
-      --hero-border: #e2e6f0;
-      --stat-bg: #ffffff;
-      --nav-bg: #ffffff;
-      --tool-shadow: rgba(0,0,0,0.08);
-      --card-hover-shadow: rgba(0,0,0,0.10);
-      --task-bg: #fffdf0;
-      --task-border: #ffe8a0;
-      --task-top: #f5c400;
-      --task-item-border: #f5f6fa;
-      --soon-bg: #f5f6fa;
-      --soon-color: #b0b8cc;
-      --soon-border: #e8eaf0;
-      --radius: 12px;
-      --tr: 180ms ease;
-    }
-
-    /* ── DARK MODE ── */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0d0f14;
-        --surface: #13161d;
-        --surface2: #181b24;
-        --border: #1e2330;
-        --border-h: #2e3548;
-        --text-1: #eceef5;
-        --text-2: #7c8299;
-        --text-3: #464d63;
-        --hero-bg: linear-gradient(160deg, #130d1a 0%, #0d1020 50%, #0a140f 100%);
-        --hero-border: #1e2330;
-        --stat-bg: #13161d;
-        --nav-bg: #11141c;
-        --tool-shadow: rgba(0,0,0,0.3);
-        --card-hover-shadow: rgba(0,0,0,0.4);
-        --task-bg: #141208;
-        --task-border: #3a3010;
-        --task-top: #c9a000;
-        --task-item-border: #1a1c24;
-        --soon-bg: #181b24;
-        --soon-color: #464d63;
-        --soon-border: #1e2330;
-      }
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text-1); font-family: 'DM Mono', monospace; min-height: 100vh; padding-bottom: 80px; transition: background var(--tr), color var(--tr); }
-
-    /* NAV */
-    nav { background: var(--nav-bg); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .nav-brand { font-size: 13px; font-weight: 500; color: var(--text-1); display: flex; align-items: center; gap: 8px; }
-    .nav-links { display: flex; gap: 6px; }
-    .nav-link { font-size: 11px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-2); background: transparent; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: all var(--tr); }
-    .nav-link:hover { border-color: var(--border-h); color: var(--text-1); background: var(--surface2); }
-
-    /* HERO */
-    .hero { padding: 36px 24px 28px; border-bottom: 1px solid var(--hero-border); text-align: center; background: var(--hero-bg); }
-    .hero-badge { display: inline-block; font-size: 10px; letter-spacing: .12em; padding: 4px 16px; border-radius: 20px; margin-bottom: 14px; }
-    @media (prefers-color-scheme: light) {
-      .hero-badge { background: linear-gradient(90deg, #ede0ff, #d4eeff); color: #5a35b0; border: 1px solid #d0c0f5; }
-    }
-    @media (prefers-color-scheme: dark) {
-      .hero-badge { background: linear-gradient(90deg, #2a1a4a, #0a1a3a); color: #b090f0; border: 1px solid #3a2a5a; }
-    }
-    .hero h1 { font-family: 'Crimson Pro', Georgia, serif; font-size: clamp(26px, 6vw, 38px); font-weight: 700; color: var(--text-1); letter-spacing: -.02em; margin: 0 0 6px; }
-    .hero-sub { font-size: 11px; color: var(--text-3); letter-spacing: .08em; margin: 0 0 20px; }
-    .hero-stats { display: inline-flex; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--stat-bg); }
-    .h-stat { padding: 10px 22px; text-align: center; border-right: 1px solid var(--border); }
-    .h-stat:last-child { border-right: none; }
-    .h-stat-n { font-size: 20px; font-weight: 700; }
-    .h-stat-l { font-size: 9px; color: var(--text-3); letter-spacing: .08em; margin-top: 2px; }
-
-    /* TOOL BUTTONS */
-    .tools { display: flex; gap: 8px; padding: 16px 20px 0; }
-    .tool { flex: 1; border-radius: 11px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; border: 1px solid transparent; transition: all var(--tr); text-decoration: none; }
-    .tool:hover { transform: translateY(-2px); box-shadow: 0 6px 18px var(--tool-shadow); }
-    .tool-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-    .tool-title { font-size: 12px; font-weight: 500; }
-    .tool-sub { font-size: 9px; margin-top: 1px; opacity: .75; }
-
-    @media (prefers-color-scheme: light) {
-      .tool-checklist { background: linear-gradient(135deg,#fdf6ff,#f0e8ff); border-color: #ddd0f8; }
-      .tool-checklist .tool-title { color: #5a35b0; }
-      .tool-checklist .tool-sub { color: #7c4dcc; }
-      .tool-sketches { background: linear-gradient(135deg,#f0f6ff,#e4eeff); border-color: #b8d0f8; }
-      .tool-sketches .tool-title { color: #1040a0; }
-      .tool-sketches .tool-sub { color: #1a6fc4; }
-    }
-    @media (prefers-color-scheme: dark) {
-      .tool-checklist { background: linear-gradient(135deg,#1e1230,#160e28); border-color: #3a2a5a; }
-      .tool-checklist .tool-title { color: #b090f0; }
-      .tool-checklist .tool-sub { color: #8060c0; }
-      .tool-sketches { background: linear-gradient(135deg,#0e1830,#0a1228); border-color: #1e3060; }
-      .tool-sketches .tool-title { color: #80b0f0; }
-      .tool-sketches .tool-sub { color: #4080c0; }
-    }
-
-    /* SUBJECTS */
-    .subjects { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
-    .sec-lbl { font-size: 9px; color: var(--text-3); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; padding-left: 2px; }
-
-    .sc { border-radius: 11px; overflow: hidden; border: 1px solid var(--s-border); transition: all var(--tr); cursor: pointer; }
-    .sc:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--card-hover-shadow); }
-    .sc-top { display: flex; align-items: center; gap: 11px; padding: 12px 16px; background: var(--s-bg); }
-    .sc-emoji { font-size: 19px; flex-shrink: 0; }
-    .sc-info { flex: 1; min-width: 0; }
-    .sc-name { font-size: 13px; font-weight: 500; color: var(--text-1); }
-    .sc-topics { font-size: 10px; color: var(--s-color); margin-top: 2px; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sc-pill { font-size: 10px; padding: 3px 10px; border-radius: 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-    .sc-pill.active { background: var(--s-pb); color: var(--s-color); border: 1px solid var(--s-border); }
-    .sc-pill.soon { background: var(--soon-bg); color: var(--soon-color); border: 1px solid var(--soon-border); }
-    .sc-bar { height: 3px; }
-    .sc-fill { height: 100%; background: linear-gradient(90deg, var(--s-color), var(--s-c2)); transition: width .5s ease; }
-
-    /* subject color vars — light */
-    @media (prefers-color-scheme: light) {
-      .sc-rheum  { --s-color:#7c4dcc;--s-c2:#a07cde;--s-bg:#faf6ff;--s-border:#ddd0f8;--s-pb:#ede0ff; }
-      .sc-cardio { --s-color:#c0392b;--s-c2:#e05c5c;--s-bg:#fff6f5;--s-border:#f4c0bc;--s-pb:#ffe4e2; }
-      .sc-nephro { --s-color:#1a6fc4;--s-c2:#5c8de0;--s-bg:#f4f9ff;--s-border:#c0d8f5;--s-pb:#ddeeff; }
-      .sc-id     { --s-color:#1a8a5a;--s-c2:#5cc49e;--s-bg:#f4fff9;--s-border:#b8ecd4;--s-pb:#d8f8ec; }
-      .sc-resp   { --s-color:#0a7fa0;--s-c2:#5cc8de;--s-bg:#f2fbff;--s-border:#b4e4f4;--s-pb:#d4f2fc; }
-      .sc-hemato { --s-color:#a0185a;--s-c2:#de7ca0;--s-bg:#fff4f8;--s-border:#f4c0d8;--s-pb:#fde0ec; }
-      .sc-endo   { --s-color:#b06000;--s-c2:#e09a5c;--s-bg:#fff9f2;--s-border:#f0d8b0;--s-pb:#faecd4; }
-      .sc-gi     { --s-color:#4a8a00;--s-c2:#a0c45c;--s-bg:#f6fff2;--s-border:#c4ecb0;--s-pb:#e0f8d0; }
-      .sc-hepato { --s-color:#8a5a00;--s-c2:#c9a96e;--s-bg:#fffcf4;--s-border:#eedcb0;--s-pb:#f8eed8; }
-    }
-    /* subject color vars — dark */
-    @media (prefers-color-scheme: dark) {
-      .sc-rheum  { --s-color:#b090f0;--s-c2:#c8aaf8;--s-bg:#180f28;--s-border:#3a2a5a;--s-pb:#2a1a48; }
-      .sc-cardio { --s-color:#f08080;--s-c2:#f0a0a0;--s-bg:#200e0e;--s-border:#4a1a1a;--s-pb:#381212; }
-      .sc-nephro { --s-color:#80b0f0;--s-c2:#a0c8f8;--s-bg:#0e1828;--s-border:#1a3060;--s-pb:#142040; }
-      .sc-id     { --s-color:#60d4a0;--s-c2:#80e8b8;--s-bg:#0a1c14;--s-border:#1a4030;--s-pb:#122a20; }
-      .sc-resp   { --s-color:#60c8e0;--s-c2:#80d8f0;--s-bg:#0a1820;--s-border:#1a3848;--s-pb:#122030; }
-      .sc-hemato { --s-color:#f090b8;--s-c2:#f8b0cc;--s-bg:#200a14;--s-border:#481830;--s-pb:#341020; }
-      .sc-endo   { --s-color:#f0b060;--s-c2:#f8c880;--s-bg:#201408;--s-border:#483010;--s-pb:#342008; }
-      .sc-gi     { --s-color:#90d040;--s-c2:#b0e860;--s-bg:#101a08;--s-border:#283810;--s-pb:#1c2a0a; }
-      .sc-hepato { --s-color:#d0a060;--s-c2:#e8c080;--s-bg:#1c1408;--s-border:#403010;--s-pb:#2c2008; }
-    }
-
-    /* OPEN/COLLAPSE */
-    .sc-body { display: none; border-top: 1px solid var(--s-border); }
-    .sc.open .sc-body { display: block; }
-    .sc-chevron { font-size: 11px; color: var(--s-color); opacity: .6; transition: transform var(--tr); flex-shrink: 0; }
-    .sc.open .sc-chevron { transform: rotate(180deg); }
-
-    .topic-link { display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 46px; text-decoration: none; color: var(--text-2); font-size: 12px; border-bottom: 1px solid var(--border); transition: all var(--tr); letter-spacing: .02em; }
-    .topic-link:last-child { border-bottom: none; }
-    .topic-link:hover { background: var(--s-bg); color: var(--text-1); padding-left: 52px; }
-    .topic-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--s-color); flex-shrink: 0; }
-
-    /* TASKS */
-    .tasks-wrap { margin: 4px 20px 0; background: var(--surface); border: 1px solid var(--task-border); border-radius: 11px; overflow: hidden; border-top: 3px solid var(--task-top); }
-    .tasks-hdr { padding: 10px 16px; font-size: 12px; font-weight: 500; color: var(--text-1); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 7px; background: var(--task-bg); }
-    .task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--task-item-border); transition: background var(--tr); }
-    .task-item:last-child { border-bottom: none; }
-    .task-item:hover { background: var(--surface2); }
-    .task-item label { font-size: 12px; color: var(--text-2); flex: 1; cursor: pointer; transition: color var(--tr); }
-    .task-item.done label { color: var(--text-3); text-decoration: line-through; }
-    .task-cb { appearance: none; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--border-h); background: transparent; cursor: pointer; position: relative; transition: all var(--tr); flex-shrink: 0; }
-    .task-cb:checked { background: #1a8a5a; border-color: #1a8a5a; }
-    .task-cb:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
-    .task-empty { padding: 12px 16px; font-size: 11px; color: var(--text-3); font-style: italic; }
-    .task-del { background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 13px; opacity: 0; transition: all var(--tr); padding: 0 2px; }
-    .task-item:hover .task-del { opacity: 1; }
-    .task-del:hover { color: #e05c5c; }
-    .task-input-row { display: flex; gap: 7px; padding: 9px 16px; border-top: 1px solid var(--border); background: var(--surface2); }
-    .task-input-row input { flex: 1; background: transparent; border: 1px solid var(--border); border-radius: 7px; padding: 7px 11px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-1); outline: none; transition: border-color var(--tr); }
-    .task-input-row input:focus { border-color: var(--border-h); }
-    .task-input-row input::placeholder { color: var(--text-3); }
-    .task-input-row button { background: var(--task-top); border: none; border-radius: 7px; color: #1a1400; font-size: 17px; width: 34px; font-weight: 700; cursor: pointer; transition: opacity var(--tr); }
-    .task-input-row button:hover { opacity: .85; }
-
-    /* FOOTER LINKS */
-    .footer-links { display: flex; gap: 8px; padding: 16px 20px 0; }
-    .footer-link { flex: 1; display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-decoration: none; color: var(--text-2); font-size: 12px; transition: all var(--tr); }
-    .footer-link:hover { border-color: var(--border-h); color: var(--text-1); box-shadow: 0 2px 10px var(--tool-shadow); }
-    .footer-link span:last-child { margin-left: auto; font-size: 11px; color: var(--text-3); }
-
-    footer { margin-top: 32px; text-align: center; font-size: 10px; color: var(--text-3); letter-spacing: .08em; padding: 0 20px; }
-
-    @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
-    .sc { animation: fadeIn .3s ease both; }
-    .sc:nth-child(2){animation-delay:.04s} .sc:nth-child(3){animation-delay:.08s}
-    .sc:nth-child(4){animation-delay:.12s} .sc:nth-child(5){animation-delay:.16s}
-    .sc:nth-child(6){animation-delay:.20s} .sc:nth-child(7){animation-delay:.24s}
-    .sc:nth-child(8){animation-delay:.28s} .sc:nth-child(9){animation-delay:.32s}
-    .sc:nth-child(10){animation-delay:.36s}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boards Study Hub — Reema</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e1a;--bg2:#0f1525;--card:#131929;--card2:#1a2235;--border:rgba(99,179,237,0.12);--border2:rgba(99,179,237,0.28);--accent:#63b3ed;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--ready:#48bb78;--ready-bg:rgba(72,187,120,0.1);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(99,179,237,0.05) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(79,209,197,0.04) 0%,transparent 50%);pointer-events:none;z-index:0;}
+.container{max-width:860px;margin:0 auto;padding:0 24px 80px;position:relative;z-index:1;}
+header{text-align:center;padding:60px 0 44px;}
+.header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,179,237,0.08);border:1px solid var(--border2);border-radius:100px;padding:6px 16px;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:22px;}
+.header-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:400;}
+h1 em{font-style:italic;color:var(--accent);}
+.header-name{font-family:'Playfair Display',serif;font-size:1rem;color:var(--text2);margin-top:5px;}
+.header-sub{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.06em;margin-top:10px;}
+.stats{display:flex;justify-content:center;gap:14px;margin:28px 0 36px;flex-wrap:wrap;}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 26px;text-align:center;min-width:105px;}
+.stat-num{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;color:var(--accent);display:block;line-height:1;}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.12em;margin-top:5px;display:block;font-family:'Space Mono',monospace;}
+.search-wrap{position:relative;margin-bottom:32px;}
+.search-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
+#searchInput{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 15px 13px 42px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;}
+#searchInput:focus{border-color:var(--border2);}
+#searchInput::placeholder{color:var(--text3);}
+.top-bar{display:flex;justify-content:flex-end;margin-bottom:10px;}
+.btn-edit{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 16px;color:var(--text2);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:0.06em;transition:border-color 0.2s,color 0.2s;}
+.btn-edit:hover{border-color:var(--border2);color:var(--text);}
+.btn-edit.active{border-color:var(--accent);color:var(--accent);}
+.subject-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:border-color 0.2s;animation:fadeUp 0.35s ease both;}
+.subject-card:hover{border-color:var(--border2);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.subject-header{display:flex;align-items:center;gap:13px;padding:17px 18px;cursor:pointer;user-select:none;}
+.subject-icon{width:38px;height:38px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.subject-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;flex:1;}
+.topic-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);background:rgba(99,179,237,0.1);border:1px solid rgba(99,179,237,0.2);border-radius:6px;padding:3px 9px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;}
+.chevron{color:var(--text3);transition:transform 0.25s;flex-shrink:0;}
+.subject-card.open .chevron{transform:rotate(180deg);}
+.topics-list{display:none;padding:0 18px 8px;border-top:1px solid var(--border);}
+.subject-card.open .topics-list{display:block;}
+.topic-row{display:flex;align-items:center;gap:11px;padding:10px 4px;border-bottom:1px solid rgba(99,179,237,0.05);border-radius:8px;cursor:pointer;transition:background 0.15s,padding-left 0.15s;text-decoration:none;}
+.topic-row:last-of-type{border-bottom:none;}
+.topic-row:hover{background:rgba(99,179,237,0.06);padding-left:10px;}
+.topic-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;opacity:0.5;}
+.topic-name{flex:1;font-size:14px;color:var(--text2);}
+.topic-row:hover .topic-name{color:var(--text);}
+.status-badge{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;flex-shrink:0;color:var(--ready);background:var(--ready-bg);border:1px solid rgba(72,187,120,0.2);}
+.add-topic-form{display:none;padding:10px 4px 6px;border-top:1px solid var(--border);gap:8px;flex-wrap:wrap;align-items:center;}
+.edit-mode .add-topic-form{display:flex;}
+.add-topic-form input{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;min-width:130px;transition:border-color 0.2s;}
+.add-topic-form input:focus{border-color:var(--border2);}
+.add-topic-form input::placeholder{color:var(--text3);}
+.btn-add-topic{background:var(--accent);color:#0a0e1a;border:none;border-radius:8px;padding:8px 15px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity 0.15s;}
+.btn-add-topic:hover{opacity:0.85;}
+.topic-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity 0.15s,color 0.15s;display:none;}
+.edit-mode .topic-del{display:inline-block;}
+.topic-row:hover .topic-del{opacity:1;}
+.topic-del:hover{color:#fc8181;}
+#addSubjectWrap{display:none;margin-top:14px;}
+.edit-mode-active #addSubjectWrap{display:block;}
+.btn-add-subject{width:100%;background:transparent;border:1.5px dashed var(--border2);border-radius:16px;padding:15px;color:var(--accent);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.15s;}
+.btn-add-subject:hover{background:rgba(99,179,237,0.05);}
+.no-results{text-align:center;padding:48px;color:var(--text3);font-size:14px;display:none;}
+footer{text-align:center;padding:40px 0 0;font-family:'Space Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:0.05em;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:30px;width:90%;max-width:400px;}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:16px;}
+.modal input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;margin-bottom:10px;transition:border-color 0.2s;}
+.modal input:focus{border-color:var(--accent);}
+.modal input::placeholder{color:var(--text3);}
+.modal-btns{display:flex;gap:10px;margin-top:4px;}
+.btn-confirm{flex:1;background:var(--accent);color:#0a0e1a;border:none;border-radius:10px;padding:11px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-confirm:hover{opacity:0.85;}
+.btn-cancel{flex:1;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:10px;padding:11px;font-family:'Space Mono',monospace;font-size:12px;cursor:pointer;}
+.pw-modal{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:30px;width:90%;max-width:360px;text-align:center;}
+.pw-modal .lock{font-size:2rem;margin-bottom:10px;}
+.pw-modal h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:6px;}
+.pw-modal p{color:var(--text3);font-size:12px;margin-bottom:18px;font-family:'Space Mono',monospace;}
+.pw-error{color:#fc8181;font-family:'Space Mono',monospace;font-size:11px;margin-bottom:8px;display:none;}
+</style>
 </head>
 <body>
-
-<nav>
-  <div class="nav-brand">🩺 Boards Study Hub</div>
-  <div class="nav-links">
-    <a class="nav-link" href="checklist.html">📋 Checklist</a>
+<div class="container">
+  <header>
+    <div class="header-badge">Stage א · Internal Medicine · 2026</div>
+    <h1>Boards <em>Study Hub</em></h1>
+    <p class="header-name">Reema</p>
+    <p class="header-sub">All your guides, one place.</p>
+  </header>
+  <div class="stats">
+    <div class="stat"><span class="stat-num" id="totalGuides">14</span><span class="stat-label">Guides Ready</span></div>
+    <div class="stat"><span class="stat-num" id="totalSubjects">5</span><span class="stat-label">Subjects</span></div>
+    <div class="stat"><span class="stat-num">A</span><span class="stat-label">Stage</span></div>
   </div>
-</nav>
+  <div class="search-wrap">
+    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search subjects or topics...">
+  </div>
+  <div class="top-bar">
+    <button class="btn-edit" id="editBtn" onclick="onEditClick()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit
+    </button>
+  </div>
+  <div id="subjectsContainer"></div>
+  <div id="addSubjectWrap"><button class="btn-add-subject" onclick="openAddSubject()">+ Add New Subject</button></div>
+  <div class="no-results" id="noResults">No topics found.</div>
+  <footer>Boards Study Hub · Stage A Internal Medicine · 2026</footer>
+</div>
 
-<div class="hero">
-  <div class="hero-badge">שלב א׳ רפואה פנימית</div>
-  <h1>Boards Study Hub</h1>
-  <p class="hero-sub">Internal Medicine Boards — Personal Study Archive</p>
-  <div class="hero-stats">
-    <div class="h-stat"><div class="h-stat-n" style="color:#7c4dcc">9</div><div class="h-stat-l">subjects</div></div>
-    <div class="h-stat"><div class="h-stat-n" style="color:#c0392b">14</div><div class="h-stat-l">guides</div></div>
-    <div class="h-stat"><div class="h-stat-n" style="color:#1a6fc4">133</div><div class="h-stat-l">topics</div></div>
+<!-- PW Modal -->
+<div class="modal-overlay" id="pwModal">
+  <div class="pw-modal">
+    <div class="lock">🔒</div>
+    <h3>Edit Mode</h3>
+    <p>Enter your password to unlock.</p>
+    <input type="password" id="pwInput" placeholder="Password..." onkeydown="if(event.key==='Enter')checkPw()">
+    <p class="pw-error" id="pwError">Incorrect password.</p>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('pwModal')">Cancel</button><button class="btn-confirm" onclick="checkPw()">Unlock</button></div>
   </div>
 </div>
 
-<div class="tools">
-  <a class="tool tool-checklist" href="checklist.html">
-    <div class="tool-icon">📋</div>
-    <div><div class="tool-title">Checklist</div><div class="tool-sub">Subject + Questions</div></div>
-  </a>
-</div>
-
-<div class="subjects">
-  <div class="sec-lbl" style="margin-top:8px">Study Guides</div>
-
-  <div class="sc sc-rheum" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🦴</span>
-      <div class="sc-info"><div class="sc-name">Rheumatology</div><div class="sc-topics">SLE · APS · Gout</div></div>
-      <span class="sc-pill active">3 guides</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:20%"></div></div>
-    <div class="sc-body">
-      <a class="topic-link" href="SLE_Boards_Study_Guide.html"><span class="topic-dot"></span>Systemic Lupus Erythematosus (SLE)</a>
-      <a class="topic-link" href="APS_Boards_Study_Guide.html"><span class="topic-dot"></span>Antiphospholipid Syndrome (APS)</a>
-      <a class="topic-link" href="gout_boards_guide.html"><span class="topic-dot"></span>Gout</a>
-    </div>
-  </div>
-
-  <div class="sc sc-cardio" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">❤️</span>
-      <div class="sc-info"><div class="sc-name">Cardiology</div><div class="sc-topics">Stable Angina · NSTEMI · STEMI · HTN · Pericardial</div></div>
-      <span class="sc-pill active">5 guides</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:26%"></div></div>
-    <div class="sc-body">
-      <a class="topic-link" href="Stable_Angina_Boards_Guide.html"><span class="topic-dot"></span>Stable Angina</a>
-      <a class="topic-link" href="NSTEMI_boards_guide.html"><span class="topic-dot"></span>NSTEMI</a>
-      <a class="topic-link" href="STEMI_boards_guide_final.html"><span class="topic-dot"></span>STEMI</a>
-      <a class="topic-link" href="Hypertension_boards_guide.html"><span class="topic-dot"></span>Hypertension</a>
-      <a class="topic-link" href="pericardial_disease_boards_guide.html"><span class="topic-dot"></span>Pericardial Disease</a>
-    </div>
-  </div>
-
-  <div class="sc sc-nephro" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🫘</span>
-      <div class="sc-info"><div class="sc-name">Nephrology</div><div class="sc-topics">AKI · CKD · Azotemia · Acid-Base</div></div>
-      <span class="sc-pill active">3 guides</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:30%"></div></div>
-    <div class="sc-body">
-      <a class="topic-link" href="AKI_boards_guide.html"><span class="topic-dot"></span>Acute Kidney Injury (AKI)</a>
-      <a class="topic-link" href="CKD_boards_guide.html"><span class="topic-dot"></span>Chronic Kidney Disease (CKD)</a>
-      <a class="topic-link" href="azotemia_urinary_abnormalities_boards_guide.html"><span class="topic-dot"></span>Azotemia & Urinary Abnormalities</a>
-    </div>
-  </div>
-
-  <div class="sc sc-id" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🦠</span>
-      <div class="sc-info"><div class="sc-name">Infectious Disease</div><div class="sc-topics">HIV · TB · Endocarditis · Sepsis</div></div>
-      <span class="sc-pill soon">coming soon</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="sc sc-resp" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🫁</span>
-      <div class="sc-info"><div class="sc-name">Respiratory</div><div class="sc-topics">Asthma · COPD · ILD · Sleep Apnea</div></div>
-      <span class="sc-pill soon">coming soon</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="sc sc-hemato" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🩸</span>
-      <div class="sc-info"><div class="sc-name">Hematology & Oncology</div><div class="sc-topics">Anemias · Leukemia · Lymphoma · Coagulation</div></div>
-      <span class="sc-pill soon">coming soon</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="sc sc-endo" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">⚗️</span>
-      <div class="sc-info"><div class="sc-name">Endocrinology</div><div class="sc-topics">Diabetes · Thyroid · Adrenal · Calcium</div></div>
-      <span class="sc-pill soon">coming soon</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="sc sc-gi" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🫄</span>
-      <div class="sc-info"><div class="sc-name">Gastroenterology</div><div class="sc-topics">IBD · PUD · GI Bleeding · Pancreas</div></div>
-      <span class="sc-pill soon">coming soon</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="sc sc-hepato" onclick="toggle(this)">
-    <div class="sc-top">
-      <span class="sc-emoji">🫀</span>
-      <div class="sc-info"><div class="sc-name">Hepatology</div><div class="sc-topics">Liver Disease · Toxic Hepatitis · ALD · MASLD</div></div>
-      <span class="sc-pill active">4 guides</span>
-      <span class="sc-chevron">▾</span>
-    </div>
-    <div class="sc-bar"><div class="sc-fill" style="width:40%"></div></div>
-    <div class="sc-body">
-      <a class="topic-link" href="liver_disease_boards_guide.html"><span class="topic-dot"></span>Approach to Liver Disease</a>
-      <a class="topic-link" href="toxic_drug_induced_hepatitis_boards_guide.html"><span class="topic-dot"></span>Toxic & Drug-Induced Hepatitis</a>
-      <a class="topic-link" href="ALD_boards_guide.html"><span class="topic-dot"></span>Alcohol-Associated Liver Disease (ALD)</a>
-      <a class="topic-link" href="MASLD_boards_guide.html"><span class="topic-dot"></span>MASLD & Steatohepatitis</a>
-    </div>
+<!-- Add Subject Modal -->
+<div class="modal-overlay" id="addSubjectModal">
+  <div class="modal">
+    <h3>New Subject</h3>
+    <input type="text" id="newSubjectName" placeholder="Subject name (e.g. Cardiology)">
+    <input type="text" id="newSubjectIcon" placeholder="Emoji icon (e.g. ❤️)">
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('addSubjectModal')">Cancel</button><button class="btn-confirm" onclick="confirmAddSubject()">Add</button></div>
   </div>
 </div>
-
-<div class="tasks-wrap">
-  <div class="tasks-hdr">✏️ Study Tasks</div>
-  <div id="task-list"></div>
-  <div class="task-input-row">
-    <input id="task-input" type="text" placeholder="Add a task and press Enter…" autocomplete="off"/>
-    <button onclick="addTask()">+</button>
-  </div>
-</div>
-
-<footer>
-  <p style="margin-bottom:8px">Tap a subject to expand · Tap a topic to open the guide</p>
-</footer>
 
 <script>
-  function toggle(card) {
-    const hasBody = card.querySelector('.sc-body');
-    if (!hasBody) return;
-    card.classList.toggle('open');
-  }
+const PASS = 'reema2026';
 
-  function getTasks() { return JSON.parse(localStorage.getItem('hub-tasks') || '[]'); }
-  function saveTasks(t) { localStorage.setItem('hub-tasks', JSON.stringify(t)); }
+const DEFAULT = [{"id":"hepatology","name":"Hepatology","icon":"🫀","topics":[{"name":"Liver Disease","file":"liver_disease_boards_guide.html","status":"ready"},{"name":"Alcoholic Liver Disease","file":"ALD_boards_guide_v2.html","status":"ready"},{"name":"MASLD / MASH","file":"MASLD_MASH_boards_guide_v2.html","status":"ready"},{"name":"Toxic & Drug-Induced Hepatitis","file":"toxic_drug_induced_hepatitis_boards_guide.html","status":"ready"},{"name":"Cirrhosis","file":"cirrhosis_boards_guide.html","status":"ready"}]},{"id":"nephrology","name":"Nephrology","icon":"🫘","topics":[{"name":"Acute Kidney Injury","file":"AKI_boards_guide.html","status":"ready"},{"name":"Acid-Base Disorders","file":"acid_base_study_guide_v2.html","status":"ready"}]},{"id":"rheumatology","name":"Rheumatology","icon":"🦴","topics":[{"name":"SLE","file":"SLE_Boards_Study_Guide.html","status":"ready"},{"name":"APS","file":"APS_Boards_Study_Guide.html","status":"ready"},{"name":"Gout","file":"gout_boards_guide.html","status":"ready"}]},{"id":"cardiology","name":"Cardiology","icon":"❤️","topics":[{"name":"Pericardial Disease","file":"pericardial_disease_boards_guide.html","status":"ready"}]},{"id":"hematology","name":"Hematology","icon":"🩸","topics":[{"name":"Iron Deficiency Anemia","file":"iron_deficiency_anemia_study_guide.html","status":"ready"},{"name":"Hemolytic Anemia","file":"hemolytic_anemia_study_guide.html","status":"ready"},{"name":"Polycythemia & MPN","file":"polycythemia_mpn_boards_guide.html","status":"ready"}]}];
 
-  function renderTasks() {
-    const tasks = getTasks();
-    const el = document.getElementById('task-list');
-    if (!tasks.length) {
-      el.innerHTML = '<div class="task-empty">No tasks yet — add one below</div>';
-      return;
+let data = loadData();
+let editMode = false;
+let openSubjects = new Set(['hepatology']);
+
+function loadData() {
+  try {
+    const s = localStorage.getItem('reema_hub_v3');
+    if (s) {
+      const p = JSON.parse(s);
+      if (p && Array.isArray(p) && p.length > 0) return p;
     }
-    el.innerHTML = tasks.map((t, i) => `
-      <div class="task-item ${t.done ? 'done' : ''}">
-        <input type="checkbox" class="task-cb" ${t.done ? 'checked' : ''} onchange="toggleTask(${i})"/>
-        <label onclick="toggleTask(${i})">${t.text}</label>
-        <button class="task-del" onclick="deleteTask(${i})">✕</button>
-      </div>`).join('');
-  }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT));
+}
 
-  function addTask() {
-    const input = document.getElementById('task-input');
-    const text = input.value.trim();
-    if (!text) return;
-    const tasks = getTasks();
-    tasks.push({ text, done: false });
-    saveTasks(tasks);
-    input.value = '';
-    renderTasks();
-  }
+function save() {
+  localStorage.setItem('reema_hub_v3', JSON.stringify(data));
+}
 
-  function toggleTask(i) {
-    const tasks = getTasks();
-    tasks[i].done = !tasks[i].done;
-    saveTasks(tasks);
-    renderTasks();
-  }
+function render(filter='') {
+  const container = document.getElementById('subjectsContainer');
+  container.innerHTML = '';
+  container.className = editMode ? 'edit-mode' : '';
+  document.getElementById('addSubjectWrap').className = editMode ? 'edit-mode-active' : '';
+  let visible = 0, totalGuides = 0;
 
-  function deleteTask(i) {
-    const tasks = getTasks();
-    tasks.splice(i, 1);
-    saveTasks(tasks);
-    renderTasks();
-  }
-
-  document.getElementById('task-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') addTask();
+  data.forEach((subj, si) => {
+    const filtered = filter ? subj.topics.filter(t => t.name.toLowerCase().includes(filter.toLowerCase())) : subj.topics;
+    if (filter && filtered.length === 0) return;
+    visible++;
+    totalGuides += subj.topics.length;
+    const isOpen = openSubjects.has(subj.id) || (filter && filtered.length > 0);
+    const card = document.createElement('div');
+    card.className = `subject-card${isOpen?' open':''}`;
+    card.style.animationDelay = `${si*0.04}s`;
+    card.innerHTML = `
+      <div class="subject-header" onclick="toggleSubject('${subj.id}',event)">
+        <div class="subject-icon">${subj.icon}</div>
+        <span class="subject-name">${subj.name}</span>
+        <span class="topic-count">${subj.topics.length} TOPIC${subj.topics.length!==1?'S':''}</span>
+        <svg class="chevron" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="topics-list">
+        ${filtered.map((t,ti) => `
+          <a class="topic-row" href="${t.file}" target="_blank">
+            <div class="topic-dot"></div>
+            <span class="topic-name">${t.name}</span>
+            <span class="status-badge">READY</span>
+            <button class="topic-del" onclick="delTopic(${si},${subj.topics.indexOf(t)},event)">✕</button>
+          </a>`).join('')}
+        <div class="add-topic-form">
+          <input type="text" id="tn_${si}" placeholder="Topic name">
+          <input type="text" id="tf_${si}" placeholder="filename.html">
+          <button class="btn-add-topic" onclick="addTopic(${si})">+ ADD</button>
+        </div>
+      </div>`;
+    container.appendChild(card);
   });
 
-  renderTasks();
+  document.getElementById('totalGuides').textContent = totalGuides;
+  document.getElementById('totalSubjects').textContent = data.length;
+  document.getElementById('noResults').style.display = (filter && visible===0) ? 'block' : 'none';
+}
+
+function toggleSubject(id, e) {
+  if (e.target.closest('.topic-del,.btn-add-topic,.add-topic-form')) return;
+  openSubjects.has(id) ? openSubjects.delete(id) : openSubjects.add(id);
+  render(document.getElementById('searchInput').value);
+}
+
+function addTopic(si) {
+  const name = document.getElementById('tn_'+si).value.trim();
+  const file = document.getElementById('tf_'+si).value.trim();
+  if (!name) return;
+  data[si].topics.push({name, file: file||'', status:'ready'});
+  openSubjects.add(data[si].id);
+  save(); render();
+}
+
+function delTopic(si, ti, e) {
+  e.preventDefault(); e.stopPropagation();
+  if (!confirm(`Delete "${data[si].topics[ti].name}"?`)) return;
+  data[si].topics.splice(ti,1);
+  save(); render();
+}
+
+function onEditClick() {
+  if (!editMode) {
+    document.getElementById('pwModal').classList.add('show');
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwError').style.display='none';
+    setTimeout(()=>document.getElementById('pwInput').focus(),100);
+  } else {
+    editMode=false;
+    document.getElementById('editBtn').classList.remove('active');
+    document.getElementById('editBtn').innerHTML=`<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit`;
+    render(document.getElementById('searchInput').value);
+  }
+}
+
+function checkPw() {
+  if (document.getElementById('pwInput').value===PASS) {
+    closeModal('pwModal'); editMode=true;
+    document.getElementById('editBtn').classList.add('active');
+    document.getElementById('editBtn').innerHTML=`<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Done`;
+    render(document.getElementById('searchInput').value);
+  } else {
+    document.getElementById('pwError').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function openAddSubject() {
+  document.getElementById('newSubjectName').value='';
+  document.getElementById('newSubjectIcon').value='';
+  document.getElementById('addSubjectModal').classList.add('show');
+  setTimeout(()=>document.getElementById('newSubjectName').focus(),100);
+}
+
+function confirmAddSubject() {
+  const name=document.getElementById('newSubjectName').value.trim();
+  const icon=document.getElementById('newSubjectIcon').value.trim()||'📚';
+  if (!name) return;
+  const id='subj_'+Date.now();
+  data.push({id,name,icon,topics:[]});
+  openSubjects.add(id);
+  save(); closeModal('addSubjectModal'); render();
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+['pwModal','addSubjectModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal(id);});
+});
+
+document.getElementById('searchInput').addEventListener('input',function(){render(this.value.trim());});
+
+render();
 </script>
 </body>
 </html>
