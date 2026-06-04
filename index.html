@@ -139,7 +139,7 @@ footer{text-align:center;padding:40px 0 0;font-family:'Space Mono',monospace;fon
 <script>
 const PASS = 'reema2026';
 
-const DEFAULT = [{"id":"hepatology","name":"Hepatology","icon":"🫀","topics":[{"name":"Liver Disease","file":"liver_disease_boards_guide.html","status":"ready"},{"name":"Alcoholic Liver Disease","file":"ALD_boards_guide_v2.html","status":"ready"},{"name":"MASLD / MASH","file":"MASLD_MASH_boards_guide_v2.html","status":"ready"},{"name":"Toxic & Drug-Induced Hepatitis","file":"toxic_drug_induced_hepatitis_boards_guide.html","status":"ready"},{"name":"Cirrhosis","file":"cirrhosis_boards_guide.html","status":"ready"}]},{"id":"nephrology","name":"Nephrology","icon":"🫘","topics":[{"name":"Acute Kidney Injury","file":"AKI_boards_guide.html","status":"ready"},{"name":"Acid-Base Disorders","file":"acid_base_study_guide_v2.html","status":"ready"}]},{"id":"rheumatology","name":"Rheumatology","icon":"🦴","topics":[{"name":"SLE","file":"SLE_Boards_Study_Guide.html","status":"ready"},{"name":"APS","file":"APS_Boards_Study_Guide.html","status":"ready"},{"name":"Gout","file":"gout_boards_guide.html","status":"ready"}]},{"id":"cardiology","name":"Cardiology","icon":"❤️","topics":[{"name":"Pericardial Disease","file":"pericardial_disease_boards_guide.html","status":"ready"}]},{"id":"hematology","name":"Hematology","icon":"🩸","topics":[{"name":"Iron Deficiency Anemia","file":"iron_deficiency_anemia_study_guide.html","status":"ready"},{"name":"Hemolytic Anemia","file":"hemolytic_anemia_study_guide.html","status":"ready"},{"name":"Polycythemia & MPN","file":"polycythemia_mpn_boards_guide.html","status":"ready"}]}];
+const DEFAULT = [{"id":"hepatology","name":"Hepatology","icon":"🫀","topics":[{"name":"Liver Disease","file":"liver_disease_boards_guide.html","status":"ready"},{"name":"Alcoholic Liver Disease","file":"ALD_boards_guide.html","status":"ready"},{"name":"MASLD / MASH","file":"MASLD_boards_guide.html","status":"ready"},{"name":"Toxic & Drug-Induced Hepatitis","file":"toxic_drug_induced_hepatitis_boards_guide.html","status":"ready"}]},{"id":"nephrology","name":"Nephrology","icon":"🫘","topics":[{"name":"Acute Kidney Injury (AKI)","file":"AKI_boards_guide.html","status":"ready"},{"name":"Chronic Kidney Disease (CKD)","file":"CKD_boards_guide.html","status":"ready"},{"name":"Azotemia & Urinary Abnormalities","file":"azotemia_urinary_abnormalities_boards_guide.html","status":"ready"},{"name":"Acid-Base Disorders","file":"acid_base_boards_guide_LAST.html","status":"ready"}]},{"id":"cardiology","name":"Cardiology","icon":"❤️","topics":[{"name":"Hypertension","file":"Hypertension_boards_guide.html","status":"ready"},{"name":"Stable Angina","file":"Stable_Angina_Boards_Guide.html","status":"ready"},{"name":"NSTEMI / NSTE-ACS","file":"NSTEMI_boards_guide.html","status":"ready"},{"name":"STEMI","file":"STEMI_boards_guide_final.html","status":"ready"},{"name":"Pericardial Disease","file":"pericardial_disease_boards_guide.html","status":"ready"},{"name":"Pericardial Sketches","file":"pericardial_sketches.html","status":"ready"}]},{"id":"rheumatology","name":"Rheumatology","icon":"🦴","topics":[{"name":"SLE","file":"SLE_Boards_Study_Guide.html","status":"ready"},{"name":"APS","file":"APS_Boards_Study_Guide.html","status":"ready"},{"name":"Gout","file":"gout_boards_guide.html","status":"ready"}]},{"id":"resources","name":"Study Tools","icon":"📋","topics":[{"name":"Study Checklist","file":"checklist.html","status":"ready"}]}];
 
 let data = loadData();
 let editMode = false;
@@ -147,7 +147,7 @@ let openSubjects = new Set(['hepatology']);
 
 function loadData() {
   try {
-    const s = localStorage.getItem('reema_hub_v3');
+    const s = localStorage.getItem('reema_hub_v4');
     if (s) {
       const p = JSON.parse(s);
       if (p && Array.isArray(p) && p.length > 0) return p;
@@ -157,7 +157,7 @@ function loadData() {
 }
 
 function save() {
-  localStorage.setItem('reema_hub_v3', JSON.stringify(data));
+  localStorage.setItem('reema_hub_v4', JSON.stringify(data));
 }
 
 function render(filter='') {
